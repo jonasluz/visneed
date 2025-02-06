@@ -54,6 +54,7 @@
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "electron-squirrel-startup": "^1.0.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "vis-need": "file:"
   }
 }

@@ -6,9 +6,9 @@ const container = document.getElementById('root');
 if (container) {
     const root = createRoot(container);
     root.render(
-      <>
+      <div className='bg-background min-h-screen'>
         <h2 className='text-blue-500'>Hello from React!</h2>
-      </>
+      </div>
     
   );
 }
