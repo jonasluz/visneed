@@ -1,15 +1,17 @@
-import * as React from 'react';
-import { createRoot } from 'react-dom/client';
-import './styles/tailwind.css'
-import Sidebar from './renderer/components/Sidebar';
+import React from "react";
+import { HashRouter  as Router, Routes, Route } from "react-router-dom";
+import Home from "./renderer/pages/Home";
+import TreeView from "./renderer/pages/TreePage";
 
-const container = document.getElementById('root');
-if (container) {
-    const root = createRoot(container);
-    root.render(
-      <div className='bg-background-green-100 min-h-screen'>
-        <Sidebar />
-      </div>
-    
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tree-view" element={<TreeView />} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;

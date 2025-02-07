@@ -25,4 +25,4 @@
  *  });
  * ```
  */
-import '../app.tsx';
+import '../main';
