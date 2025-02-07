@@ -11,11 +11,12 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = (): void => {
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const { width, height } = screen.getPrimaryDisplay().size;
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: height,
-    width: width*0.9,
+    width: 1500,
+    center: true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
