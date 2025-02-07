@@ -29,6 +29,10 @@ export const rendererConfig: Configuration = {
           'postcss-loader', // Processes CSS with PostCSS
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: "asset/resource",
+      },
     ],
   },
   plugins,

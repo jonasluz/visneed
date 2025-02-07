@@ -1,10 +1,9 @@
 import React from 'react'
-import UserIcon from './UserIcon' 
+import User from './User' 
 function Sidebar() {
   return (
     <div className='flex flex-row bg-background-green-200 h-screen w-1/6'>
-        Sidebar
-        <UserIcon />
+        <User />
     </div>
   )
 }
