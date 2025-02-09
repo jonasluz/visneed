@@ -16,6 +16,8 @@ const createWindow = (): void => {
   const mainWindow = new BrowserWindow({
     height: height,
     width: 1500, 
+    minHeight: 698,
+    minWidth: 1110,
     center: true,
     show: false,
     webPreferences: {
@@ -33,6 +35,11 @@ const createWindow = (): void => {
 
    mainWindow.once('ready-to-show', () => {
     mainWindow.show();
+  });
+
+  mainWindow.on('resize', () => {
+    const { width, height } = mainWindow.getBounds();
+    console.log(`Tamanho atual da janela: ${width}x${height}`);
   });
 };
 

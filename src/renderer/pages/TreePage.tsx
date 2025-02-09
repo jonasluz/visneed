@@ -16,9 +16,9 @@ function TreePage() {
       </div>
 
       {/* Right Sidebar (Overlay) */}
-      <div className="absolute top-0 right-0 w-1/4 h-full bg-opacity-80 z-10 p-4">
-        <div className="h-[10%] opacity-70 flex justify-center">
-          <button className="bg-background-green-200 rounded-lg w-full h-full">
+      <div className="absolute top-0 right-0 w-1/4 h-full z-10 p-4">
+        <div className="h-[10%] flex justify-center">
+          <button className="bg-background-green-200 bg-opacity-80 rounded-lg w-full h-full">
             <p className="text-2xl text-white font-semibold">Export Data</p>
           </button>
         </div>
