@@ -56,6 +56,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
-    "vis-need": "file:"
+    "vis-data": "^7.1.9",
+    "vis-need": "file:",
+    "vis-network": "^9.1.9"
   }
 }
