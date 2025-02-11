@@ -37,10 +37,6 @@ const createWindow = (): void => {
     mainWindow.show();
   });
 
-  mainWindow.on('resize', () => {
-    const { width, height } = mainWindow.getBounds();
-    console.log(`Tamanho atual da janela: ${width}x${height}`);
-  });
 };
 
 // This method will be called when Electron has finished

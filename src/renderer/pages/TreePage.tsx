@@ -1,5 +1,6 @@
 import React from 'react';
-import TreeSidebar from '../components/TreeSidebar';
+import TreeSidebarLeft from '../components/TreeSidebarLeft';
+import TreeSideBarRight from '../components/TreeSideBarRight';
 import TreeView from '../components/TreeView';
 
 function TreePage() {
@@ -12,16 +13,12 @@ function TreePage() {
 
       {/* Left Sidebar (Overlay) */}
       <div className="absolute top-0 left-0 w-1/6 h-full z-10">
-        <TreeSidebar />
+        <TreeSidebarLeft />
       </div>
 
       {/* Right Sidebar (Overlay) */}
-      <div className="absolute top-0 right-0 w-1/4 h-full z-10 p-4">
-        <div className="h-[10%] flex justify-center">
-          <button className="bg-background-green-200 bg-opacity-80 rounded-lg w-full h-full">
-            <p className="text-2xl text-white font-semibold">Export Data</p>
-          </button>
-        </div>
+      <div className="absolute top-0 right-0 w-1/4 h-full z-10 p-4 overflow-y-auto">
+        <TreeSideBarRight />
       </div>
     </div>
   );
