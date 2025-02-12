@@ -3,24 +3,14 @@ import { DataSet } from "vis-data/esnext";
 import { Network } from "vis-network/esnext";
 import "vis-network/styles/vis-network.css";
 
-const TreeView = () => {
+const TreeView = ({ nodesArray, edgesArray }) => {
   const visContainerRef = useRef(null);
 
-  useEffect(() => {
-    const nodesArray = [
-      { id: 1, label: "Node 1" },
-      { id: 2, label: "Node 2" },
-      { id: 3, label: "Node 3" },
-      { id: 4, label: "Node 4" },
-      { id: 5, label: "Node 5" },
-    ];
+  console.log("nodes: ", nodesArray)
+  console.log("edges: ", edgesArray)
 
-    const edgesArray = [
-      { from: 1, to: 3 },
-      { from: 1, to: 2 },
-      { from: 2, to: 4 },
-      { from: 2, to: 5 },
-    ];
+  useEffect(() => {
+    if (!visContainerRef.current) return;
 
     const levels = calculateLevels(nodesArray, edgesArray);
 
@@ -92,8 +82,12 @@ const TreeView = () => {
       });
 
       network.stabilize();
+
+      return () => {
+        network.destroy();
+      };
     }
-  }, []);
+  }, [nodesArray, edgesArray]);
 
   return <div ref={visContainerRef} className="w-full h-full"></div>;
 };
