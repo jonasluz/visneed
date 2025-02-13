@@ -3,12 +3,13 @@ import { DataSet } from "vis-data/esnext";
 import { Network } from "vis-network/esnext";
 import "vis-network/styles/vis-network.css";
 
-const TreeView = ({ nodesArray, edgesArray }) => {
+const TreeView = ({ nodesArray, edgesArray, onNodeClick  }) => {
   const visContainerRef = useRef(null);
-
+  
   useEffect(() => {
     if (!visContainerRef.current) return;
-
+    if (!nodesArray) return
+    
     const levels = calculateLevels(nodesArray, edgesArray);
 
     const nodes = new DataSet(
@@ -72,8 +73,7 @@ const TreeView = ({ nodesArray, edgesArray }) => {
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
           const nodeData = nodes.get(nodeId); 
-
-          alert("Nó clicado: " + nodeData.label);
+          onNodeClick(nodeId, nodeData.label);
         }
       });
 

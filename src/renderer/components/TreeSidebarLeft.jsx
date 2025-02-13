@@ -3,7 +3,8 @@ import User from "./User";
 import Nodes from "../components/Nodes"
 import Connections from "./Connections";
 
-function TreeSidebarLeft({ onImport, nodes }) {
+function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
+  console.log(nodes)
 
   const handleFile = (event) => {
     const file = event.target.files[0];
@@ -60,7 +61,7 @@ function TreeSidebarLeft({ onImport, nodes }) {
       </div>
       <div className="flex flex-col h-[30%] p-4 border-b">
         <h1 className="text-xl font-bold text-white">Connections</h1>
-        
+        <Connections connections={selectedConnections} />
       </div>
       <div className="flex flex-col h-[10%] justify-center p-6">
       <input
