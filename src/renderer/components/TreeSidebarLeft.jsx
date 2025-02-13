@@ -1,24 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import User from "./User";
-function TreeSidebarLeft({ onImport }) {
+import Nodes from "../components/Nodes"
+import Connections from "./Connections";
+
+function TreeSidebarLeft({ onImport, nodes }) {
+
   const handleFile = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const content = e.target.result;
-        console.log(content)
         try {
+          const content = e.target.result;
           const data = JSON.parse(content);
-          onImport(data);
+  
+          // Transformação do formato
+          const transformedData = transformTreeData(data);
+  
+          console.log(transformedData)
+          onImport(transformedData);
         } catch (error) {
           alert("Erro ao ler o arquivo JSON.");
-          console.log(error)
+          console.log(error);
         }
       };
       reader.readAsText(file);
     }
+  };
+  
+  function transformTreeData(data) {
+    console.log(data)
+    const nodesArray = data.nodes.map((node) => ({
+      id: node.id,
+      label: node.name, // Usamos o nome como label do nó
+    }));
+  
+    const edgesArray = [];
+    data.nodes.forEach((node) => {
+      node.connections.forEach((conn) => {
+        edgesArray.push({
+          from: node.id,
+          to: conn.targetId, // Arestas ligam nós pelos IDs
+        });
+      });
+    });
+
+    return { nodesArray, edgesArray };
   }
+  
 
   return (
     <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-70">
@@ -27,9 +56,11 @@ function TreeSidebarLeft({ onImport }) {
       </div>
       <div className="flex flex-col h-[45%] p-4 border-b">
         <h1 className="text-xl font-bold text-white">Nodes</h1>
+        <Nodes nodes={nodes}/>
       </div>
       <div className="flex flex-col h-[30%] p-4 border-b">
         <h1 className="text-xl font-bold text-white">Connections</h1>
+        
       </div>
       <div className="flex flex-col h-[10%] justify-center p-6">
       <input
@@ -41,7 +72,7 @@ function TreeSidebarLeft({ onImport }) {
         />
         <label
           htmlFor="fileInput"
-          className="bg-background-green-400 p-2 rounded-lg cursor-pointer"
+          className="flex bg-background-green-400 p-2 rounded-lg cursor-pointer justify-center"
         >
           <p className="text-lg font-semibold">Import</p>
         </label>

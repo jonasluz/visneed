@@ -21,9 +21,10 @@ function TreePage() {
   });
 
   const handleImport = (data) => {
+    console.log(data)
     setTree({
-      nodesArray: data.nodes,
-      edgesArray: data.edges,
+      nodesArray: data.nodesArray,
+      edgesArray: data.edgesArray,
     });
   };
 
@@ -36,7 +37,7 @@ function TreePage() {
 
       {/* Left Sidebar (Overlay) */}
       <div className="absolute top-0 left-0 w-1/6 h-full z-10">
-        <TreeSidebarLeft onImport={handleImport}/>
+        <TreeSidebarLeft onImport={handleImport} nodes={tree.nodesArray}/>
       </div>
 
       {/* Right Sidebar (Overlay) */}

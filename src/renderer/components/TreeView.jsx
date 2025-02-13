@@ -6,9 +6,6 @@ import "vis-network/styles/vis-network.css";
 const TreeView = ({ nodesArray, edgesArray }) => {
   const visContainerRef = useRef(null);
 
-  console.log("nodes: ", nodesArray)
-  console.log("edges: ", edgesArray)
-
   useEffect(() => {
     if (!visContainerRef.current) return;
 
@@ -47,11 +44,7 @@ const TreeView = ({ nodesArray, edgesArray }) => {
         heightConstraint: 10,
         borderWidth: 4,
         size: 20,
-        scaling: {
-          min: 10,
-          max: 10,
-          label: { enabled: false },
-        },
+
       },
       edges: {
         smooth: true,
@@ -77,7 +70,10 @@ const TreeView = ({ nodesArray, edgesArray }) => {
       // Evento de clique no nó
       network.on("click", function (params) {
         if (params.nodes.length > 0) {
-          alert("Nó clicado: " + params.nodes[0]);
+          const nodeId = params.nodes[0];
+          const nodeData = nodes.get(nodeId); 
+
+          alert("Nó clicado: " + nodeData.label);
         }
       });
 
