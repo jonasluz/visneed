@@ -73,7 +73,8 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick  }) => {
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
           const nodeData = nodes.get(nodeId); 
-          onNodeClick(nodeId, nodeData.label);
+          console.log(nodeData)
+          onNodeClick(nodeId);
         }
       });
 

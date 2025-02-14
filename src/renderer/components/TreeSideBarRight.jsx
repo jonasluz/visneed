@@ -1,6 +1,8 @@
 import React from "react";
+import Outcomes from "./Outcomes";
 
-function TreeSideBarRight() {
+function TreeSideBarRight({ selectedOutcome }) {
+  console.log(selectedOutcome)
   return (
     <>
       <div className="h-[10%] flex justify-center bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2">
@@ -11,7 +13,7 @@ function TreeSideBarRight() {
       <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">
         <p className="text-xl font-bold text-white">Outcomes</p>
         <div className="flex justify-center items-center h-full">
-            <p className="text-md font-medium text-white">No outcomes for this node</p>
+            <Outcomes outcomes={selectedOutcome} />
         </div>
       </div>
       <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">

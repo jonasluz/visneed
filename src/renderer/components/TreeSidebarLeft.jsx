@@ -4,7 +4,6 @@ import Nodes from "../components/Nodes"
 import Connections from "./Connections";
 
 function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
-  console.log(nodes)
 
   const handleFile = (event) => {
     const file = event.target.files[0];
@@ -14,7 +13,7 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
         try {
           const content = e.target.result;
           const data = JSON.parse(content);
-  
+          console.log(data)
           // Transformação do formato
           const transformedData = transformTreeData(data);
   
@@ -32,8 +31,10 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
   function transformTreeData(data) {
     console.log(data)
     const nodesArray = data.nodes.map((node) => ({
+      node: node,
       id: node.id,
       label: node.name, // Usamos o nome como label do nó
+      outcome: Array.isArray(node.outcomes) && node.outcomes.length > 0? node.outcomes[0]?.key : "No outcome"
     }));
   
     const edgesArray = [];

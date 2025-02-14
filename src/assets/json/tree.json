@@ -95,24 +95,24 @@
       },
       {
         "id": 10,
-        "name": "mind potion",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "mp improve", "operator": "+", "value": "10" }]
-      },
-      {
-        "id": 11,
-        "name": "trap",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "hp reduce", "operator": "-", "value": "10" }]
-      },
-      {
-        "id": 12,
         "name": "north wall",
         "visualization": "Big",
         "connections": [],
         "outcomes": []
+      },
+      {
+        "id": 11,
+        "name": "find potion",
+        "visualization": "Big",
+        "connections": [],
+        "outcomes": [{ "key": "mp improve", "operator": "=", "value": "10" }]
+      },
+      {
+        "id": 12,
+        "name": "trap",
+        "visualization": "Big",
+        "connections": [],
+        "outcomes": [{ "key": "hp reduce", "operator": "=", "value": "10" }]
       },
       {
         "id": 13,

@@ -7,6 +7,7 @@ function TreePage() {
   const [tree, setTree] = useState({});
 
   const [selectedConnections, setSelectedConnections] = useState({});
+  const [selectedOutcome, setSelectedOutcome] = useState()
 
   const handleNodeClick = (nodeId) => {
     const connectedNodes = tree.edgesArray
@@ -16,11 +17,15 @@ function TreePage() {
       const targetNodeId = edge.from === nodeId ? edge.to : edge.from;
       // Encontrar o label e id do nó de destino
       const targetNode = tree.nodesArray.find(node => node.id === targetNodeId);
-      return targetNode ? { id: targetNode.id, label: targetNode.label } : null; 
+      return targetNode ? { id: targetNode.id, label: targetNode.label, outcome: targetNode.outcome } : null; 
     })
     .filter(Boolean);
 
     setSelectedConnections(connectedNodes);
+    setSelectedOutcome(tree.nodesArray[nodeId - 1].outcome)
+    console.log(tree.nodesArray[nodeId - 1])
+    console.log(tree.nodesArray)
+    console.log(nodeId)
   };
 
   const handleImport = (data) => {
@@ -45,7 +50,7 @@ function TreePage() {
 
       {/* Right Sidebar (Overlay) */}
       <div className="absolute top-0 right-0 w-1/4 h-full z-10 p-4 overflow-y-auto">
-        <TreeSideBarRight />
+        <TreeSideBarRight selectedOutcome={selectedOutcome} />
       </div>
     </div>
   );
