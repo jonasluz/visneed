@@ -101,8 +101,8 @@ ipcMain.handle("save-tree", async (_, treeName, data) => {
 });
 
 // Carregar os dados da árvore
-ipcMain.handle("load-tree", async (_, treeName) => {
-  return loadTreeData(treeName);
+ipcMain.handle("load-tree", async (_event, treeId) => {
+  return loadTreeData(treeId);
 });
 
 ipcMain.handle("list-tree", async (_) => {

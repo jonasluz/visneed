@@ -6,14 +6,17 @@ import Connections from "./Connections";
 
 import backIcon from "../../assets/go_back.png";
 
-function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
+function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(treeId)
     async function loadStoredJson() {
-      const response = await window.electron.loadJson();
-      if (response.success && response.data) {
-        const transformedData = transformTreeData(response.data);
+      const response = await window.treeAPI.loadTree(treeId);
+      console.log(response)
+      if (response) {
+        const transformedData = transformTreeData(response);
+        console.log(transformedData)
         onImport(transformedData);
       }
     }
@@ -35,7 +38,8 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
           console.log("Dado do json transformado: ", transformedData)
           onImport(transformedData);
 
-          await window.electron.saveJson(data);
+          console.log(data)
+          await window.treeAPI.saveTree(treeId, data);
         } catch (error) {
           alert("Erro ao ler o arquivo JSON.");
           console.log(error);
@@ -46,6 +50,7 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
   };
   
   function transformTreeData(data) {
+    console.log(data)
     const nodesArray = data.nodes.map((node) => ({
       node: node,
       id: node.id,
@@ -55,7 +60,7 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
   
     const edgesArray = [];
     data.nodes.forEach((node) => {
-      
+      console.log(node)
       node.connections.forEach((conn) => {
         edgesArray.push({
           from: node.id,

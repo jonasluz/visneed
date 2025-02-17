@@ -14,22 +14,31 @@ if (!fs.existsSync(treesPath)) {
 function createNewTree(treeName) {
   const treeId = Date.now(); // Gera um ID único
   const jsonFilePath = path.join(treesPath, `tree_${treeId}.json`);
-  console.log(jsonFilePath)
-  const newTree = { id: treeId, nodesArray: [], edgesArray: [] };
+  const newTree = { id: treeId, name: treeName, dictionary: [], nodes: [] };
+  console.log(newTree)
 
   fs.writeFileSync(jsonFilePath, JSON.stringify(newTree, null, 2), "utf-8");
+  return treeId
 }
 
-function saveTreeData(treeName, data) {
-  const files = fs.readdirSync(treesPath).filter(file => file.startsWith("tree_"));
-  return files.map(file => {
-    const filePath = path.join(treesPath, file);
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-  });
-}
-
-function loadTreeData(treeName) {
+function saveTreeData(treeId, data) {
+  console.log("Dados salvos")
   const filePath = path.join(treesPath, `tree_${treeId}.json`);
+  console.log(filePath)
+  if (fs.existsSync(filePath)) {
+    const currentData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    console.log(currentData)
+    const updatedData = {
+      ...currentData,
+      dictionary: data.dictionary,  
+      nodes: data.nodes,           
+    };
+    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), "utf-8");  }
+}
+
+function loadTreeData(treeId) {
+  const filePath = path.join(treesPath, `tree_${treeId}.json`);
+  console.log(filePath)
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
   }

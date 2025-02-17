@@ -8,6 +8,6 @@ contextBridge.exposeInMainWorld("electron", {
 contextBridge.exposeInMainWorld("treeAPI", {
   createTree: (treeName) => ipcRenderer.invoke("create-tree", treeName),
   saveTree: (treeName, data) => ipcRenderer.invoke("save-tree", treeName, data),
-  loadTree: (treeName) => ipcRenderer.invoke("load-tree", treeName),
+  loadTree: (treeId) => ipcRenderer.invoke("load-tree", treeId),
   getSavedTrees: () => ipcRenderer.invoke("list-tree"),
 });

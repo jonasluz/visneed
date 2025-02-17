@@ -3,9 +3,10 @@ import { useLocation } from "react-router-dom";
 import TreeSidebarLeft from '../components/TreeSidebarLeft';
 import TreeSideBarRight from '../components/TreeSideBarRight';
 import TreeView from '../components/TreeView';
+import { useParams } from "react-router-dom";
 
 function TreePage() {
-
+  const { treeId } = useParams();
   const [tree, setTree] = useState({});
 
   const [selectedConnections, setSelectedConnections] = useState({});
@@ -49,7 +50,7 @@ function TreePage() {
 
       {/* Left Sidebar (Overlay) */}
       <div className="absolute top-0 left-0 w-1/6 h-full z-10">
-        <TreeSidebarLeft onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections}/>
+        <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections}/>
       </div>
 
       {/* Right Sidebar (Overlay) */}
