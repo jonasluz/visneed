@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import addIcon from "../../assets/add-symbol.png";
 
 function NewTree() {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate("/tree-view");
+  const handleClick = async  () => {
+    const treeName = `tree_${new Date().toISOString()}`;
+    await window.treeAPI.createTree(treeName);
+    navigate(`/tree-view/${treeName}`);
   };
   return (
     <div className="flex h-[25%] items-center">

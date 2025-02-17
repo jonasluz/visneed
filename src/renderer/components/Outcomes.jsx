@@ -11,11 +11,10 @@ function Outcomes({ outcomes }) {
     );
   }
 
-  console.log(outcomes)
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full overflow-y-auto w-full">
       {outcomes ? (
-        <p className="text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer">
+        <p className="text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer w-full">
           {outcomes}
         </p>
       ) : (

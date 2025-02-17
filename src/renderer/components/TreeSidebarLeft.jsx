@@ -1,24 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import User from "./User";
 import Nodes from "../components/Nodes"
 import Connections from "./Connections";
 
+import backIcon from "../../assets/go_back.png";
+
 function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function loadStoredJson() {
+      const response = await window.electron.loadJson();
+      if (response.success && response.data) {
+        const transformedData = transformTreeData(response.data);
+        onImport(transformedData);
+      }
+    }
+    loadStoredJson();
+  }, []);
 
   const handleFile = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         try {
           const content = e.target.result;
           const data = JSON.parse(content);
-          console.log(data)
+          console.log("Dado do json: ", data)
+
           // Transformação do formato
           const transformedData = transformTreeData(data);
-  
-          console.log(transformedData)
+          console.log("Dado do json transformado: ", transformedData)
           onImport(transformedData);
+
+          await window.electron.saveJson(data);
         } catch (error) {
           alert("Erro ao ler o arquivo JSON.");
           console.log(error);
@@ -29,7 +46,6 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
   };
   
   function transformTreeData(data) {
-    console.log(data)
     const nodesArray = data.nodes.map((node) => ({
       node: node,
       id: node.id,
@@ -39,10 +55,12 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
   
     const edgesArray = [];
     data.nodes.forEach((node) => {
+      
       node.connections.forEach((conn) => {
         edgesArray.push({
           from: node.id,
-          to: conn.targetId, // Arestas ligam nós pelos IDs
+          to: conn.targetId,
+          predicate: conn.gate.predicates[0]? conn.gate.predicates[0] : "No predicate"
         });
       });
     });
@@ -50,11 +68,18 @@ function TreeSidebarLeft({ onImport, nodes, selectedConnections }) {
     return { nodesArray, edgesArray };
   }
   
-
   return (
     <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-70">
-      <div className="flex flex-row w-full h-[15%] items-center justify-around">
-        <p className="text-3xl font-bold text-white">Vis Need</p>
+      <div className="flex flex-row w-full h-[6%] items-baseline">
+        <button
+        onClick={() => navigate("/")}
+        className="w-[20%] h-full"
+        >
+          <img src={backIcon} alt="" className=" w-full h-full object-contain p-2" />
+      </button>
+      </div>
+      <div className="flex flex-row w-full h-[9%] items-center justify-around">
+        <p className="text-3xl font-bold text-white">VisNeed</p>
       </div>
       <div className="flex flex-col h-[45%] p-4 border-b">
         <h1 className="text-xl font-bold text-white">Nodes</h1>

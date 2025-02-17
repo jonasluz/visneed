@@ -8,7 +8,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/tree-view" element={<TreeView />} />
+        <Route path="/tree-view/:treeName" element={<TreeView />} /> 
       </Routes>
     </Router>
   );

@@ -1,4 +1,12 @@
-import { app, BrowserWindow, screen, Menu } from 'electron';
+import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
+const path = require("path");
+const { saveJsonData, loadJsonData } = require('../../scripts/fileManager');
+const { createNewTree, saveTreeData, loadTreeData, getSavedTrees } = require("../../scripts/treeManager");
+
+import fs from 'fs';
+
+const DATA_DIR = path.join(__dirname, '../../data');
+const JSON_FILE_PATH = path.join(DATA_DIR, 'user_data.json');
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -42,7 +50,12 @@ const createWindow = (): void => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR);
+  }
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -54,12 +67,44 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+ipcMain.handle('save-json', async (_event, data) => {
+  try {
+    saveJsonData(data);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('load-json', async () => {
+  try {
+    const data = loadJsonData();
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+// Criar uma nova árvore quando solicitado
+ipcMain.handle("create-tree", async (_, treeName) => {
+  return createNewTree(treeName);
+});
+
+// Salvar os dados da árvore
+ipcMain.handle("save-tree", async (_, treeName, data) => {
+  saveTreeData(treeName, data);
+});
+
+// Carregar os dados da árvore
+ipcMain.handle("load-tree", async (_, treeName) => {
+  return loadTreeData(treeName);
+});
+
+ipcMain.handle("list-tree", async (_) => {
+  return getSavedTrees();
+});

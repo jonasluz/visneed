@@ -3,7 +3,7 @@ import { DataSet } from "vis-data/esnext";
 import { Network } from "vis-network/esnext";
 import "vis-network/styles/vis-network.css";
 
-const TreeView = ({ nodesArray, edgesArray, onNodeClick  }) => {
+const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
   const visContainerRef = useRef(null);
   
   useEffect(() => {
@@ -30,7 +30,17 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick  }) => {
       }))
     );
 
-    const edges = new DataSet(edgesArray);
+    const edges = new DataSet(
+      edgesArray.map((edge) => ({
+        ...edge,
+        width: 2,
+        color: {
+          color: "#84A98C",
+          highlight: "#CAD2C5", 
+        },
+        arrows: { to: { enabled: false, type: "circle" } },
+      }))
+    );
 
     const options = {
       layout: {
@@ -49,14 +59,10 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick  }) => {
       },
       edges: {
         smooth: true,
-        arrows: {
-			to: { 
-				enabled: false, 
-				type: "circle" 
-			} 
-		},
+        
         color: { color: "#84A98C" },
         width: 2,
+        selectionWidth: 3,
       },
       physics: { enabled: true },
     };
@@ -73,8 +79,17 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick  }) => {
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
           const nodeData = nodes.get(nodeId); 
-          console.log(nodeData)
+          console.log("No clicado:",nodeData)
+          console.log("No clicado (ID)", nodeId)
           onNodeClick(nodeId);
+        }
+
+        if (params.edges.length > 0) {
+          const edgeId = params.edges[0];
+          console.log(params)
+          const edgeData = edges.get(edgeId);
+          console.log("Aresta clicada:", edgeData);
+          onEdgeClick(edgeData)
         }
       });
 
