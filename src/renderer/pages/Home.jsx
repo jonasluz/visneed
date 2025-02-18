@@ -3,6 +3,27 @@ import Sidebar from "../components/Sidebar";
 import NewTree from "../components/NewTree";
 import { useNavigate } from "react-router-dom";
 
+const formatTimeAgo = (timestamp) => {
+  if (!timestamp) return "Unknown";
+  
+  const lastModifiedDate = new Date(timestamp);
+  console.log(lastModifiedDate)
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - lastModifiedDate) / 1000);
+
+  if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours} hours ago`;
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 30) return `${diffInDays} days ago`;
+  const diffInMonths = Math.floor(diffInDays / 30);
+  if (diffInMonths < 12) return `${diffInMonths} months ago`;
+
+  return `${Math.floor(diffInMonths / 12)} years ago`;
+};
+
 function Home() {
   const navigate = useNavigate();
 
@@ -34,7 +55,9 @@ function Home() {
       </div>
       <div className="flex flex-col w-5/6">
         <NewTree />
+        <p className="w-full self-center h-px my-4 bg-gradient-to-r from-[#2F3E46] from-5% via-[#CAD2C5] via-50% to-[#2F3E46] to-95%"></p>
         <div className="flex flex-col h-full items-center overflow-y-auto">
+        <p className="text-white font-semibold text-2xl mb-5 self-start p-5">My trees:</p>
           {trees.map((tree, key) => {
             return (
               <div className="w-[80%] relative mb-5" key={key}>
@@ -60,7 +83,7 @@ function Home() {
                       {tree.name}
                     </p>
                     <p className="text-white font-semibold text-sm capitalize">
-                      Last modified: 3 days
+                      Last modified: {formatTimeAgo(tree.lastModified)}
                     </p>
                   </div>
                   <div className="flex flex-row justify-between mb-2">
