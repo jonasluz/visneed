@@ -14,7 +14,7 @@ if (!fs.existsSync(treesPath)) {
 function createNewTree(treeName) {
   const treeId = Date.now(); // Gera um ID único
   const jsonFilePath = path.join(treesPath, `tree_${treeId}.json`);
-  const newTree = { id: treeId, name: treeName, dictionary: [], nodes: [] };
+  const newTree = { id: treeId, name: treeName, dictionary: [], nodes: [], lastModified: new Date().toISOString()};
   console.log(newTree)
 
   fs.writeFileSync(jsonFilePath, JSON.stringify(newTree, null, 2), "utf-8");
@@ -31,7 +31,8 @@ function saveTreeData(treeId, data) {
     const updatedData = {
       ...currentData,
       dictionary: data.dictionary,  
-      nodes: data.nodes,           
+      nodes: data.nodes,     
+      lastModified: new Date().toISOString(),      
     };
     fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), "utf-8");  }
 }

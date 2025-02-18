@@ -37,9 +37,9 @@ function Home() {
         <div className="flex flex-col h-full items-center overflow-y-auto">
           {trees.map((tree, key) => {
             return (
-              <div className="w-[80%] relative" key={key}>
+              <div className="w-[80%] relative mb-5" key={key}>
                 <button
-                  className="absolute bottom-5 right-5 bg-background-green-400 bg-opacity-80 rounded-lg p-3 z-50"
+                  className="absolute bottom-5 right-5 hover:backdrop-brightness-200 bg-background-green-400 bg-opacity-80 rounded-lg p-3 z-50"
                   onClick={(event) => {
                     
                     console.log("Exportando...");
