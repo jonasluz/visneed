@@ -80,7 +80,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
         onClick={() => navigate("/")}
         className="w-[20%] h-full"
         >
-          <img src={backIcon} alt="" className=" w-full h-full object-contain p-2" />
+          <img src={backIcon} alt="" className=" w-full h-full object-contain p-3" />
       </button>
       </div>
       <div className="flex flex-row w-full h-[9%] items-center justify-around">
