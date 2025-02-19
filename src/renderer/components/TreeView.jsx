@@ -86,7 +86,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
 
         if (params.edges.length > 0) {
           const edgeId = params.edges[0];
-          console.log(params)
+          //console.log(params)
           const edgeData = edges.get(edgeId);
           console.log("Aresta clicada:", edgeData);
           onEdgeClick(edgeData)

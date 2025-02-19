@@ -1,6 +1,7 @@
 import React from "react";
 import Outcomes from "./Outcomes";
 import Predicates from "./Predicates";
+import Actions from "./Actions";
 
 function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
   console.log(selectedOutcome)
@@ -24,7 +25,7 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
       <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">
         <p className="text-xl font-bold text-white">Actions</p>
         <div className="flex justify-center items-center h-full">
-            <p className="text-md font-medium text-white">No actions for this node</p>
+            <Actions actions={selectedEdge}/>
         </div>
       </div>
     </>

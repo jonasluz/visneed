@@ -30,7 +30,7 @@ function TreePage() {
   };
 
   const handleEdgeClick = (edgeData) => {
-    console.log(edgeData)
+    // console.log(edgeData)
     setSelectedPredicates(edgeData)
   }
 

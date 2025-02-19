@@ -10,13 +10,13 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(treeId)
+    // console.log(treeId)
     async function loadStoredJson() {
       const response = await window.treeAPI.loadTree(treeId);
-      console.log(response)
+      // console.log(response)
       if (response) {
         const transformedData = transformTreeData(response);
-        console.log(transformedData)
+        // console.log(transformedData)
         onImport(transformedData);
       }
     }
@@ -50,7 +50,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   };
   
   function transformTreeData(data) {
-    console.log(data)
+    // console.log(data)
     const nodesArray = data.nodes.map((node) => ({
       node: node,
       id: node.id,
@@ -62,10 +62,12 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
     data.nodes.forEach((node) => {
       console.log(node)
       node.connections.forEach((conn) => {
+        console.log(conn.gate)
         edgesArray.push({
           from: node.id,
           to: conn.targetId,
-          predicate: conn.gate.predicates[0]? conn.gate.predicates[0] : "No predicate"
+          predicate: conn.gate.predicates[0]? conn.gate.predicates[0] : "No predicate",
+          actions: conn.gate?.actions?.[0] || "No action"
         });
       });
     });

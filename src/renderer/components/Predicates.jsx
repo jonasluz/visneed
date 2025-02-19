@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Predicates({ predicates, nodes }) {
-    console.log(predicates.predicate)
+    console.log(predicates)
     if(Object.keys(predicates).length === 0) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
@@ -19,9 +19,9 @@ function Predicates({ predicates, nodes }) {
             </div>
         )
     }
-    console.log(predicates)
-    console.log(nodes)
-    console.log(predicates.predicate)
+    // console.log(predicates)
+    // console.log(nodes)
+    // console.log(predicates.predicate)
       return (
         <div className="h-full overflow-y-auto overflow-x-auto w-full">
           <table className='items-center table-auto text-left whitespace-nowrap text-sm h-full rounded-lg'>
