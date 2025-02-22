@@ -1,0 +1,946 @@
+{
+  "dictionary": [
+    {
+      "key": "Name",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Character",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Emotional Status",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Age",
+      "type": "integer",
+      "application": "profile"
+    },
+    {
+      "key": "Gender",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Genetic Factor",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mom side history",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Dad side history",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Weight",
+      "type": "float",
+      "application": "profile"
+    },
+    {
+      "key": "Alcoholic",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Smoking",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Menarche",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Menopause",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Late Pregnancy",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Hormone Replacement Therapy",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Available",
+      "type": "int",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Image 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Date 1",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Results 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Findings 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Birads 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Image 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Date 2",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Results 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Findings 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Mammogram Birads 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Mammogram Available",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Mammogram Image",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Mammogram Date",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Mammogram Results",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Mammogram Findings",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Mammogram Birads",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Available",
+      "type": "int",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Image 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Date 1",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Results 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Findings 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Birads 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Image 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Date 2",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Results 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Findings 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "MRI Birads 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous MRI Available",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Previous MRI Image",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous MRI Date",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Previous MRI Results",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous MRI Findings",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous MRI Birads",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Available",
+      "type": "int",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Image 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Date 1",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Results 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Findings 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Birads 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Image 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Date 2",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Results 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Findings 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Digital Mammogram Birads 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Available",
+      "type": "int",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Image 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Date 1",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Results 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Findings 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Birads 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Image 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Date 2",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Results 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Findings 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Ultrasound Birads 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Ultrasound Available",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Ultrasound Image",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Ultrasound Date",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Ultrasound Results",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Ultrasound Findings",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Previous Ultrasound Birads",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Available",
+      "type": "int",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Image 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Date 1",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Results 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Partial Results 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Birads 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Type 1",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Image 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Date 2",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Results 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Partial Results 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Birads 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Type 2",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Image 3",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Date 3",
+      "type": "date",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Results 3",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Partial Results 3",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Birads 3",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsy Type 3",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Genetic Testing Available",
+      "type": "int",
+      "application": "profile"
+    },
+    {
+      "key": "Inspection",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Palpation",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Lump",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Lesion",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Nodularity",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Clinically Benign Mass",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Benign Nipple Change",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Suspicious or Malignant Breast",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Nipple Change",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Screening",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Symptoms or Findings",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Complementary Exams Result",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Do US",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Do Mammogram",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Do MRI",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Do Genetic Testing",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Do Digital Mammogram",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Screenings Birads",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Biopsys Birads",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "Symptoms",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Cancer",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Do Screening",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Do Biopsy",
+      "type": "boolean",
+      "application": "profile"
+    },
+    {
+      "key": "Diagnosis",
+      "type": "string",
+      "application": "profile"
+    },
+    {
+      "key": "User Diagnosis",
+      "type": "string",
+      "application": "profile"
+    }
+  ],
+  "nodes": [
+        {
+            "id": 1,
+            "name": "Risk",
+            "visualization": "None",
+            "connections": [
+                {
+                    "name": "c11",
+                    "targetId": 4,
+                    "gates": [
+                        {
+                            "key": "Age",
+                            "condition": "<",
+                            "value": "30",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Age",
+                            "condition": ">",
+                            "value": "74",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Symptoms",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Lump",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Lesion",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Nodularity",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Clinically Benign Mass",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Benign Nipple Change",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Suspicious or Malignant Breast",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Nipple Change",
+                            "condition": "=",
+                            "value": "false",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        }
+                    ]
+                },
+                {
+                    "name": "c12",
+                    "targetId": 2,
+                    "gates": [
+                        {
+                            "key": "Symptoms",
+                            "condition": "=",
+                            "value": "true",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Lump",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Lesion",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Nodularity",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Clinically Benign Mass",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Benign Nipple Change",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Suspicious or Malignant Breast",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Nipple Change",
+                            "condition": "!=",
+                            "value": "false",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Age",
+                            "condition": ">=",
+                            "value": "30",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Age",
+                            "condition": "<=",
+                            "value": "74",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        }
+                    ]
+                }
+            ],
+            "outcomes": []
+        },
+        {
+            "id": 2,
+            "name": "Screening",
+            "visualization": "None",
+            "connections": [
+                {
+                    "name": "c21",
+                    "targetId": 6,
+                    "gates": [
+                        {
+                            "key": "Screenings Birads",
+                            "condition": "=",
+                            "value": "1",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Screenings Birads",
+                            "condition": "=",
+                            "value": "2",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        }
+                    ]
+                },
+                {
+                    "name": "c22",
+                    "targetId": 3,
+                    "gates": [
+                        {
+                            "key": "Screenings Birads",
+                            "condition": "!=",
+                            "value": "1",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Screenings Birads",
+                            "condition": "!=",
+                            "value": "2",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        }
+                    ]
+                }
+            ],
+            "outcomes": [
+                {
+                    "key": "Do Screening",
+                    "operator": "=",
+                    "value": "true"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Biopsy",
+            "visualization": "None",
+            "connections": [
+                {
+                    "name": "c31",
+                    "targetId": 7,
+                    "gates": [
+                        {
+                            "key": "Biopsys Birads",
+                            "condition": "=",
+                            "value": "1",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        },
+                        {
+                            "key": "Biopsys Birads",
+                            "condition": "=",
+                            "value": "2",
+                            "logicalOperator": "OR",
+                            "actions": []
+                        }
+                    ]
+                },
+                {
+                    "name": "c32",
+                    "targetId": 5,
+                    "gates": [
+                        {
+                            "key": "Biopsys Birads",
+                            "condition": "!=",
+                            "value": "1",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        },
+                        {
+                            "key": "Biopsys Birads",
+                            "condition": "!=",
+                            "value": "2",
+                            "logicalOperator": "AND",
+                            "actions": []
+                        }
+                    ]
+                }
+            ],
+            "outcomes": [
+                {
+                    "key": "Do Biopsy",
+                    "operator": "=",
+                    "value": "true"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "No Cancer (From Risk)",
+            "visualization": "None",
+            "connections": [],
+            "outcomes": [
+                {
+                    "key": "Cancer",
+                    "operator": "=",
+                    "value": "false"
+                },
+                {
+                    "key": "Do Screening",
+                    "operator": "=",
+                    "value": "false"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Cancer",
+            "visualization": "None",
+            "connections": [],
+            "outcomes": [
+                {
+                    "key": "Cancer",
+                    "operator": "=",
+                    "value": "true"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "No Cancer (From Screening)",
+            "visualization": "None",
+            "connections": [],
+            "outcomes": [
+                {
+                    "key": "Cancer",
+                    "operator": "=",
+                    "value": "false"
+                },
+                {
+                    "key": "Do Biopsy",
+                    "operator": "=",
+                    "value": "false"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "name": "No Cancer (From Biopsy)",
+            "visualization": "None",
+            "connections": [],
+            "outcomes": [
+                {
+                    "key": "Cancer",
+                    "operator": "=",
+                    "value": "false"
+                }
+            ]
+        }
+    ]
+}

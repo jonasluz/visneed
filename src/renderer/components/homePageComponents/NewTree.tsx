@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import addIcon from "../../assets/add-symbol.png";
+import addIcon from "../../../assets/add-symbol.png";
 
 function NewTree() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ function NewTree() {
   };
 
   return (
-    <div className="flex flex-col h-[25%] p-5">
+    <div className="flex flex-col h-[25%] p-5 mx-10">
       <p className="text-white font-semibold text-2xl mb-5">Create a new tree:</p>
       <div className="flex flex-row">
         <input

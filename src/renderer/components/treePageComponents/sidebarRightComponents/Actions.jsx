@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Actions({actions}) {
-  console.log(actions)
+  // console.log(actions)
 
   if(Object.keys(actions).length === 0) {
     return (

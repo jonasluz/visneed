@@ -15,9 +15,30 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
     const nodes = new DataSet(
       nodesArray.map((node) => ({
         ...node,
+        label: node.name,
         shape: "circle",
-        font: { size: 10 },
-        size: 20,
+        font: { 
+          size: 17,
+          align: "center",
+          vadjust: 0,
+          color: "#fff", 
+          bold: true, 
+          face: "Arial",
+          strokeWidth: 3, 
+          strokeColor: "#333",
+        },
+        heightConstraint: {
+          minimum: 70,
+          maximum: 70,
+          valign: 'middle',
+        },
+        widthConstraint: {
+          minimum: 70,
+          maximum: 70
+        },
+        scaling: {
+          label: true 
+        },
         borderWidth: 2,
         color: {
           background: getColorByLevel(levels[node.id] || 0),
@@ -29,17 +50,26 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
         },
       }))
     );
-
+    console.log(edgesArray)
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
+        label: edge.label || "", // Adiciona um label se existir
+        font: {
+          size: 14, // Tamanho da fonte do label da aresta
+          color: "#333", // Cor escura para melhor visibilidade
+          face: "Arial", // Fonte mais legível
+          background: "rgba(255, 255, 255, 0.8)", // Fundo branco semi-transparente
+          strokeWidth: 2, // Contorno para destacar o texto
+          strokeColor: "#fff", // Cor do contorno branco
+        },
         width: 2,
         color: {
           color: "#84A98C",
           highlight: "#CAD2C5", 
         },
         arrows: { to: { enabled: false, type: "circle" } },
-      }))
+      } ))
     );
 
     const options = {
@@ -49,13 +79,11 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
           sortMethod: "directed",
           nodeSpacing: 150,
           levelSeparation: 250,
+          shakeTowards: 'roots'
         },
       },
       nodes: {
-        heightConstraint: 10,
         borderWidth: 4,
-        size: 20,
-
       },
       edges: {
         smooth: true,

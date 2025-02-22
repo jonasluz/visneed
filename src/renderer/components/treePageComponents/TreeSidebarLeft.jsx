@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import User from "./User";
-import Nodes from "../components/Nodes"
-import Connections from "./Connections";
+import User from "../homePageComponents/User";
+import Nodes from "./sidebarLeftComponents/Nodes"
+import Connections from "./sidebarLeftComponents/Connections";
 
-import backIcon from "../../assets/go_back.png";
+import backIcon from "../../../assets/go_back.png";
 
 function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   const navigate = useNavigate();
@@ -13,10 +13,10 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
     // console.log(treeId)
     async function loadStoredJson() {
       const response = await window.treeAPI.loadTree(treeId);
-      // console.log(response)
+      console.log(response)
       if (response) {
         const transformedData = transformTreeData(response);
-        // console.log(transformedData)
+        console.log(transformedData)
         onImport(transformedData);
       }
     }
@@ -50,19 +50,23 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   };
   
   function transformTreeData(data) {
-    // console.log(data)
+    console.log(data)
+    const projectName = data.name 
+
+    const dictionary = data.dictionary
+    
     const nodesArray = data.nodes.map((node) => ({
-      node: node,
+      connections: node.connections,
       id: node.id,
-      label: node.name, // Usamos o nome como label do nó
+      name: node.name, // Usamos o nome como label do nó
       outcome: Array.isArray(node.outcomes) && node.outcomes.length > 0? node.outcomes[0]?.key : "No outcome"
     }));
   
     const edgesArray = [];
     data.nodes.forEach((node) => {
-      console.log(node)
+      // console.log(node)
       node.connections.forEach((conn) => {
-        console.log(conn.gate)
+        // console.log(conn.gate)
         edgesArray.push({
           from: node.id,
           to: conn.targetId,
@@ -72,7 +76,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
       });
     });
 
-    return { nodesArray, edgesArray };
+    return { nodesArray, edgesArray, projectName, dictionary };
   }
   
   return (
@@ -88,11 +92,11 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
       <div className="flex flex-row w-full h-[9%] items-center justify-around">
         <p className="text-3xl font-bold text-white">VisNeed</p>
       </div>
-      <div className="flex flex-col h-[45%] p-4 border-b">
+      <div className="flex flex-col h-[40%] p-4 border-b">
         <h1 className="text-xl font-bold text-white">Nodes</h1>
         <Nodes nodes={nodes}/>
       </div>
-      <div className="flex flex-col h-[30%] p-4 border-b">
+      <div className="flex flex-col h-[35%] p-4 border-b">
         <h1 className="text-xl font-bold text-white">Connections</h1>
         <Connections connections={selectedConnections} />
       </div>

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import NewTree from "../components/NewTree";
+import Sidebar from "../components/homePageComponents/Sidebar";
+import NewTree from "../components/homePageComponents/NewTree";
 import { useNavigate } from "react-router-dom";
 
 const formatTimeAgo = (timestamp) => {
   if (!timestamp) return "Unknown";
   
   const lastModifiedDate = new Date(timestamp);
-  console.log(lastModifiedDate)
+  // console.log(lastModifiedDate)
   const now = new Date();
   const diffInSeconds = Math.floor((now - lastModifiedDate) / 1000);
 
@@ -57,7 +57,7 @@ function Home() {
         <NewTree />
         <p className="w-full self-center h-px my-4 bg-gradient-to-r from-[#2F3E46] from-5% via-[#CAD2C5] via-50% to-[#2F3E46] to-95%"></p>
         <div className="flex flex-col h-full items-center overflow-y-auto">
-        <p className="text-white font-semibold text-2xl mb-5 self-start p-5">My trees:</p>
+        <p className="text-white font-semibold text-2xl self-start p-5 mx-10">My trees:</p>
           {trees.map((tree, key) => {
             return (
               <div className="w-[80%] relative mb-5" key={key}>
@@ -68,7 +68,7 @@ function Home() {
                     console.log("Exportando...");
                   }}
                 >
-                  <p className="text-sm text-black font-semibold">
+                  <p className="text-lg text-black font-semibold">
                     Export Data
                   </p>
                 </button>
@@ -79,19 +79,20 @@ function Home() {
                   }}
                 >
                   <div className="flex flex-row justify-between mb-2">
-                    <p className="text-white font-semibold text-base capitalize">
+                    <p className="text-white font-semibold text-xl capitalize">
                       {tree.name}
                     </p>
-                    <p className="text-white font-semibold text-sm capitalize">
+                    <p className="text-white font-semibold text-xl capitalize">
                       Last modified: {formatTimeAgo(tree.lastModified)}
                     </p>
                   </div>
+                  {console.log(tree)}
                   <div className="flex flex-row justify-between mb-2">
                     <div className="flex flex-col justify-start items-start px-3">
-                      <p className="text-white font-semibold text-xs capitalize my-2">
+                      <p className="text-white font-semibold text-md capitalize my-2">
                         Dictionary: {tree.dictionary.length} elements
                       </p>
-                      <p className="text-white font-semibold text-xs capitalize">
+                      <p className="text-white font-semibold text-md capitalize">
                         Nodes: {tree.nodes.length}
                       </p>
                     </div>

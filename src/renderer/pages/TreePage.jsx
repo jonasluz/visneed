@@ -1,61 +1,139 @@
 import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
-import TreeSidebarLeft from '../components/TreeSidebarLeft';
-import TreeSideBarRight from '../components/TreeSideBarRight';
-import TreeView from '../components/TreeView';
+import TreeSidebarLeft from '../components/treePageComponents/TreeSidebarLeft';
+import TreeSideBarRight from '../components/treePageComponents/TreeSideBarRight';
+import TreeView from '../components/treePageComponents/TreeView';
+import NodeActions from '../components/treePageComponents/NodeActions';
 import { useParams } from "react-router-dom";
+import treeImage from '../../assets/decision-tree-image.png';
 
 function TreePage() {
   const { treeId } = useParams();
   const [tree, setTree] = useState({});
+  const [projectName, setProjectName] = useState("");
 
   const [selectedConnections, setSelectedConnections] = useState({});
-  const [selectedOutcome, setSelectedOutcome] = useState()
+  const [selectedOutcome, setSelectedOutcome] = useState();
   const [selectedPredicates, setSelectedPredicates] = useState({});
 
   const handleNodeClick = (nodeId) => {
     const connectedNodes = tree.edgesArray
-    .filter((edge) => edge.from === nodeId || edge.to === nodeId)
-    .map((edge) => {
-      // Encontrar o nó de destino ou origem da conexão
-      const targetNodeId = edge.from === nodeId ? edge.to : edge.from;
-      // Encontrar o label e id do nó de destino
-      const targetNode = tree.nodesArray.find(node => node.id === targetNodeId);
-      return targetNode ? { id: targetNode.id, label: targetNode.label, outcome: targetNode.outcome } : null; 
-    })
-    .filter(Boolean);
-    console.log(connectedNodes)
+      .filter((edge) => edge.from === nodeId || edge.to === nodeId)
+      .map((edge) => {
+        const targetNodeId = edge.from === nodeId ? edge.to : edge.from;
+        const targetNode = tree.nodesArray.find(node => node.id === targetNodeId);
+        return targetNode ? { id: targetNode.id, label: targetNode.label, outcome: targetNode.outcome } : null;
+      })
+      .filter(Boolean);
     setSelectedConnections(connectedNodes);
-    setSelectedOutcome(tree.nodesArray[nodeId - 1].outcome)
+    setSelectedOutcome(tree.nodesArray[nodeId - 1].outcome);
   };
 
   const handleEdgeClick = (edgeData) => {
-    // console.log(edgeData)
-    setSelectedPredicates(edgeData)
-  }
+    setSelectedPredicates(edgeData);
+  };
 
   const handleImport = (data) => {
+    // console.log(data)
     setTree({
       nodesArray: data.nodesArray,
       edgesArray: data.edgesArray,
+      dictionary: data.dictionary
     });
+    setProjectName(data.projectName);
+  };
+
+  const handleAddNode = (parentNodeId, newNodeName) => {
+    console.log(tree)
+    console.log(parentNodeId, newNodeName)
+    const newNodeId = tree.nodesArray.length + 1;
+
+    const newNode = {
+      id: newNodeId,
+      name: newNodeName,
+      outcome: "No outcome",
+      connections: [],
+    };
+
+    console.log(newNode)
+
+    // Criar a nova conexão para o nó pai
+  const newConnection = {
+    name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
+    targetId: newNodeId, // ID do nó filho
+    gate: {
+      predicates: [], // Predicados vazios
+      actions: [], // Ações vazias
+    },
+  };
+
+  // Atualizar o nó pai para incluir a nova conexão
+  const updatedNodesArray = tree.nodesArray.map((node) => {
+    if (node.id === parseInt(parentNodeId)) {
+      return {
+        ...node,
+        connections: [...node.connections, newConnection], // Adiciona a nova conexão
+      };
+    }
+    return node;
+  });
+
+  updatedNodesArray.push(newNode);
+
+
+    const newEdge = {
+      from: parseInt(parentNodeId),
+      to: newNodeId,
+      predicate: "No predicate",
+      actions: "No action"
+    };
+
+    const newDictionaryElem = {
+      key: newNodeName,
+      type: "normal"
+    }
+
+    const updatedEdgesArray = [...tree.edgesArray, newEdge];
+    const updatedDictionary = [...tree.dictionary, newDictionaryElem];
+
+    setTree({
+      nodesArray: updatedNodesArray,
+      edgesArray: updatedEdgesArray,
+      dictionary: updatedDictionary
+    });
+
+    // Atualizar o JSON
+    const updatedData = {
+      nodes: updatedNodesArray.map(node => ({
+        ...node,
+        name: node.name 
+      })),
+      edges: updatedEdgesArray,
+      dictionary: updatedDictionary,
+      projectName: projectName
+    };
+
+    window.treeAPI.saveTree(treeId, updatedData);
+    console.log(tree)
   };
 
   return (
     <div className="relative w-full h-screen bg-background-black-100">
-      {/* Conteúdo central */}
       <div className="w-full h-full flex justify-center items-center ">
-        <TreeView nodesArray={tree.nodesArray} edgesArray={tree.edgesArray} onNodeClick={handleNodeClick} onEdgeClick={handleEdgeClick}/>
+        <TreeView nodesArray={tree.nodesArray} edgesArray={tree.edgesArray} onNodeClick={handleNodeClick} onEdgeClick={handleEdgeClick} />
       </div>
-
-      {/* Left Sidebar (Overlay) */}
       <div className="absolute top-0 left-0 w-1/6 h-full z-10">
-        <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections}/>
+        <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections} />
       </div>
-
-      {/* Right Sidebar (Overlay) */}
+      <div className="flex flex-row absolute top-0 left-[17%] p-4 text-white items-center">
+        <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
+        <p className='ml-2 font-semibold'>{projectName}</p>
+      </div>
+      <div className="absolute bottom-0 left-[17%] p-4 text-white items-center h-[25%] border">
+        <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
+      </div>
       <div className="absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto">
-        <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray}/>
+        <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import userIcon from "../../assets/placeholder-userIcon.png";
+import userIcon from "../../../assets/placeholder-userIcon.png";
 function UserIcon() {
   return (
     <div className="flex flex-row w-full h-[25%] items-center justify-around p-2">

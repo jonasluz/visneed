@@ -1,7 +1,7 @@
 import React from "react";
-import Outcomes from "./Outcomes";
-import Predicates from "./Predicates";
-import Actions from "./Actions";
+import Outcomes from "./sidebarRightComponents/Outcomes";
+import Predicates from "./sidebarRightComponents/Predicates";
+import Actions from "./sidebarRightComponents/Actions";
 
 function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
   console.log(selectedOutcome)

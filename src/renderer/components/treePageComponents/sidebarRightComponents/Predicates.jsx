@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Predicates({ predicates, nodes }) {
-    console.log(predicates)
+    // console.log(predicates)
     if(Object.keys(predicates).length === 0) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
