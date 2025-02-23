@@ -50,7 +50,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
         },
       }))
     );
-    console.log(edgesArray)
+
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,

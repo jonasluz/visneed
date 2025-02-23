@@ -12,7 +12,7 @@ function NodeActions({ nodes, onAddNode }) {
   return (
     <div className='flex flex-col'>
       <button 
-        className='bg-background-green-400 w-8 h-8 p-2 rounded-md'
+        className='bg-background-green-400 w-8 h-8 p-2 rounded-md hover:brightness-50 ease-in-out duration-200'
         onClick={() => setIsModalOpen(true)}
       >
         <img src={addIcon} alt="" className="object-cover w-full h-full" />

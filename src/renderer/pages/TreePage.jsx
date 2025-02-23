@@ -12,17 +12,20 @@ function TreePage() {
   const [tree, setTree] = useState({});
   const [projectName, setProjectName] = useState("");
 
+  const [selectedNode, setSelectedNode] = useState({});
   const [selectedConnections, setSelectedConnections] = useState({});
   const [selectedOutcome, setSelectedOutcome] = useState();
   const [selectedPredicates, setSelectedPredicates] = useState({});
 
   const handleNodeClick = (nodeId) => {
+    setSelectedNode(tree.nodesArray[nodeId - 1])
+
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
       .map((edge) => {
         const targetNodeId = edge.from === nodeId ? edge.to : edge.from;
         const targetNode = tree.nodesArray.find(node => node.id === targetNodeId);
-        return targetNode ? { id: targetNode.id, label: targetNode.label, outcome: targetNode.outcome } : null;
+        return targetNode ? { id: targetNode.id, name: targetNode.name, outcome: targetNode.outcome } : null;
       })
       .filter(Boolean);
     setSelectedConnections(connectedNodes);
@@ -34,7 +37,6 @@ function TreePage() {
   };
 
   const handleImport = (data) => {
-    // console.log(data)
     setTree({
       nodesArray: data.nodesArray,
       edgesArray: data.edgesArray,
@@ -129,7 +131,7 @@ function TreePage() {
         <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
         <p className='ml-2 font-semibold'>{projectName}</p>
       </div>
-      <div className="absolute bottom-0 left-[17%] p-4 text-white items-center h-[25%] border">
+      <div className="absolute bottom-0 left-[17%] p-4 text-white items-center h-[25%]">
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
       </div>
       <div className="absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto">

@@ -6,7 +6,7 @@ function Nodes({ nodes }) {
       {nodes ? (
         nodes.map((element, index) => {
         return (
-          <p className='text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer' key={index}>{element.label}</p>
+          <p className='text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer' key={index}>{element.name}</p>
         )
       })
       ) : (

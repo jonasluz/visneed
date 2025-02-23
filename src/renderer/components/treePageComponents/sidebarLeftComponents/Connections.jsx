@@ -12,7 +12,7 @@ function Connections({ connections }) {
       })
       ) : (
         <div className='flex flex-col justify-center items-center w-full h-full'>
-          <p className="text-md font-medium text-white text-center">Nenhuma conexão selecionada.</p>
+          <p className="text-md font-medium text-white text-center">No node selected</p>
         </div>
       )
       }

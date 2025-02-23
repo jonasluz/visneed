@@ -13,23 +13,23 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-black p-6 rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Adicionar Novo Nó</h2>
+      <div className="bg-background-green-100 w-[30%] h-[75%] p-6 rounded-lg">
+        <h2 className="text-xl font-bold mb-4">Add a new Node</h2>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Nó Pai:</label>
+          <label className="block text-sm font-medium mb-2">Parent Node:</label>
           <select
             className="w-full p-2 border rounded text-black"
             value={parentNodeId}
             onChange={(e) => setParentNodeId(e.target.value)}
           >
-            <option value="">Selecione um nó pai</option>
+            <option value="">Select a node parent</option>
             {nodes.map(node => (
               <option key={node.id} value={node.id}>{node.name}</option>
             ))}
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Nome do Novo Nó:</label>
+          <label className="block text-sm font-medium mb-2">Name of the new Node:</label>
           <input
             type="text"
             className="w-full p-2 border rounded text-black"
@@ -42,13 +42,13 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
             onClick={onClose}
           >
-            Cancelar
+            Cancel
           </button>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={handleConfirm}
           >
-            Confirmar
+            Confirm
           </button>
         </div>
       </div>
