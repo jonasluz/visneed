@@ -5,7 +5,11 @@ import TreeSideBarRight from '../components/treePageComponents/TreeSideBarRight'
 import TreeView from '../components/treePageComponents/TreeView';
 import NodeActions from '../components/treePageComponents/NodeActions';
 import { useParams } from "react-router-dom";
+
 import treeImage from '../../assets/decision-tree-image.png';
+//notifications
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function TreePage() {
   const { treeId } = useParams();
@@ -46,8 +50,12 @@ function TreePage() {
   };
 
   const handleAddNode = (parentNodeId, newNodeName) => {
-    console.log(tree)
-    console.log(parentNodeId, newNodeName)
+    console.log(parentNodeId)
+    if (!parentNodeId || !newNodeName) {
+      toast.error("Por favor, selecione um nó pai e insira um nome para o novo nó.");
+      return;
+    }
+
     const newNodeId = tree.nodesArray.length + 1;
 
     const newNode = {
@@ -60,16 +68,16 @@ function TreePage() {
     console.log(newNode)
 
     // Criar a nova conexão para o nó pai
-  const newConnection = {
-    name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
-    targetId: newNodeId, // ID do nó filho
-    gate: {
-      predicates: [], // Predicados vazios
-      actions: [], // Ações vazias
-    },
-  };
+    const newConnection = {
+      name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
+      targetId: newNodeId, // ID do nó filho
+      gate: {
+        predicates: [], // Predicados vazios
+        actions: [], // Ações vazias
+      },
+    };
 
-  // Atualizar o nó pai para incluir a nova conexão
+  // Att the parent node with the new connection
   const updatedNodesArray = tree.nodesArray.map((node) => {
     if (node.id === parseInt(parentNodeId)) {
       return {
@@ -82,7 +90,6 @@ function TreePage() {
 
   updatedNodesArray.push(newNode);
 
-
     const newEdge = {
       from: parseInt(parentNodeId),
       to: newNodeId,
@@ -92,7 +99,7 @@ function TreePage() {
 
     const newDictionaryElem = {
       key: newNodeName,
-      type: "normal"
+      type: "string"
     }
 
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
@@ -104,7 +111,7 @@ function TreePage() {
       dictionary: updatedDictionary
     });
 
-    // Atualizar o JSON
+    // update json with new node
     const updatedData = {
       nodes: updatedNodesArray.map(node => ({
         ...node,
@@ -116,11 +123,12 @@ function TreePage() {
     };
 
     window.treeAPI.saveTree(treeId, updatedData);
-    console.log(tree)
+    toast.success(`Nó ${newNodeName}, criado com sucesso!`);  
   };
 
   return (
     <div className="relative w-full h-screen bg-background-black-100">
+      <ToastContainer />
       <div className="w-full h-full flex justify-center items-center ">
         <TreeView nodesArray={tree.nodesArray} edgesArray={tree.edgesArray} onNodeClick={handleNodeClick} onEdgeClick={handleEdgeClick} />
       </div>
@@ -131,10 +139,10 @@ function TreePage() {
         <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
         <p className='ml-2 font-semibold'>{projectName}</p>
       </div>
-      <div className="absolute bottom-0 left-[17%] p-4 text-white items-center h-[25%]">
+      <div className="absolute bottom-0 left-[17%] p-2 text-white items-center h-[25%]">
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
       </div>
-      <div className="absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto">
+      <div className="absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none">
         <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} />
       </div>
     </div>

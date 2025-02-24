@@ -3,11 +3,11 @@ import React from "react";
 function Connections({ connections }) {
 
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full overflow-y-auto scrollbar-none">
       {connections.length > 0 ? (
         connections.map((element, index) => {
         return (
-          <p className='text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer' key={index}>{element.name}</p>
+          <p className='text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-md cursor-pointer' key={index}>{element.name}</p>
         )
       })
       ) : (

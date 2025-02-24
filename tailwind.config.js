@@ -17,9 +17,11 @@ module.exports = {
             400: '#84A98C',
           }
         }
-      }
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 }
 

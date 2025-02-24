@@ -11,7 +11,7 @@ function Actions({actions}) {
             </p>
         </div>
     )
-} else if (actions.actions === "No actions") {
+} else if (actions.actions === "No action") {
     return (
         <div className="flex flex-col justify-center items-center w-full h-full">
             <p className="text-md font-medium text-white text-center">
