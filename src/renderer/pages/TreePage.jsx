@@ -23,6 +23,7 @@ function TreePage() {
 
   const handleNodeClick = (nodeId) => {
     setSelectedNode(tree.nodesArray[nodeId - 1])
+    console.log(tree.nodesArray[nodeId - 1])
 
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
@@ -135,9 +136,15 @@ function TreePage() {
       <div className="absolute top-0 left-0 w-1/6 h-full z-10">
         <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections} />
       </div>
-      <div className="flex flex-row absolute top-0 left-[17%] p-4 text-white items-center">
+      {/* Tree Project Name */}
+      <div className="flex flex-row absolute top-0 left-[16%] p-4 text-white items-center">
         <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
         <p className='ml-2 font-semibold'>{projectName}</p>
+      </div>
+
+      {/* Node Selected */}
+      <div className="flex flex-row absolute top-[7%] left-[16%] p-4 text-sm text-neutral-200">
+        <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
       </div>
       <div className="absolute bottom-0 left-[17%] p-2 text-white items-center h-[25%]">
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />

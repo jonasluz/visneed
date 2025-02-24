@@ -53,11 +53,11 @@ function Home() {
       <div className="w-1/6 h-screen">
         <Sidebar />
       </div>
-      <div className="flex flex-col w-5/6">
+      <div className="flex flex-col w-5/6 h-screen">
         <NewTree />
         <p className="w-full self-center h-px my-4 bg-gradient-to-r from-[#2F3E46] from-5% via-[#CAD2C5] via-50% to-[#2F3E46] to-95%"></p>
-        <div className="flex flex-col h-full items-center overflow-y-auto">
         <p className="text-white font-semibold text-2xl self-start p-5 mx-10">My trees:</p>
+        <div className="flex flex-col h-full items-center overflow-y-auto">
           {trees.map((tree, key) => {
             return (
               <div className="w-[80%] relative mb-5" key={key}>
