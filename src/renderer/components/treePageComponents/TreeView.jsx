@@ -3,7 +3,7 @@ import { DataSet } from "vis-data/esnext";
 import { Network } from "vis-network/esnext";
 import "vis-network/styles/vis-network.css";
 
-const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
+const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgroundClick }) => {
   const visContainerRef = useRef(null);
   
   useEffect(() => {
@@ -51,18 +51,16 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
         },
       }))
     );
-
+    console.log(edgesArray)
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
-        label: edge.predicate == "No predicate" ? edge.predicate : edge.predicate.key + " " + edge.predicate.condition + " " + edge.predicate.value, // Adiciona um label se existir
+        label: edge.predicate == "No predicate" ? "" : edge.predicate.key + " " + edge.predicate.condition + " " + edge.predicate.value + "\n\n" + edge.actions, // Adiciona um label se existir
         font: {
           size: 16, // Tamanho da fonte do label da aresta
-          color: "#333", // Cor escura para melhor visibilidade
+          color: "#1E1E1E", // Cor escura para melhor visibilidade
           face: "Arial", // Fonte mais legível
-          align: 'top',
-          vadjust: -3,
-          background: undefined, // Fundo branco semi-transparente
+          align: 'middle',
           strokeWidth: 2, // Contorno para destacar o texto
           strokeColor: "#fff", // Cor do contorno branco
         },
@@ -80,8 +78,8 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
         hierarchical: {
           direction: "LR",
           sortMethod: "directed",
-          nodeSpacing: 150,
-          levelSeparation: 300,
+          nodeSpacing: 250,
+          levelSeparation: 350,
           shakeTowards: 'roots'
         },
       },
@@ -96,6 +94,10 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
         color: { color: "#84A98C" },
         width: 2,
         selectionWidth: 3,
+      },
+      interaction: {
+        hover: true,
+        hoverConnectedEdges: true
       },
       physics: { enabled: true },
     };
@@ -115,15 +117,33 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
           console.log("No clicado:",nodeData)
           console.log("No clicado (ID)", nodeId)
           onNodeClick(nodeId);
-        }
+          if(params.edges.length == 1) onEdgeClick(edges.get(params.edges[0]))
 
-        if (params.edges.length > 0) {
+        } else if (params.edges.length > 0) {
           const edgeId = params.edges[0];
           //console.log(params)
           const edgeData = edges.get(edgeId);
           console.log("Aresta clicada:", edgeData);
           onEdgeClick(edgeData)
+        } else {
+          onBackgroundClick()
         }
+      });
+
+      network.on("hoverNode", function (params) {
+        visContainerRef.current.style.cursor = "pointer"; 
+      });
+
+      network.on("hoverEdge", function (params) {
+        visContainerRef.current.style.cursor = "pointer"; 
+      });
+
+      network.on("blurNode", function (params) {
+        visContainerRef.current.style.cursor = "default";
+      });
+
+      network.on("blurEdge", function (params) {
+        visContainerRef.current.style.cursor = "default";
       });
 
       network.stabilize();

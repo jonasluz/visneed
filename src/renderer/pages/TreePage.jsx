@@ -23,7 +23,7 @@ function TreePage() {
 
   const handleNodeClick = (nodeId) => {
     setSelectedNode(tree.nodesArray[nodeId - 1])
-    console.log(tree.nodesArray[nodeId - 1])
+    // console.log(tree.nodesArray[nodeId - 1])
 
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
@@ -41,6 +41,13 @@ function TreePage() {
     console.log(edgeData)
     setSelectedPredicates(edgeData);
   };
+
+  const handleBakcgroundClick = () => {
+    setSelectedPredicates({});
+    setSelectedConnections({});
+    setSelectedNode({});
+    setSelectedOutcome();
+  }
 
   const handleImport = (data) => {
     setTree({
@@ -131,12 +138,16 @@ function TreePage() {
   return (
     <div className="relative w-full h-screen bg-background-black-100">
       <ToastContainer />
+      {/* Tree View */}
       <div className="w-full h-full flex justify-center items-center ">
-        <TreeView nodesArray={tree.nodesArray} edgesArray={tree.edgesArray} onNodeClick={handleNodeClick} onEdgeClick={handleEdgeClick} />
+        <TreeView nodesArray={tree.nodesArray} edgesArray={tree.edgesArray} onNodeClick={handleNodeClick} onEdgeClick={handleEdgeClick} onBackgroundClick={handleBakcgroundClick}/>
       </div>
+
+      {/* Left Side Bar */}
       <div className="absolute top-0 left-0 w-1/6 h-full z-10">
         <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections} />
       </div>
+
       {/* Tree Project Name */}
       <div className="flex flex-row absolute top-0 left-[16%] p-4 text-white items-center">
         <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
@@ -146,14 +157,6 @@ function TreePage() {
       {/* Node Selected */}
       <div className="flex flex-row absolute top-[7%] left-[16%] p-4 text-sm text-neutral-200">
         <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
-      </div>
-
-      <div className="flex absolute w-[20%] top-[12%] left-[16%] p-4 text-sm text-neutral-200">
-        <p className='ml-2 font-semibold'> Current Edges: 
-          {Object.values(selectedConnections).map((edge) => (
-            " " + edge.name + ", "
-          ))}
-        </p>
       </div>
 
       <div className="absolute bottom-0 left-[17%] p-2 text-white items-center h-[25%]">

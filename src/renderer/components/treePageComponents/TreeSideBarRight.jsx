@@ -4,7 +4,7 @@ import Predicates from "./sidebarRightComponents/Predicates";
 import Actions from "./sidebarRightComponents/Actions";
 
 function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
-  console.log(selectedOutcome)
+  console.log(selectedEdge)
   return (
     <>
       <div className="h-[10%] flex justify-center bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2">
