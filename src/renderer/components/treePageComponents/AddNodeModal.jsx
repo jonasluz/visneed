@@ -33,6 +33,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               {nodes.map(node => (
                 <option key={node.id} value={node.id}>{node.name}</option>
               ))}
+              {console.log()}
             </select>
           </div>
           

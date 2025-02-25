@@ -15,7 +15,6 @@ const createWindow = () => {
             preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
         },
     });
-    console.log(electron_1.screen.getPrimaryDisplay().size);
     // and load the index.html of the app.
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
     // Open the DevTools.

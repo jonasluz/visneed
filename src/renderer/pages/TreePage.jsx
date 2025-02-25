@@ -38,6 +38,7 @@ function TreePage() {
   };
 
   const handleEdgeClick = (edgeData) => {
+    console.log(edgeData)
     setSelectedPredicates(edgeData);
   };
 
@@ -141,11 +142,20 @@ function TreePage() {
         <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
         <p className='ml-2 font-semibold'>{projectName}</p>
       </div>
-
+      {console.log(selectedPredicates)}
       {/* Node Selected */}
       <div className="flex flex-row absolute top-[7%] left-[16%] p-4 text-sm text-neutral-200">
         <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
       </div>
+
+      <div className="flex absolute w-[20%] top-[12%] left-[16%] p-4 text-sm text-neutral-200">
+        <p className='ml-2 font-semibold'> Current Edges: 
+          {Object.values(selectedConnections).map((edge) => (
+            " " + edge.name + ", "
+          ))}
+        </p>
+      </div>
+
       <div className="absolute bottom-0 left-[17%] p-2 text-white items-center h-[25%]">
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
       </div>

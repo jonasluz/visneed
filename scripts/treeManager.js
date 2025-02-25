@@ -15,19 +15,15 @@ function createNewTree(treeName) {
   const treeId = Date.now(); // Gera um ID único
   const jsonFilePath = path.join(treesPath, `tree_${treeId}.json`);
   const newTree = { id: treeId, name: treeName, dictionary: [], nodes: [], lastModified: new Date().toISOString()};
-  console.log(newTree)
 
   fs.writeFileSync(jsonFilePath, JSON.stringify(newTree, null, 2), "utf-8");
   return treeId
 }
 
 function saveTreeData(treeId, data) {
-  console.log("Dados salvos")
   const filePath = path.join(treesPath, `tree_${treeId}.json`);
-  console.log(filePath)
   if (fs.existsSync(filePath)) {
     const currentData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    console.log(currentData)
     const updatedData = {
       ...currentData,
       dictionary: data.dictionary,  
@@ -39,7 +35,6 @@ function saveTreeData(treeId, data) {
 
 function loadTreeData(treeId) {
   const filePath = path.join(treesPath, `tree_${treeId}.json`);
-  console.log(filePath)
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
   }

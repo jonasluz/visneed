@@ -1,6 +1,5 @@
 import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
 const path = require("path");
-const { saveJsonData, loadJsonData } = require('../../scripts/fileManager');
 const { createNewTree, saveTreeData, loadTreeData, getSavedTrees } = require("../../scripts/treeManager");
 
 import fs from 'fs';
@@ -69,24 +68,6 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
-  }
-});
-
-ipcMain.handle('save-json', async (_event, data) => {
-  try {
-    saveJsonData(data);
-    return { success: true };
-  } catch (error) {
-    return { success: false, error: error.message };
-  }
-});
-
-ipcMain.handle('load-json', async () => {
-  try {
-    const data = loadJsonData();
-    return { success: true, data };
-  } catch (error) {
-    return { success: false, error: error.message };
   }
 });
 

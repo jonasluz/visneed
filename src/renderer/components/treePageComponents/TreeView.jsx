@@ -16,6 +16,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
       nodesArray.map((node) => ({
         ...node,
         label: node.name,
+        labelHighlightBold: true,
         shape: "circle",
         font: { 
           size: 17,
@@ -44,8 +45,8 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
           background: getColorByLevel(levels[node.id] || 0),
           border: "#333",
           highlight: {
-            background: "#D2E5FF",
-            border: "#2B7CE9",
+            background: "#CAD2C5",
+            border: "#84A98C",
           },
         },
       }))
@@ -54,12 +55,14 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
-        label: edge.label || "", // Adiciona um label se existir
+        label: edge.predicate == "No predicate" ? edge.predicate : edge.predicate.key + " " + edge.predicate.condition + " " + edge.predicate.value, // Adiciona um label se existir
         font: {
-          size: 14, // Tamanho da fonte do label da aresta
+          size: 16, // Tamanho da fonte do label da aresta
           color: "#333", // Cor escura para melhor visibilidade
           face: "Arial", // Fonte mais legível
-          background: "rgba(255, 255, 255, 0.8)", // Fundo branco semi-transparente
+          align: 'top',
+          vadjust: -3,
+          background: undefined, // Fundo branco semi-transparente
           strokeWidth: 2, // Contorno para destacar o texto
           strokeColor: "#fff", // Cor do contorno branco
         },
@@ -78,7 +81,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
           direction: "LR",
           sortMethod: "directed",
           nodeSpacing: 150,
-          levelSeparation: 250,
+          levelSeparation: 300,
           shakeTowards: 'roots'
         },
       },
@@ -86,7 +89,9 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick  }) => {
         borderWidth: 4,
       },
       edges: {
-        smooth: true,
+        smooth: {
+          type: 'continuous'
+        },
         
         color: { color: "#84A98C" },
         width: 2,
