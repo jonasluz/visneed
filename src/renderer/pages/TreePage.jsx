@@ -7,6 +7,9 @@ import NodeActions from '../components/treePageComponents/NodeActions';
 import { useParams } from "react-router-dom";
 
 import treeImage from '../../assets/decision-tree-image.png';
+import minimizeImage from '../../assets/minimize.png';
+import maximizeImage from '../../assets/maximize.png';
+
 //notifications
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +18,7 @@ function TreePage() {
   const { treeId } = useParams();
   const [tree, setTree] = useState({});
   const [projectName, setProjectName] = useState("");
+  const [minimized, setMinimized] = useState(true);
 
   const [selectedNode, setSelectedNode] = useState({});
   const [selectedConnections, setSelectedConnections] = useState({});
@@ -57,6 +61,10 @@ function TreePage() {
     });
     setProjectName(data.projectName);
   };
+
+  const handleMinimized = () => {
+    setMinimized(!minimized)
+  }
 
   const handleAddNode = (parentNodeId, newNodeName) => {
     console.log(parentNodeId)
@@ -144,25 +152,44 @@ function TreePage() {
       </div>
 
       {/* Left Side Bar */}
-      <div className="absolute top-0 left-0 w-1/6 h-full z-10">
+      <div className={`absolute top-0 left-0 w-1/6 h-full z-10 ${minimized ? 'visible' : 'hidden'}`}>
         <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections} />
       </div>
 
       {/* Tree Project Name */}
-      <div className="flex flex-row absolute top-0 left-[16%] p-4 text-white items-center">
-        <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
-        <p className='ml-2 font-semibold'>{projectName}</p>
-      </div>
-      {console.log(selectedPredicates)}
-      {/* Node Selected */}
-      <div className="flex flex-row absolute top-[7%] left-[16%] p-4 text-sm text-neutral-200">
+      <div className={`flex flex-col absolute top-0 ${minimized ? 'left-[16%]' : 'left-0'}`}>
+        <div className="flex flex-row p-4 text-white items-center">
+          <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
+          <p className='ml-2 font-semibold'>{projectName}</p>
+        </div>
+
+        <div className="flex flex-row p-4 text-sm text-neutral-200">
         <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
       </div>
 
-      <div className="absolute bottom-0 left-[17%] p-2 text-white items-center h-[25%]">
+      </div>
+      
+      {console.log(selectedPredicates)}
+      {/* Node Selected */}
+     
+      <div className={`absolute bottom-0 p-2 text-white items-center h-[25%] ${minimized ? 'left-[17%]' : 'left-0'}`}>
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
       </div>
-      <div className="absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none">
+
+      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? 'right-[30%]' : 'right-5'}`}>
+        <button 
+        className='bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200'
+        onClick={handleMinimized}>
+          {
+            minimized ?
+              <img src={minimizeImage} alt="" /> : 
+              <img src={maximizeImage} alt="" /> 
+          }
+        </button>
+      </div>
+      {console.log(minimized)}
+
+      <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? 'visible' : 'hidden'}`}>
         <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} />
       </div>
     </div>

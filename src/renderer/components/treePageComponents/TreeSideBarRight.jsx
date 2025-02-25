@@ -7,7 +7,7 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
   console.log(selectedEdge)
   return (
     <>
-      <div className="h-[10%] flex justify-center bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2">
+      <div className="h-[10%] flex justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">
         <button className="w-full h-full">
           <p className="text-2xl text-white font-semibold">Export Data</p>
         </button>

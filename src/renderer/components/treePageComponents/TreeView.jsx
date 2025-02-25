@@ -40,10 +40,10 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         scaling: {
           label: true 
         },
-        borderWidth: 2,
+        borderWidthSelected: 4,
         color: {
           background: getColorByLevel(levels[node.id] || 0),
-          border: "#333",
+          border: "#fff",
           highlight: {
             background: "#CAD2C5",
             border: "#84A98C",
@@ -83,9 +83,6 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           shakeTowards: 'roots'
         },
       },
-      nodes: {
-        borderWidth: 4,
-      },
       edges: {
         smooth: {
           type: 'continuous'
@@ -117,12 +114,15 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           console.log("No clicado:",nodeData)
           console.log("No clicado (ID)", nodeId)
           onNodeClick(nodeId);
-          if(params.edges.length == 1) onEdgeClick(edges.get(params.edges[0]))
 
-        } else if (params.edges.length > 0) {
+        } if (params.edges.length > 0) {
           const edgeId = params.edges[0];
-          //console.log(params)
-          const edgeData = edges.get(edgeId);
+          console.log(params.edges)
+          let edgeData = [];
+          params.edges.map((element) => {
+            edgeData.push(edges.get(element))
+          })
+          console.log(edgeData)
           console.log("Aresta clicada:", edgeData);
           onEdgeClick(edgeData)
         } else {
