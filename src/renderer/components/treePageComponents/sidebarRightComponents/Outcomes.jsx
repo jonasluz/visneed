@@ -1,7 +1,7 @@
 import React from "react";
 
 function Outcomes({ outcomes }) {
-  console.log(outcomes)
+  // console.log(outcomes)
 
   if(!outcomes) {
     return (
@@ -25,10 +25,9 @@ function Outcomes({ outcomes }) {
 
   return (
     <div className="h-full overflow-y-auto w-full">
-      {outcomes.map((outcome) => {
-        {console.log(outcome.key)}
+      {outcomes.map((outcome, index) => {
         return (
-          <p className="text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer w-full">
+          <p key={index} className="text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-lg cursor-pointer w-full">
             {outcome.key} {outcome.operator} {outcome.value}
           </p>
         )

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
-  const [parentNodeId, setParentNodeId] = useState('');
+  const [parentNodeId, setParentNodeId] = useState();
   const [newNodeName, setNewNodeName] = useState('');
   const [predicateInfo, setPredicateInfo] = useState({
     key: '',
@@ -14,20 +16,32 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
     operator: '',
     value: '',
   })
+  const [actionInfo, setActionInfo] = useState({
+    key: '',
+    operator: '',
+    value: '',
+  })
 
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    onConfirm(parentNodeId, newNodeName, predicateInfo);
-    onClose();
+    if(!newNodeName) {
+      toast.error("Node name is empty")
+    } else {
+      onConfirm(parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo);
+      onClose();
+    }
+    
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-background-green-100 w-[60%] h-[75%] p-6 rounded-lg overflow-y-auto">
+      <div className="bg-background-green-100 w-[60%] h-[75%] p-6 rounded-lg overflow-y-auto scrollbar-none">
+        {/* Title */}
         <h2 className="text-xl font-bold mb-4">Add a new Node</h2>
         <div className='flex flex-row justify-between'>
           <div className="mb-4 w-[40%]">
+            {/* Parent node input */}
             <label className="block text-sm font-medium mb-2">Parent Node:</label>
             <select
               className="w-full p-2 border rounded text-black"
@@ -42,6 +56,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             </select>
           </div>
           
+          {/* Node name input */}
           <div className="mb-6 w-[55%]">
             <label className="block text-sm font-medium mb-2">Node name:</label>
             <input
@@ -56,7 +71,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
         {/* Outcome input */}
         <div className="mb-4 w-full">
           <label className='block text-lg font-semibold mb-2'>Outcomes:</label>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between px-4">
             <div className='w-[45%]'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
@@ -93,14 +108,14 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                   onChange={(e) => setOutcomeInfo({ ...outcomeInfo, value: e.target.value })}/>
             </div>
           </div>
-          <label className='text-sm text-red-700'>Blank outcome = "No outcome"</label>
+          <label className='text-sm text-red-700 px-4'>Blank outcome = "No outcome"</label>
 
         </div>
         
         {/* Predicate input */}
         <div className="mb-4 w-full">
           <label className='block text-lg font-semibold mb-2'>Predicate:</label>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between px-4">
             <div className='w-[40%]'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
@@ -134,7 +149,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                   value={predicateInfo.value}
                   onChange={(e) => setPredicateInfo({ ...predicateInfo, value: e.target.value })}/>
             </div>
-            <div className='w-[10%]'>
+            <div className='w-[11%]'>
               <label className="block text-sm font-medium mb-2">Log. OP</label>
               <select
               className="w-full p-2 border rounded text-black"
@@ -145,8 +160,53 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               </select>
             </div>
           </div>
-          <label className='text-sm text-red-700'>Blank predicate = "No predicate"</label>
+          <label className='text-sm text-red-700 px-4'>Blank predicate = "No predicate"</label>
         </div>
+
+        {/* Action input */}
+        <div className="mb-4 w-full">
+          <label className='block text-lg font-semibold mb-2'>Actions:</label>
+          <div className="flex flex-row justify-between px-4">
+            <div className='w-[45%]'>
+              <label className="block text-sm font-medium mb-2">Key</label>
+              <input
+                placeholder='Ex: freedom'
+                type="text"
+                className="w-full p-2 border rounded text-black"
+                value={actionInfo.key}
+                onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}
+              />
+            </div>
+            <div className='w-[8%]'>
+              <label className="block text-sm font-medium mb-2">Operator</label>
+              <select
+              className="w-full p-2 border rounded text-black"
+              value={actionInfo.operator}
+              onChange={(e) => setActionInfo({ ...actionInfo, operator: e.target.value })}>
+                <option value="=">=</option>
+                <option value="!=">!=</option>
+                <option value="<">&lt;</option>
+                <option value=">">&gt;</option>
+                <option value="<=">&lt;=</option>
+                <option value=">=">&gt;=</option>
+                <option value="+">+</option>
+                <option value="-">-</option>
+              </select>
+            </div>
+            <div className='w-[40%]'>
+              <label className="block text-sm font-medium mb-2">Value</label>
+                <input
+                  placeholder='Ex: True'
+                  type="text"
+                  className="w-full p-2 border rounded text-black"
+                  value={actionInfo.value}
+                  onChange={(e) => setActionInfo({ ...actionInfo, value: e.target.value })}/>
+            </div>
+          </div>
+          <label className='text-sm text-red-700 px-4'>Blank action = "No actions"</label>
+
+        </div>
+
         <div className="flex justify-end">
           <button
             className="bg-red-800 hover:brightness-50 ease-in-out duration-100 text-white px-4 py-2 rounded mr-2"

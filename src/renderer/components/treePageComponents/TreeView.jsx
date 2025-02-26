@@ -13,60 +13,65 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
     const levels = calculateLevels(nodesArray, edgesArray);
 
     const nodes = new DataSet(
-      nodesArray.map((node) => ({
-        ...node,
-        label: node.name,
-        labelHighlightBold: true,
-        shape: "circle",
-        font: { 
-          size: 17,
-          align: "center",
-          vadjust: 0,
-          color: "#fff", 
-          bold: true, 
-          face: "Arial",
-          strokeWidth: 3, 
-          strokeColor: "#333",
-        },
-        heightConstraint: {
-          minimum: 70,
-          maximum: 70,
-          valign: 'middle',
-        },
-        widthConstraint: {
-          minimum: 70,
-          maximum: 70
-        },
-        scaling: {
-          label: true 
-        },
-        borderWidthSelected: 4,
-        color: {
-          background: getColorByLevel(levels[node.id] || 0),
-          border: "#fff",
-          highlight: {
-            background: "#CAD2C5",
-            border: "#84A98C",
+      nodesArray.map((node) => {
+        const outcomeText = Array.isArray(node.outcomes) ? node.outcomes.map((outcome) => `${outcome.key} ${outcome.operator} ${outcome.value}`).join("\n") : node.outcomes
+    
+        return {
+          ...node,
+          label: node.name, 
+          title: `Outcome:\n${outcomeText}`, 
+          labelHighlightBold: true,
+          shape: "circle",
+          font: { 
+            size: 17,
+            align: "center",
+            vadjust: 0,
+            color: "#fff", 
+            bold: true, 
+            face: "Arial",
+            strokeWidth: 3, 
+            strokeColor: "#333",
           },
-          hover: {
-            background: "#FFD700",
-            border: "#FFA500", 
-          }
-        },
-      }))
+          heightConstraint: {
+            minimum: 70,
+            maximum: 70,
+            valign: 'middle',
+          },
+          widthConstraint: {
+            minimum: 70,
+            maximum: 70
+          },
+          scaling: {
+            label: true 
+          },
+          borderWidthSelected: 4,
+          color: {
+            background: getColorByLevel(levels[node.id] || 0),
+            border: "#fff",
+            highlight: {
+              background: "#CAD2C5",
+              border: "#84A98C",
+            },
+            hover: {
+              background: "#FFD700",
+              border: "#FFA500", 
+            }
+          },
+        };
+      })
     );
 
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
-        label: edge.predicate == "No predicate" ? "" : edge.predicate.key + " " + edge.predicate.condition + " " + edge.predicate.value + "\n\n" + edge.actions, // Adiciona um label se existir
+        label: edge.predicate == "No predicate" ? "" : edge.predicate.key + " " + edge.predicate.condition + " " + edge.predicate.value + "\n\n" + edge.actions, 
         font: {
-          size: 16, // Tamanho da fonte do label da aresta
-          color: "#1E1E1E", // Cor escura para melhor visibilidade
-          face: "Arial", // Fonte mais legível
+          size: 16, 
+          color: "#1E1E1E",
+          face: "Arial",
           align: 'middle',
-          strokeWidth: 2, // Contorno para destacar o texto
-          strokeColor: "#fff", // Cor do contorno branco
+          strokeWidth: 2, 
+          strokeColor: "#fff", 
         },
         width: 2,
         color: {
@@ -83,7 +88,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         hierarchical: {
           direction: "LR",
           sortMethod: "directed",
-          nodeSpacing: 500,
+          nodeSpacing: 150,
           levelSeparation: 500,
           shakeTowards: 'roots'
         },
@@ -116,17 +121,13 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           const nodeId = params.nodes[0];
           const nodeData = nodes.get(nodeId); 
           console.log("No clicado:",nodeData)
-          console.log("No clicado (ID)", nodeId)
           onNodeClick(nodeId);
 
         } if (params.edges.length > 0) {
-          const edgeId = params.edges[0];
-          console.log(params.edges)
           let edgeData = [];
           params.edges.map((element) => {
             edgeData.push(edges.get(element))
           })
-          console.log(edgeData)
           console.log("Aresta clicada:", edgeData);
           onEdgeClick(edgeData)
         } else {

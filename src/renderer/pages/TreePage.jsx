@@ -36,13 +36,12 @@ function TreePage() {
         return targetNode ? { id: targetNode.id, name: targetNode.name, outcome: targetNode.outcome } : null;
       })
       .filter(Boolean);
-      console.log(tree.nodesArray[nodeId - 1].outcomes)
+
     setSelectedConnections(connectedNodes);
     setSelectedOutcome(tree.nodesArray[nodeId - 1].outcomes);
   };
 
   const handleEdgeClick = (edgeData) => {
-    console.log(edgeData)
     setSelectedPredicates(edgeData);
   };
 
@@ -66,11 +65,11 @@ function TreePage() {
     setMinimized(!minimized)
   }
 
-  const handleAddNode = (parentNodeId, newNodeName, predicateInfo) => {
-    console.log(parentNodeId)
-    if ((!parentNodeId || !newNodeName) && tree.nodesArray > 0) {
-      toast.error("Por favor, selecione um nó pai e insira um nome para o novo nó.");
-      return;
+  const handleAddNode = (parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo) => {
+    if (!parentNodeId) {
+      toast.success(`New tree created with root ${newNodeName}`);
+    } else {
+      toast.success(`Nó ${newNodeName}, criado com sucesso!`); 
     }
 
     const newNodeId = tree.nodesArray.length + 1;
@@ -79,7 +78,7 @@ function TreePage() {
       id: newNodeId,
       name: newNodeName,
       connections: [],
-      outcomes: "No outcome",
+      outcomes: [{key: outcomeInfo.key, operator: outcomeInfo.operator, value: outcomeInfo.value}],
     };
 
     console.log(newNode)
@@ -87,15 +86,13 @@ function TreePage() {
     // Criar a nova conexão para o nó pai
     const newConnection = {
       name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
-      targetId: newNodeId, // ID do nó filho
+      targetId: newNodeId,
       gate: {
         predicates: [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}], 
-        actions: [], 
+        actions: [{key: actionInfo.key, operator: actionInfo.operator, value: actionInfo.value}], 
       },
     };
 
-    console.log(newConnection)
-    // Att the parent node with the new connection
     const updatedNodesArray = tree.nodesArray.map((node) => {
       if (node.id === parseInt(parentNodeId)) {
         return {
@@ -121,7 +118,6 @@ function TreePage() {
     }
 
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
-    console.log(updatedEdgesArray)
     const updatedDictionary = [...tree.dictionary, newDictionaryElem];
 
     setTree({
@@ -141,8 +137,7 @@ function TreePage() {
       projectName: projectName
     };
 
-    window.treeAPI.saveTree(treeId, updatedData);
-    toast.success(`Nó ${newNodeName}, criado com sucesso!`);  
+    window.treeAPI.saveTree(treeId, updatedData); 
   };
 
   return (
@@ -166,11 +161,13 @@ function TreePage() {
         </div>
 
         <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
-          <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
+          <p className='ml-2 font-semibold'>Current Node: </p>
+          <p className='ml-2 font-semibold text-background-green-400'>{selectedNode.name}</p>
         </div>
 
-        <div className="flex flex-row px-4 py-1  text-sm text-neutral-200">
-          <p className='ml-2 font-semibold'>Current connections: {selectedConnections.length} </p>
+        <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
+          <p className='ml-2 font-semibold'>Current connections: </p>
+          <p className='ml-2 font-semibold text-background-green-400'>{selectedConnections.length}</p>
         </div>
       </div>
       

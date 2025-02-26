@@ -12,10 +12,10 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   useEffect(() => {
     async function loadStoredJson() {
       const response = await window.treeAPI.loadTree(treeId);
-      console.log(response)
+      console.log("Get response:",response)
       if (response) {
         const transformedData = transformTreeData(response);
-        console.log(transformedData)
+        console.log("Tranform response to visualization:",transformedData)
         onImport(transformedData);
       }
     }
@@ -49,7 +49,6 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
   };
   
   function transformTreeData(data) {
-    console.log(data)
     const projectName = data.name 
 
     const dictionary = data.dictionary

@@ -29,7 +29,7 @@ function NewTree() {
         />
         <button
           onClick={handleClick}
-          className="flex flex-row bg-background-green-300 p-3 rounded-2xl ml-5 items-center"
+          className="flex flex-row bg-background-green-300 hover:brightness-50 duration-150 ease-in-out p-3 rounded-2xl ml-5 items-center"
         >
           <img src={addIcon} alt="" className="object-cover w-4 h-4 mr-2" />
           <p className="text-lg font-semibold">Tree</p>
