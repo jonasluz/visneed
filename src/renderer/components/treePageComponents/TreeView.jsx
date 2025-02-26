@@ -48,10 +48,14 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
             background: "#CAD2C5",
             border: "#84A98C",
           },
+          hover: {
+            background: "#FFD700",
+            border: "#FFA500", 
+          }
         },
       }))
     );
-    console.log(edgesArray)
+
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
@@ -68,6 +72,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         color: {
           color: "#84A98C",
           highlight: "#CAD2C5", 
+          hover: "#FFD700",
         },
         arrows: { to: { enabled: false, type: "circle" } },
       } ))
@@ -78,8 +83,8 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         hierarchical: {
           direction: "LR",
           sortMethod: "directed",
-          nodeSpacing: 250,
-          levelSeparation: 350,
+          nodeSpacing: 500,
+          levelSeparation: 500,
           shakeTowards: 'roots'
         },
       },
@@ -87,7 +92,6 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         smooth: {
           type: 'continuous'
         },
-        
         color: { color: "#84A98C" },
         width: 2,
         selectionWidth: 3,

@@ -5,8 +5,8 @@ import addIcon from "../../../assets/add-symbol.png";
 function NodeActions({ nodes, onAddNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddNode = (parentNodeId, newNodeName) => {
-    onAddNode(parentNodeId, newNodeName);
+  const handleAddNode = (parentNodeId, newNodeName, predicateInfo) => {
+    onAddNode(parentNodeId, newNodeName, predicateInfo);
   };
 
   return (

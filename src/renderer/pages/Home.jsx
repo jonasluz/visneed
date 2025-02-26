@@ -30,7 +30,7 @@ function Home() {
   const [trees, setTrees] = useState([]);
 
   const handleClickTree = (treeId) => {
-    console.log(treeId);
+    // console.log(treeId);
     navigate(`/tree-view/${treeId}`);
   };
 
@@ -38,7 +38,6 @@ function Home() {
     const fetchTrees = async () => {
       try {
         const response = await window.treeAPI.getSavedTrees();
-        console.log(response);
         setTrees(response);
       } catch (error) {
         console.error("Erro ao buscar as árvores salvas:", error);
@@ -86,7 +85,7 @@ function Home() {
                       Last modified: {formatTimeAgo(tree.lastModified)}
                     </p>
                   </div>
-                  {console.log(tree)}
+                  {/* {console.log(tree)} */}
                   <div className="flex flex-row justify-between mb-2">
                     <div className="flex flex-col justify-start items-start px-3">
                       <p className="text-white font-semibold text-md capitalize my-2">

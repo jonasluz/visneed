@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
   const [parentNodeId, setParentNodeId] = useState('');
@@ -9,17 +9,22 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
     condition: '=',
     logicalOperator: 'OR'
   });
+  const [outcomeInfo, setOutcomeInfo] = useState({
+    key: '',
+    operator: '',
+    value: '',
+  })
 
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    onConfirm(parentNodeId, newNodeName);
+    onConfirm(parentNodeId, newNodeName, predicateInfo);
     onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-background-green-100 w-[60%] h-[75%] p-6 rounded-lg">
+      <div className="bg-background-green-100 w-[60%] h-[75%] p-6 rounded-lg overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">Add a new Node</h2>
         <div className='flex flex-row justify-between'>
           <div className="mb-4 w-[40%]">
@@ -48,6 +53,49 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
           </div>
         </div>
         
+        {/* Outcome input */}
+        <div className="mb-4 w-full">
+          <label className='block text-lg font-semibold mb-2'>Outcomes:</label>
+          <div className="flex flex-row justify-between">
+            <div className='w-[45%]'>
+              <label className="block text-sm font-medium mb-2">Key</label>
+              <input
+                placeholder='Ex: hp improve'
+                type="text"
+                className="w-full p-2 border rounded text-black"
+                value={outcomeInfo.key}
+                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, key: e.target.value })}
+              />
+            </div>
+            <div className='w-[8%]'>
+              <label className="block text-sm font-medium mb-2">Operator</label>
+              <select
+              className="w-full p-2 border rounded text-black"
+              value={outcomeInfo.operator}
+              onChange={(e) => setOutcomeInfo({ ...outcomeInfo, operator: e.target.value })}>
+                <option value="=">=</option>
+                <option value="!=">!=</option>
+                <option value="<">&lt;</option>
+                <option value=">">&gt;</option>
+                <option value="<=">&lt;=</option>
+                <option value=">=">&gt;=</option>
+                <option value="+">+</option>
+                <option value="-">-</option>
+              </select>
+            </div>
+            <div className='w-[40%]'>
+              <label className="block text-sm font-medium mb-2">Value</label>
+                <input
+                  placeholder='Ex: 5'
+                  type="text"
+                  className="w-full p-2 border rounded text-black"
+                  value={outcomeInfo.value}
+                  onChange={(e) => setOutcomeInfo({ ...outcomeInfo, value: e.target.value })}/>
+            </div>
+          </div>
+          <label className='text-sm text-red-700'>Blank outcome = "No outcome"</label>
+
+        </div>
         
         {/* Predicate input */}
         <div className="mb-4 w-full">

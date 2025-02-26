@@ -27,7 +27,6 @@ function TreePage() {
 
   const handleNodeClick = (nodeId) => {
     setSelectedNode(tree.nodesArray[nodeId - 1])
-    // console.log(tree.nodesArray[nodeId - 1])
 
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
@@ -37,8 +36,9 @@ function TreePage() {
         return targetNode ? { id: targetNode.id, name: targetNode.name, outcome: targetNode.outcome } : null;
       })
       .filter(Boolean);
+      console.log(tree.nodesArray[nodeId - 1].outcomes)
     setSelectedConnections(connectedNodes);
-    setSelectedOutcome(tree.nodesArray[nodeId - 1].outcome);
+    setSelectedOutcome(tree.nodesArray[nodeId - 1].outcomes);
   };
 
   const handleEdgeClick = (edgeData) => {
@@ -66,9 +66,9 @@ function TreePage() {
     setMinimized(!minimized)
   }
 
-  const handleAddNode = (parentNodeId, newNodeName) => {
+  const handleAddNode = (parentNodeId, newNodeName, predicateInfo) => {
     console.log(parentNodeId)
-    if (!parentNodeId || !newNodeName) {
+    if ((!parentNodeId || !newNodeName) && tree.nodesArray > 0) {
       toast.error("Por favor, selecione um nó pai e insira um nome para o novo nó.");
       return;
     }
@@ -78,8 +78,8 @@ function TreePage() {
     const newNode = {
       id: newNodeId,
       name: newNodeName,
-      outcome: "No outcome",
       connections: [],
+      outcomes: "No outcome",
     };
 
     console.log(newNode)
@@ -89,28 +89,29 @@ function TreePage() {
       name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
       targetId: newNodeId, // ID do nó filho
       gate: {
-        predicates: [], // Predicados vazios
-        actions: [], // Ações vazias
+        predicates: [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}], 
+        actions: [], 
       },
     };
 
-  // Att the parent node with the new connection
-  const updatedNodesArray = tree.nodesArray.map((node) => {
-    if (node.id === parseInt(parentNodeId)) {
-      return {
-        ...node,
-        connections: [...node.connections, newConnection], // Adiciona a nova conexão
-      };
-    }
-    return node;
-  });
+    console.log(newConnection)
+    // Att the parent node with the new connection
+    const updatedNodesArray = tree.nodesArray.map((node) => {
+      if (node.id === parseInt(parentNodeId)) {
+        return {
+          ...node,
+          connections: [...node.connections, newConnection], // Adiciona a nova conexão
+        };
+      }
+      return node;
+    });
 
-  updatedNodesArray.push(newNode);
+    updatedNodesArray.push(newNode);
 
     const newEdge = {
       from: parseInt(parentNodeId),
       to: newNodeId,
-      predicate: "No predicate",
+      predicate: {key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator},
       actions: "No action"
     };
 
@@ -120,6 +121,7 @@ function TreePage() {
     }
 
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
+    console.log(updatedEdgesArray)
     const updatedDictionary = [...tree.dictionary, newDictionaryElem];
 
     setTree({
@@ -157,26 +159,27 @@ function TreePage() {
       </div>
 
       {/* Tree Project Name */}
-      <div className={`flex flex-col absolute top-0 ${minimized ? 'left-[16%]' : 'left-0'}`}>
+      <div className={`flex flex-col absolute top-0 ${minimized ? 'left-[17%]' : 'left-0'}`}>
         <div className="flex flex-row p-4 text-white items-center">
           <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
           <p className='ml-2 font-semibold'>{projectName}</p>
         </div>
 
-        <div className="flex flex-row p-4 text-sm text-neutral-200">
-        <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
-      </div>
+        <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
+          <p className='ml-2 font-semibold'>Current Node:  {selectedNode.name}</p>
+        </div>
 
+        <div className="flex flex-row px-4 py-1  text-sm text-neutral-200">
+          <p className='ml-2 font-semibold'>Current connections: {selectedConnections.length} </p>
+        </div>
       </div>
       
-      {console.log(selectedPredicates)}
       {/* Node Selected */}
-     
-      <div className={`absolute bottom-0 p-2 text-white items-center h-[25%] ${minimized ? 'left-[17%]' : 'left-0'}`}>
+      <div className={`absolute bottom-0 p-2 text-white items-center h-[25%] ${minimized ? 'left-[17%]' : 'left-5'}`}>
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
       </div>
 
-      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? 'right-[30%]' : 'right-5'}`}>
+      <div className={`absolute bottom-5 p-2 text-white items-center ${minimized ? 'right-[30%]' : 'right-5'}`}>
         <button 
         className='bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200'
         onClick={handleMinimized}>
@@ -187,7 +190,6 @@ function TreePage() {
           }
         </button>
       </div>
-      {console.log(minimized)}
 
       <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? 'visible' : 'hidden'}`}>
         <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} />

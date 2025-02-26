@@ -4,7 +4,7 @@ import Predicates from "./sidebarRightComponents/Predicates";
 import Actions from "./sidebarRightComponents/Actions";
 
 function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
-  console.log(selectedEdge)
+  console.log(selectedOutcome)
   return (
     <>
       <div className="h-[10%] flex justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">
@@ -18,7 +18,7 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes }) {
             <Outcomes outcomes={selectedOutcome} />
         </div>
       </div>
-      <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 overflow-auto">
+      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 overflow-auto">
         <p className="text-xl font-bold text-white px-5 py-5">Predicate</p>
           <Predicates predicates={selectedEdge} nodes={nodes} />
       </div>

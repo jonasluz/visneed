@@ -55,10 +55,10 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
     const dictionary = data.dictionary
     
     const nodesArray = data.nodes.map((node) => ({
-      connections: node.connections,
       id: node.id,
-      name: node.name, // Usamos o nome como label do nó
-      outcome: Array.isArray(node.outcomes) && node.outcomes.length > 0? node.outcomes[0]?.key : "No outcome"
+      name: node.name,
+      connections: node.connections,
+      outcomes: Array.isArray(node.outcomes) && node.outcomes.length > 0 ? node.outcomes : "No outcome"
     }));
   
     const edgesArray = [];
