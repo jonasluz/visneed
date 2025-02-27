@@ -172,11 +172,11 @@ function TreePage() {
       </div>
       
       {/* Node Selected */}
-      <div className={`absolute bottom-0 p-2 text-white items-center h-[25%] ${minimized ? 'left-[17%]' : 'left-5'}`}>
+      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? 'left-[17%]' : 'left-5'}`}>
         <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
       </div>
 
-      <div className={`absolute bottom-5 p-2 text-white items-center ${minimized ? 'right-[30%]' : 'right-5'}`}>
+      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? 'right-[30%]' : 'right-5'}`}>
         <button 
         className='bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200'
         onClick={handleMinimized}>
@@ -189,7 +189,7 @@ function TreePage() {
       </div>
 
       <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? 'visible' : 'hidden'}`}>
-        <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} />
+        <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} treeId={treeId} treeName={projectName}/>
       </div>
     </div>
   );

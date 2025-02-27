@@ -51,4 +51,17 @@ function getSavedTrees() {
   });
 }
 
-module.exports = { createNewTree, saveTreeData, loadTreeData, getSavedTrees };
+function exportTree(treeId) {
+  const filePath = path.join(treesPath, `tree_${treeId}.json`);
+  if (fs.existsSync(filePath)) {
+    const treeData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    const exportData = {
+      dictionary: treeData.dictionary,
+      nodes: treeData.nodes,
+    };
+    return exportData; // Retorna apenas os campos necessários
+  }
+  return null; // Retorna null se o arquivo não existir
+}
+
+module.exports = { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree };

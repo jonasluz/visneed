@@ -1,6 +1,6 @@
 import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
 const path = require("path");
-const { createNewTree, saveTreeData, loadTreeData, getSavedTrees } = require("../../scripts/treeManager");
+const { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree } = require("../../scripts/treeManager");
 
 import fs from 'fs';
 
@@ -89,3 +89,8 @@ ipcMain.handle("load-tree", async (_event, treeId) => {
 ipcMain.handle("list-tree", async (_) => {
   return getSavedTrees();
 });
+
+ipcMain.handle("export-tree", async (_, treeId) => {
+  console.log("aqui")
+  return exportTree(treeId);
+})
