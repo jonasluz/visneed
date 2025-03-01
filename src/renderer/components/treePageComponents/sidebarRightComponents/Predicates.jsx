@@ -9,7 +9,7 @@ function Predicates({ predicates, nodes }) {
                 </p>
             </div>
         )
-    } else if (predicates[0].predicate === "No predicate") {
+    } else if (predicates[0].predicate === "No predicate" && predicates.length == 1) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
                 <p className="text-md font-medium text-white text-center">

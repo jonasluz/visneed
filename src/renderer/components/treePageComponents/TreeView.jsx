@@ -64,7 +64,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
-        label: edge.predicate == "No predicate" ? "" : edge.predicate.key + " " + edge.predicate.condition + " " + edge.predicate.value + "\n\n" + edge.actions, 
+        label: edge.predicate == "No predicate" ? "\n\n" : `${edge.predicate.key} ${edge.predicate.condition} ${edge.predicate.value} \n\n` + (edge.actions == "No action" ? " " : `${edge.actions.key} ${edge.actions.operator} ${edge.actions.value}`), 
         font: {
           size: 16, 
           color: "#1E1E1E",

@@ -91,6 +91,5 @@ ipcMain.handle("list-tree", async (_) => {
 });
 
 ipcMain.handle("export-tree", async (_, treeId) => {
-  console.log("aqui")
   return exportTree(treeId);
 })

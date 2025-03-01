@@ -1,8 +1,6 @@
 import React from "react";
 
 function Outcomes({ outcomes }) {
-  // console.log(outcomes)
-
   if(!outcomes) {
     return (
       <div className="flex flex-col justify-center items-center w-full h-full">

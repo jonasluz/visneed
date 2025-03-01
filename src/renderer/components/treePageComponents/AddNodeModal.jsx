@@ -13,12 +13,12 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
   });
   const [outcomeInfo, setOutcomeInfo] = useState({
     key: '',
-    operator: '',
+    operator: '=',
     value: '',
   })
   const [actionInfo, setActionInfo] = useState({
     key: '',
-    operator: '',
+    operator: '=',
     value: '',
   })
 

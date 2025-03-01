@@ -2,13 +2,15 @@ import React from "react";
 import Outcomes from "./sidebarRightComponents/Outcomes";
 import Predicates from "./sidebarRightComponents/Predicates";
 import Actions from "./sidebarRightComponents/Actions";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId,treeName}) {
+function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeName}) {
+
+  // Export the tree made as a json file
   const handleExport = async () => {
     try {
-      // Chama a função exportTree do treeAPI
       const exportData = await window.treeAPI.exportTree(treeId);
-      console.log()
 
       if (exportData) {
         // Converte o objeto para uma string JSON
@@ -24,10 +26,10 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId,treeNam
         link.download = `${treeName}.json`; // Nome do arquivo
         link.click();
 
-        // Libera o objeto URL
         URL.revokeObjectURL(url);
+        toast.success("Tree converted into a JSON with success!");
       } else {
-        console.error("Erro ao exportar: Árvore não encontrada.");
+        toast.error("Error: Tree not found.");
       }
     } catch (error) {
       console.error("Erro ao exportar a árvore:", error);
@@ -49,13 +51,11 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId,treeNam
       </div>
       <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 overflow-auto">
         <p className="text-xl font-bold text-white px-5 py-5">Predicate</p>
-          <Predicates predicates={selectedEdge} nodes={nodes} />
+        <Predicates predicates={selectedEdge} nodes={nodes} />
       </div>
-      <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">
-        <p className="text-xl font-bold text-white">Actions</p>
-        <div className="flex justify-center items-center h-full">
-            <Actions actions={selectedEdge}/>
-        </div>
+      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 overflow-auto">
+        <p className="text-xl font-bold text-white px-5 py-5">Actions</p>
+        <Actions edge={selectedEdge} nodes={nodes}/>
       </div>
     </>
   );

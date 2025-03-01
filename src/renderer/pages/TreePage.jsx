@@ -13,6 +13,7 @@ import maximizeImage from '../../assets/maximize.png';
 //notifications
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Dock from '../components/Dock';
 
 function TreePage() {
   const { treeId } = useParams();
@@ -23,8 +24,10 @@ function TreePage() {
   const [selectedNode, setSelectedNode] = useState({});
   const [selectedConnections, setSelectedConnections] = useState({});
   const [selectedOutcome, setSelectedOutcome] = useState();
+  const [selectedAction, setSelectedAction] = useState({});
   const [selectedPredicates, setSelectedPredicates] = useState({});
 
+  // When clicked on a node
   const handleNodeClick = (nodeId) => {
     setSelectedNode(tree.nodesArray[nodeId - 1])
 
@@ -41,10 +44,12 @@ function TreePage() {
     setSelectedOutcome(tree.nodesArray[nodeId - 1].outcomes);
   };
 
+  // When clicked on a edge
   const handleEdgeClick = (edgeData) => {
     setSelectedPredicates(edgeData);
   };
 
+  // When clicked out of a node or edge
   const handleBakcgroundClick = () => {
     setSelectedPredicates({});
     setSelectedConnections({});
@@ -52,6 +57,7 @@ function TreePage() {
     setSelectedOutcome();
   }
 
+  // Import a json to the tree view
   const handleImport = (data) => {
     setTree({
       nodesArray: data.nodesArray,
@@ -61,10 +67,12 @@ function TreePage() {
     setProjectName(data.projectName);
   };
 
+  // Minimize or maximize the SideBars
   const handleMinimized = () => {
     setMinimized(!minimized)
   }
 
+  // Add a new node 
   const handleAddNode = (parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo) => {
     if (!parentNodeId) {
       toast.success(`New tree created with root ${newNodeName}`);
@@ -142,6 +150,7 @@ function TreePage() {
 
   return (
     <div className="relative w-full h-screen bg-background-black-100">
+      <Dock />
       <ToastContainer />
       {/* Tree View */}
       <div className="w-full h-full flex justify-center items-center ">
