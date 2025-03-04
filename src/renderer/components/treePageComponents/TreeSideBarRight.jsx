@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeName}) {
-
   // Export the tree made as a json file
   const handleExport = async () => {
     try {
@@ -35,7 +34,6 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
       console.error("Erro ao exportar a árvore:", error);
     }
   };
-
   return (
     <>
       <div className="h-[10%] flex justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">

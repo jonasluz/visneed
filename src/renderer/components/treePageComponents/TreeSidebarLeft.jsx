@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import User from "../homePageComponents/User";
 import Nodes from "./sidebarLeftComponents/Nodes"
 import Connections from "./sidebarLeftComponents/Connections";
 

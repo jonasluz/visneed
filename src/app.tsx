@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tree-view/:treeId" element={<TreePage />} /> 
-        <Route path="/dictionary" element={<Dictionary />}/>
+        <Route path="/dictionary/:treeId/:treeName" element={<Dictionary />}/>
       </Routes>
     </Router>
   );

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 import TreeSidebarLeft from '../components/treePageComponents/TreeSidebarLeft';
 import TreeSideBarRight from '../components/treePageComponents/TreeSideBarRight';
 import TreeView from '../components/treePageComponents/TreeView';
@@ -23,13 +22,13 @@ function TreePage() {
 
   const [selectedNode, setSelectedNode] = useState({});
   const [selectedConnections, setSelectedConnections] = useState({});
-  const [selectedOutcome, setSelectedOutcome] = useState();
-  const [selectedAction, setSelectedAction] = useState({});
+  const [selectedOutcome, setSelectedOutcome] = useState([]);
   const [selectedPredicates, setSelectedPredicates] = useState({});
-
+  
   // When clicked on a node
   const handleNodeClick = (nodeId) => {
     setSelectedNode(tree.nodesArray[nodeId - 1])
+    setSelectedOutcome(tree.nodesArray[nodeId - 1]?.outcomes);
 
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
@@ -41,8 +40,13 @@ function TreePage() {
       .filter(Boolean);
 
     setSelectedConnections(connectedNodes);
-    setSelectedOutcome(tree.nodesArray[nodeId - 1].outcomes);
+    console.log(tree.nodesArray[nodeId - 1].outcomes)
+    testes()
   };
+
+  const testes = () => {
+    console.log(selectedOutcome)
+  }
 
   // When clicked on a edge
   const handleEdgeClick = (edgeData) => {
@@ -55,6 +59,7 @@ function TreePage() {
     setSelectedConnections({});
     setSelectedNode({});
     setSelectedOutcome();
+    console.log("clicked on background")
   }
 
   // Import a json to the tree view
@@ -147,10 +152,9 @@ function TreePage() {
 
     window.treeAPI.saveTree(treeId, updatedData); 
   };
-
   return (
     <div className="relative w-full h-screen bg-background-black-100">
-      <Dock />
+      <Dock currentPage={'treePage'} treeId={treeId} treeName={projectName}/>
       <ToastContainer />
       {/* Tree View */}
       <div className="w-full h-full flex justify-center items-center ">

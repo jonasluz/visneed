@@ -1,5 +1,5 @@
 import React from "react";
-import NewTree from "../../components/homePageComponents/NewTree";
+import NewTree from "../SidebarActions/NewTree";
 import { useNavigate } from "react-router-dom";
 
 const formatTimeAgo = (timestamp) => {
@@ -59,15 +59,13 @@ function MyTree({ trees }) {
 
   return (
     <div className="h-full">
-      {/* <NewTree /> */}
-      {/* <p className="w-full self-center h-px my-4 bg-gradient-to-r from-[#2F3E46] from-5% via-[#CAD2C5] via-50% to-[#2F3E46] to-95%"></p> */}
       <p className="text-2xl font-semibold text-white font-rubik-semibold self-start p-5 mx-10">
         My trees:
       </p>
-      <div className="flex flex-col items-center overflow-y-auto scrollbar-none">
+      <div className="flex flex-col h-[91%] items-center overflow-y-auto scrollbar-none">
         {trees.map((tree, key) => {
           return (
-            <div className="w-[80%] h-full border relative mb-5 bg-background-green-200 rounded-lg shadow-lg" key={key}>
+            <div className="w-[80%] border relative mb-5 bg-background-green-200 rounded-lg shadow-lg" key={key}>
               <button
                 className="absolute bottom-5 right-5 hover:backdrop-brightness-200 bg-background-green-400 bg-opacity-80 rounded-lg p-3 z-50"
                 onClick={() => {

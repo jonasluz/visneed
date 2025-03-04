@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import addIcon from "../../../assets/add-symbol.png";
+import addIcon from "../../../../assets/add-symbol.png";
 
 function NewTree() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function NewTree() {
           placeholder="Tree name"
           value={treeName}
           onChange={(e) => setTreeName(e.target.value)}
-          className="border p-3 rounded-lg "
+          className="border p-3 rounded-lg text-black "
         />
         <button
           onClick={handleClick}

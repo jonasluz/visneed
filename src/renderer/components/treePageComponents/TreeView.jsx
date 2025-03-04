@@ -130,7 +130,9 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           })
           console.log("Aresta clicada:", edgeData);
           onEdgeClick(edgeData)
-        } else {
+        } 
+
+        if(!(params.nodes.length > 0) && !(params.edges.length)) {
           onBackgroundClick()
         }
       });

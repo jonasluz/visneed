@@ -1,8 +1,7 @@
 import React from "react";
 
 function Actions({ edge, nodes }) {
-  console.log(edge);
-
+console.log(edge)
   if (Object.keys(edge).length === 0) {
     return (
       <div className="flex flex-col justify-center items-center w-full h-full">
@@ -42,7 +41,8 @@ function Actions({ edge, nodes }) {
         </thead>
         <tbody className="bg-background-green-400 h-2/6">
           {edge.map((edgeInfo, index) => {
-            if (edgeInfo.actions === "No actions") {
+            console.log(edgeInfo.actions)
+            if (edgeInfo.actions == "No action") {
               return (
                 <tr key={index} className="font-bold">
                   <td className="px-4 py-4">
@@ -55,7 +55,6 @@ function Actions({ edge, nodes }) {
                 </tr>
               );
             }
-
             return (
               <tr key={index} className="font-bold">
                 <td className="px-4 py-4">
