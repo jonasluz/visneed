@@ -16,7 +16,7 @@ module.exports = {
       colors: {
         background: {
           white: {
-            100: '#FEFEFA'
+            100: '#edede9'
           },
           black: {
             100: '#1E1E1E',
@@ -27,6 +27,11 @@ module.exports = {
             300: '#CAD2C5',
             400: '#84A98C',
             500: '#52796F',
+          },
+          red: {
+            100: '#e63946',
+            200: '#c1121f',
+            300: '#8c1c13'
           }
         }
       },

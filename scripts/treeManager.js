@@ -2,17 +2,37 @@ const { app } = require("electron");
 const fs = require("fs");
 const path = require("path");
 
-// Diretório base para armazenar todas as árvores
+// Diretório base para armazenar todas as árvores (armazena tudo na pasta "trees")
 const treesPath = path.join(app.getPath("userData"), "trees");
 
-// Garante que o diretório das árvores exista
+// Diretorio das arvores existe?
 if (!fs.existsSync(treesPath)) {
   fs.mkdirSync(treesPath);
 }
 
-// Função para criar uma nova árvore com um nome único
+//GET (all trees)
+function getSavedTrees() {
+  if (!fs.existsSync(treesPath)) return [];
+  
+  const files = fs.readdirSync(treesPath).filter(file => file.startsWith("tree_"));
+  return files.map(file => {
+    const filePath = path.join(treesPath, file);
+    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  });
+}
+
+// GET (specific tree data)
+function loadTreeData(treeId) {
+  const filePath = path.join(treesPath, `tree_${treeId}.json`);
+  if (fs.existsSync(filePath)) {
+    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  }
+  return null
+}
+
+// POST
 function createNewTree(treeName) {
-  const treeId = Date.now(); // Gera um ID único
+  const treeId = Date.now(); // Gera ID único
   const jsonFilePath = path.join(treesPath, `tree_${treeId}.json`);
   const newTree = { id: treeId, name: treeName, dictionary: [], nodes: [], lastModified: new Date().toISOString()};
 
@@ -20,6 +40,7 @@ function createNewTree(treeName) {
   return treeId
 }
 
+// UPDATE
 function saveTreeData(treeId, data) {
   const filePath = path.join(treesPath, `tree_${treeId}.json`);
   if (fs.existsSync(filePath)) {
@@ -33,24 +54,17 @@ function saveTreeData(treeId, data) {
     fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), "utf-8");  }
 }
 
-function loadTreeData(treeId) {
+//DELETE
+function deleteTreeData(treeId) {
   const filePath = path.join(treesPath, `tree_${treeId}.json`);
   if (fs.existsSync(filePath)) {
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    fs.unlinkSync(filePath); 
+    return true; 
   }
-  return null
+  return false;
 }
 
-function getSavedTrees() {
-  if (!fs.existsSync(treesPath)) return [];
-  
-  const files = fs.readdirSync(treesPath).filter(file => file.startsWith("tree_"));
-  return files.map(file => {
-    const filePath = path.join(treesPath, file);
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-  });
-}
-
+//EXPORT
 function exportTree(treeId) {
   const filePath = path.join(treesPath, `tree_${treeId}.json`);
   if (fs.existsSync(filePath)) {
@@ -61,7 +75,8 @@ function exportTree(treeId) {
     };
     return exportData; // Retorna apenas os campos necessários
   }
-  return null; // Retorna null se o arquivo não existir
+  return null;
 }
 
-module.exports = { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree };
+
+module.exports = { createNewTree, saveTreeData, loadTreeData, getSavedTrees, deleteTreeData, exportTree };

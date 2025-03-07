@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld("treeAPI", {
   loadTree: (treeId) => ipcRenderer.invoke("load-tree", treeId),
   getSavedTrees: () => ipcRenderer.invoke("list-tree"),
   exportTree: (treeId) => ipcRenderer.invoke("export-tree", treeId),
+  deleteTree: (treeId) => ipcRenderer.invoke("delete-tree", treeId)
 });

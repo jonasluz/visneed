@@ -4,6 +4,7 @@ const MyTree = lazy(() => import("../components/homePageComponents/SidebarAction
 
 import Loader from '../components/Loaders/TreeLoader'
 import NewTree from "../components/homePageComponents/SidebarActions/NewTree";
+import DeleteTree from "../components/homePageComponents/SidebarActions/DeleteTree";
 
 function Home() {
 
@@ -43,7 +44,7 @@ function Home() {
       case "delete":
           return (
             <Suspense fallback={<Loader className='absolute top-0 left-0 w-full h-full border-4 border-white'/>}>
-              <p className="text-white">🗑️ Deletar projeto</p>
+              <DeleteTree trees={trees}/>
             </Suspense>
           )
       default:

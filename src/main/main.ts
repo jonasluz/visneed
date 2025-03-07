@@ -1,6 +1,6 @@
 import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
 const path = require("path");
-const { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree } = require("../../scripts/treeManager");
+const { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree, deleteTreeData } = require("../../scripts/treeManager");
 
 import fs from 'fs';
 
@@ -22,9 +22,9 @@ const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: height,
-    width: 1500, 
+    width: 1800, 
     minHeight: 698,
-    minWidth: 1110,
+    minWidth: 1500,
     center: true,
     show: false,
     webPreferences: {
@@ -92,4 +92,8 @@ ipcMain.handle("list-tree", async (_) => {
 
 ipcMain.handle("export-tree", async (_, treeId) => {
   return exportTree(treeId);
+})
+
+ipcMain.handle("delete-tree", async(_, treeId) => {
+  return deleteTreeData(treeId);
 })
