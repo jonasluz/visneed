@@ -9,7 +9,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
     key: '',
     value: '',
     condition: '=',
-    logicalOperator: 'OR'
+    logicalOperator: ''
   });
   const [outcomeInfo, setOutcomeInfo] = useState({
     key: '',

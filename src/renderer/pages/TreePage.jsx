@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+//components e telas
 import TreeSidebarLeft from '../components/treePageComponents/TreeSidebarLeft';
 import TreeSideBarRight from '../components/treePageComponents/TreeSideBarRight';
 import TreeView from '../components/treePageComponents/TreeView';
 import NodeActions from '../components/treePageComponents/NodeActions';
-import { useParams } from "react-router-dom";
-
+import Dock from '../components/Dock';
+//icones
 import treeImage from '../../assets/decision-tree-image.png';
 import minimizeImage from '../../assets/minimize.png';
 import maximizeImage from '../../assets/maximize.png';
-
 //notifications
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Dock from '../components/Dock';
 
 function TreePage() {
   const { treeId } = useParams();
   const [tree, setTree] = useState({});
-  const [projectName, setProjectName] = useState("");
   const [minimized, setMinimized] = useState(true);
 
   const [selectedNode, setSelectedNode] = useState({});
@@ -25,6 +24,9 @@ function TreePage() {
   const [selectedOutcome, setSelectedOutcome] = useState([]);
   const [selectedPredicates, setSelectedPredicates] = useState({});
   
+  const [projectName, setProjectName] = useState("");
+  const [update, setUpdate] = useState(false);
+
   // When clicked on a node
   const handleNodeClick = (nodeId) => {
     setSelectedNode(tree.nodesArray[nodeId - 1])
@@ -40,13 +42,7 @@ function TreePage() {
       .filter(Boolean);
 
     setSelectedConnections(connectedNodes);
-    console.log(tree.nodesArray[nodeId - 1].outcomes)
-    testes()
   };
-
-  const testes = () => {
-    console.log(selectedOutcome)
-  }
 
   // When clicked on a edge
   const handleEdgeClick = (edgeData) => {
@@ -91,9 +87,8 @@ function TreePage() {
       id: newNodeId,
       name: newNodeName,
       connections: [],
-      outcomes: [{key: outcomeInfo.key, operator: outcomeInfo.operator, value: outcomeInfo.value}],
+      outcomes: outcomeInfo.key == '' ? ['No outcome'] : [{key: outcomeInfo.key, operator: outcomeInfo.operator, value: outcomeInfo.value}],
     };
-
     console.log(newNode)
 
     // Criar a nova conexão para o nó pai
@@ -101,10 +96,12 @@ function TreePage() {
       name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
       targetId: newNodeId,
       gate: {
-        predicates: [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}], 
-        actions: [{key: actionInfo.key, operator: actionInfo.operator, value: actionInfo.value}], 
+        predicates: predicateInfo.key == '' ? ['No predicate'] : [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}], 
+        actions: actionInfo.key == '' ? ['No action'] : [{key: actionInfo.key, operator: actionInfo.operator, value: actionInfo.value}], 
       },
     };
+
+    console.log(newConnection)
 
     const updatedNodesArray = tree.nodesArray.map((node) => {
       if (node.id === parseInt(parentNodeId)) {
@@ -121,9 +118,11 @@ function TreePage() {
     const newEdge = {
       from: parseInt(parentNodeId),
       to: newNodeId,
-      predicate: {key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator},
-      actions: "No action"
+      predicate: predicateInfo.key == '' ? ['No predicate']: [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}],
+      actions: actionInfo.key == '' ? ['No action'] : [{key: actionInfo.key, operator: actionInfo.operator, value: actionInfo.value}], 
     };
+
+    console.log(newEdge)
 
     const newDictionaryElem = {
       key: newNodeName,
@@ -139,6 +138,7 @@ function TreePage() {
       dictionary: updatedDictionary
     });
 
+
     // update json with new node
     const updatedData = {
       nodes: updatedNodesArray.map(node => ({
@@ -151,6 +151,7 @@ function TreePage() {
     };
 
     window.treeAPI.saveTree(treeId, updatedData); 
+    setUpdate(true)
   };
   return (
     <div className="relative w-full h-screen bg-background-black-100">
@@ -163,7 +164,7 @@ function TreePage() {
 
       {/* Left Side Bar */}
       <div className={`absolute top-0 left-0 w-1/6 h-full z-10 ${minimized ? 'visible' : 'hidden'}`}>
-        <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} edges={tree.edgesArray} selectedConnections={selectedConnections} />
+        <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} selectedConnections={selectedConnections} changedTree={update}/>
       </div>
 
       {/* Tree Project Name */}

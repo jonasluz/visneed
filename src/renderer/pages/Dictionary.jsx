@@ -77,7 +77,7 @@ function Dictionary() {
             </div>
             
             <button
-              className="bg-background-green-400 w-[8%] rounded-lg p-4"
+              className="bg-background-green-400 hover:brightness-50 duration-100 ease-in-out w-[8%] rounded-lg p-6"
               onClick={handleExport}
             >
               <img src={exportIcon} alt="" draggable={false}/>

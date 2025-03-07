@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Nodes from "./sidebarLeftComponents/Nodes"
 import Connections from "./sidebarLeftComponents/Connections";
 
-import backIcon from "../../../assets/go_back.png";
-
-function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
+function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changedTree }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +17,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
       }
     }
     loadStoredJson();
-  }, []);
+  }, [changedTree]);
 
   const handleFile = (event) => {
     const file = event.target.files[0];
@@ -78,23 +76,23 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections }) {
 
   return (
     <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-70">
-      <div className="flex flex-row w-full h-[6%] items-baseline">
+      {/* <div className="flex flex-row w-full h-[6%] items-baseline">
         <button
         onClick={() => navigate("/")}
         className="w-[20%] h-full"
         >
           <img src={backIcon} alt="" className=" w-full h-full object-contain p-3" />
       </button>
-      </div>
-      <div className="flex flex-row w-full h-[9%] items-center justify-around">
-        <p className="text-3xl font-bold text-white">VisNeed</p>
+      </div> */}
+      <div className="flex flex-row w-full items-center justify-around">
+        <p className="text-3xl font-bold text-white py-10">VisNeed</p>
       </div>
       <div className="flex flex-col h-[40%] p-4 border-b">
-        <h1 className="text-xl font-bold text-white">Nodes</h1>
+        <h1 className="text-xl font-bold text-white py-2">Nodes</h1>
         <Nodes nodes={nodes}/>
       </div>
       <div className="flex flex-col h-[35%] p-4 border-b">
-        <h1 className="text-xl font-bold text-white">Connections</h1>
+        <h1 className="text-xl font-bold text-white py-2">Connections</h1>
         <Connections connections={selectedConnections} />
       </div>
       <div className="flex flex-col h-[10%] justify-center p-6">

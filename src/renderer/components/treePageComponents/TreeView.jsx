@@ -115,6 +115,10 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         options
       );
 
+      network.moveTo({
+        scale: 1.2, // Ajuste conforme necessário
+      });    
+      
       // Evento de clique no nó
       network.on("click", function (params) {
         if (params.nodes.length > 0) {

@@ -1,16 +1,26 @@
 import React from "react";
 
-function Actions({ edge, nodes }) {
-console.log(edge)
-  if (Object.keys(edge).length === 0) {
+function Actions({ edges, nodes }) {
+  let actions = []
+  let actionsConnection = []
+
+  if(edges && Array.isArray(edges)) {
+    edges.map((edge) => {
+      actions.push(edge.actions)
+      actionsConnection.push([edge.from, edge.to])
+    })
+  }
+
+  // tratar valor inicial das actions == {}
+  if (Object.keys(actions).length === 0) {
     return (
       <div className="flex flex-col justify-center items-center w-full h-full">
         <p className="text-md font-medium text-white text-center">
           No edge selected
         </p>
       </div>
-    );
-  } else if (edge[0].actions === "No action" && edge.length == 1) {
+    )
+  } else if (actions[0] === "No action" && actions.length === 1) {
     return (
       <div className="flex flex-col justify-center items-center w-full h-full">
         <p className="text-md font-medium text-white text-center">
@@ -40,14 +50,13 @@ console.log(edge)
           </tr>
         </thead>
         <tbody className="bg-background-green-400 h-2/6">
-          {edge.map((edgeInfo, index) => {
-            console.log(edgeInfo.actions)
-            if (edgeInfo.actions == "No action") {
+          {actions.map((action, index) => {
+            console.log(action)
+            if (action === "No action") {
               return (
                 <tr key={index} className="font-bold">
                   <td className="px-4 py-4">
-                    {nodes[edgeInfo.from - 1]?.name} -&gt;{" "}
-                    {nodes[edgeInfo.to - 1]?.name}
+                    {nodes[actionsConnection[index][0]]?.name} -&gt; {nodes[actionsConnection[index][1]]?.name}
                   </td>
                   <td colSpan="4" className="px-4 py-2 text-left">
                     No actions for this connection
@@ -58,13 +67,12 @@ console.log(edge)
             return (
               <tr key={index} className="font-bold">
                 <td className="px-4 py-4">
-                  {nodes[edgeInfo.from - 1]?.name} -&gt;{" "}
-                  {nodes[edgeInfo.to - 1]?.name}
+                  {nodes[actionsConnection[index][0]]?.name} -&gt; {nodes[actionsConnection[index][1]]?.name}
                 </td>
 
-                <td className="px-4 py-4">{edgeInfo.actions.key}</td>
-                <td className="px-4 py-4">{edgeInfo.actions.operator}</td>
-                <td className="px-4 py-4">{edgeInfo.actions.value}</td>
+                <td className="px-4 py-4">{action.key}</td>
+                <td className="px-4 py-4">{action.operator}</td>
+                <td className="px-4 py-4">{action.value}</td>
               </tr>
             );
           })}

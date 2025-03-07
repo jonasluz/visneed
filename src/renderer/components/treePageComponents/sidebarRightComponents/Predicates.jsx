@@ -1,6 +1,16 @@
 import React from 'react'
 
-function Predicates({ predicates, nodes }) {
+function Predicates({ edges, nodes }) {
+    let predicates = []
+    let predConnection = []
+
+    if(edges && Array.isArray(edges)) {
+        edges.map((edge) => {
+          predicates.push(edge.predicate)
+          predConnection.push([edge.from, edge.to])
+        })
+    }
+
     if(Object.keys(predicates).length === 0) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
@@ -9,7 +19,7 @@ function Predicates({ predicates, nodes }) {
                 </p>
             </div>
         )
-    } else if (predicates[0].predicate === "No predicate" && predicates.length == 1) {
+    } else if (predicates[0] === "No predicate" && predicates.length == 1) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
                 <p className="text-md font-medium text-white text-center">
@@ -33,12 +43,11 @@ function Predicates({ predicates, nodes }) {
                 </thead>
                 <tbody className='bg-background-green-400 h-2/6'>
                     {predicates.map((predicate, index) => {
-
-                        if (predicate.predicate === "No predicate") {
+                        if (predicate === "No predicate") {
                             return (
                                 <tr key={index} className='font-bold'>
                                     <td className='px-4 py-4'>
-                                        {nodes[predicate.from - 1]?.name} -&gt; {nodes[predicate.to - 1]?.name}
+                                        {nodes[predConnection[index][0]]?.name} -&gt; {nodes[predConnection[index][1]]?.name}
                                     </td>
                                     <td colSpan="4" className='px-4 py-2 text-left'>
                                         No predicate for this connection
@@ -50,13 +59,13 @@ function Predicates({ predicates, nodes }) {
                         return (
                             <tr key={index} className='font-bold'>
                                 <td className='px-4 py-4'>
-                                    {nodes[predicate.from - 1]?.name} -&gt; {nodes[predicate.to - 1]?.name}
+                                    {nodes[predConnection[index][0]]?.name} -&gt; {nodes[predConnection[index][1]]?.name}
                                 </td>
 
-                                <td className='px-4 py-4'>{predicate.predicate.key}</td>
-                                <td className='px-4 py-4'>{predicate.predicate.condition}</td>
-                                <td className='px-4 py-4'>{predicate.predicate.value}</td>
-                                <td className='px-4 py-4'>{predicate.predicate.logicalOperator}</td>
+                                <td className='px-4 py-4'>{predicate.key}</td>
+                                <td className='px-4 py-4'>{predicate.condition}</td>
+                                <td className='px-4 py-4'>{predicate.value}</td>
+                                <td className='px-4 py-4'>{predicate.logicalOperator}</td>
                             </tr>
                         );
                     })}
