@@ -1,4 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+
 import Sidebar from "../components/homePageComponents/Sidebar";
 const MyTree = lazy(() => import("../components/homePageComponents/SidebarActions/MyTree"));
 
@@ -54,6 +56,7 @@ function Home() {
 
   return (
     <div className="flex flex-row bg-background-green-100 h-screen items-center">
+      <ToastContainer />
       <div className="flex flex-col relative w-[16%] h-[95%] ml-5 shadow-sm p-5">
         <p className='text-2xl font-semibold text-white font-rubik-semibold'>VisNeed</p>
         <Sidebar setSelectedTab={setSelectedTab} selectedTab={selectedTab} />

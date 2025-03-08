@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddNodeModal from './AddNodeModal';
+import AddNodeModal from './Modals/AddNodeModal';
 import addIcon from "../../../assets/add-symbol.png";
 import deleteIcon from "../../../assets/delete.png"
 function NodeActions({ nodes, onAddNode }) {
@@ -33,6 +33,7 @@ function NodeActions({ nodes, onAddNode }) {
         onConfirm={handleAddNode}
         nodes={nodes}
       />
+      
     </div>
   );
 }
