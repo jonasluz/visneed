@@ -5,13 +5,13 @@ import treeIcon from '../../assets/decision-tree-image.png'
 import cenarioIcon from '../../assets/cenario.png'
 import { useNavigate } from "react-router-dom";
 
-function Dock({currentPage, treeId, treeName}) {
+function Dock({currentPage, treeId, treeName, onHomeClick }) {
   const navigate = useNavigate();
 
   const handleClickDock = (page) => {
     switch(page) {
       case 'home':
-        navigate('/');
+        onHomeClick(); // Exibe o modal
         break;
       case 'dictionary':
         navigate(`/dictionary/${treeId}/${treeName}`);

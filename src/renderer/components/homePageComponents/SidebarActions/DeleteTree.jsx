@@ -27,7 +27,6 @@ const formatTimeAgo = (timestamp) => {
 function DeleteTree({ trees }) {
   const [allTrees, setAllTrees] = useState(trees);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [selectedTreeId, setSelectedTreeId] = useState(null);
   

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 //components e telas
 import TreeSidebarLeft from '../components/treePageComponents/TreeSidebarLeft';
 import TreeSideBarRight from '../components/treePageComponents/TreeSideBarRight';
@@ -13,8 +13,13 @@ import maximizeImage from '../../assets/maximize.png';
 //notifications
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GoToHomeModal from '../components/treePageComponents/Modals/GoToHomeModal';
 
 function TreePage() {
+
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
   const { treeId } = useParams();
   const [tree, setTree] = useState({});
   const [minimized, setMinimized] = useState(true);
@@ -26,6 +31,11 @@ function TreePage() {
   
   const [projectName, setProjectName] = useState("");
   const [update, setUpdate] = useState(false);
+
+  const handleConfirmGoHome = () => {
+    setShowModal(false);
+    navigate('/'); // Volta para a home
+  };
 
   // When clicked on a node
   const handleNodeClick = (nodeId) => {
@@ -155,7 +165,15 @@ function TreePage() {
   };
   return (
     <div className="relative w-full h-screen bg-background-black-100">
-      <Dock currentPage={'treePage'} treeId={treeId} treeName={projectName}/>
+      <Dock currentPage={'treePage'} treeId={treeId} treeName={projectName} onHomeClick={() => setShowModal(true)}/>
+
+      {showModal && (
+        <GoToHomeModal 
+          onConfirm={handleConfirmGoHome} 
+          onCancel={() => setShowModal(false)} 
+        />
+      )}
+
       <ToastContainer />
       {/* Tree View */}
       <div className="w-full h-full flex justify-center items-center ">
