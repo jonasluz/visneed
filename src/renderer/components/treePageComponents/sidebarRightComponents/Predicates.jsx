@@ -1,6 +1,8 @@
 import React from 'react'
 
 function Predicates({ edges, nodes }) {
+    console.log(edges)
+    console.log(nodes)
     let predicates = []
     let predConnection = []
 
@@ -10,6 +12,7 @@ function Predicates({ edges, nodes }) {
           predConnection.push([edge.from, edge.to])
         })
     }
+    console.log(predConnection)
 
     if(Object.keys(predicates).length === 0) {
         return (
@@ -47,7 +50,7 @@ function Predicates({ edges, nodes }) {
                             return (
                                 <tr key={index} className='font-bold'>
                                     <td className='px-4 py-4'>
-                                        {nodes[predConnection[index][0]]?.name} -&gt; {nodes[predConnection[index][1]]?.name}
+                                        {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                     </td>
                                     <td colSpan="4" className='px-4 py-2 text-left'>
                                         No predicate for this connection
@@ -59,7 +62,7 @@ function Predicates({ edges, nodes }) {
                         return (
                             <tr key={index} className='font-bold'>
                                 <td className='px-4 py-4'>
-                                    {nodes[predConnection[index][0]]?.name} -&gt; {nodes[predConnection[index][1]]?.name}
+                                    {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                 </td>
 
                                 <td className='px-4 py-4'>{predicate.key}</td>

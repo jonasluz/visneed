@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeName}) {
+  console.log(selectedEdge)
   // Export the tree made as a json file
   const handleExport = async () => {
     try {

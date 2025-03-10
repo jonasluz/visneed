@@ -281,12 +281,18 @@ function TreePage() {
         if(node.id == parentNodeId) {
           node.connections.map((connection) => {
             if(connection.targetId == nodeToDelete.id) {
+              console.log(connection)
+
               connection.targetId = substitute
               connection.name = node.id + '-' + substitute
+              connection.actions = ["No action"]
+              connection.gate.predicates = ["No predicate"]
             }
           })
         }
       })
+
+      console.log(tree.nodesArray)
 
       // Atualizar os filhos restantes para serem filhos do primeiro filho
       const updatedChildrenEdges = childrenEdges.map((edge) =>
@@ -295,7 +301,7 @@ function TreePage() {
 
       console.log("depois childrens: ", updatedChildrenEdges)
       updatedChildrenEdges.forEach((edge) => {
-        let newConnection = {name: substitute + '-' + edge.to, targetId: edge.to, gate: {predicates: edge.predicate}, actions: edge.actions }
+        let newConnection = {name: substitute + '-' + edge.to, targetId: edge.to, gate: {predicates: ["No predicate"]}, actions: ["No action"] }
         tree.edgesArray.push(edge)
         if(edge.from == substitute) {
           tree.nodesArray.map((node) => {
