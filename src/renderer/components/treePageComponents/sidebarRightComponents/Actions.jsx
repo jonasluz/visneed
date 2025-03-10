@@ -51,7 +51,6 @@ function Actions({ edges, nodes }) {
         </thead>
         <tbody className="bg-background-green-400 h-2/6">
           {actions.map((action, index) => {
-            console.log(action)
             if (action === "No action") {
               return (
                 <tr key={index} className="font-bold">

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from "react";
 import houseIcon from '../../assets/home.png'
 import dictionaryIcon from '../../assets/dictionary.png'
 import treeIcon from '../../assets/decision-tree-image.png'
@@ -11,7 +11,7 @@ function Dock({currentPage, treeId, treeName, onHomeClick }) {
   const handleClickDock = (page) => {
     switch(page) {
       case 'home':
-        onHomeClick(); // Exibe o modal
+        onHomeClick(); 
         break;
       case 'dictionary':
         navigate(`/dictionary/${treeId}/${treeName}`);

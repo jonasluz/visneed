@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 //components e telas
-import TreeSidebarLeft from '../components/treePageComponents/TreeSidebarLeft';
-import TreeSideBarRight from '../components/treePageComponents/TreeSideBarRight';
-import TreeView from '../components/treePageComponents/TreeView';
-import NodeActions from '../components/treePageComponents/NodeActions';
-import Dock from '../components/Dock';
+import TreeSidebarLeft from "../components/treePageComponents/TreeSidebarLeft";
+import TreeSideBarRight from "../components/treePageComponents/TreeSideBarRight";
+import TreeView from "../components/treePageComponents/TreeView";
+import NodeActions from "../components/treePageComponents/NodeActions";
+import Dock from "../components/Dock";
 //icones
-import treeImage from '../../assets/decision-tree-image.png';
-import minimizeImage from '../../assets/minimize.png';
-import maximizeImage from '../../assets/maximize.png';
+import treeImage from "../../assets/decision-tree-image.png";
+import minimizeImage from "../../assets/minimize.png";
+import maximizeImage from "../../assets/maximize.png";
 //notifications
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import GoToHomeModal from '../components/treePageComponents/Modals/GoToHomeModal';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import GoToHomeModal from "../components/treePageComponents/Modals/GoToHomeModal";
 
 function TreePage() {
-
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -28,26 +27,39 @@ function TreePage() {
   const [selectedConnections, setSelectedConnections] = useState({});
   const [selectedOutcome, setSelectedOutcome] = useState([]);
   const [selectedPredicates, setSelectedPredicates] = useState({});
-  
+
   const [projectName, setProjectName] = useState("");
   const [update, setUpdate] = useState(false);
 
+  useEffect(() => {
+    console.log(selectedNode);
+    console.log(tree)
+  }, [selectedNode]);
+
   const handleConfirmGoHome = () => {
     setShowModal(false);
-    navigate('/'); // Volta para a home
+    navigate("/");
   };
 
   // When clicked on a node
   const handleNodeClick = (nodeId) => {
-    setSelectedNode(tree.nodesArray[nodeId - 1])
+    setSelectedNode(tree.nodesArray[nodeId - 1]);
     setSelectedOutcome(tree.nodesArray[nodeId - 1]?.outcomes);
 
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
       .map((edge) => {
         const targetNodeId = edge.from === nodeId ? edge.to : edge.from;
-        const targetNode = tree.nodesArray.find(node => node.id === targetNodeId);
-        return targetNode ? { id: targetNode.id, name: targetNode.name, outcome: targetNode.outcome } : null;
+        const targetNode = tree.nodesArray.find(
+          (node) => node.id === targetNodeId
+        );
+        return targetNode
+          ? {
+              id: targetNode.id,
+              name: targetNode.name,
+              outcome: targetNode.outcome,
+            }
+          : null;
       })
       .filter(Boolean);
 
@@ -65,30 +77,36 @@ function TreePage() {
     setSelectedConnections({});
     setSelectedNode({});
     setSelectedOutcome();
-    console.log("clicked on background")
-  }
+    console.log("clicked on background");
+  };
 
   // Import a json to the tree view
   const handleImport = (data) => {
     setTree({
       nodesArray: data.nodesArray,
       edgesArray: data.edgesArray,
-      dictionary: data.dictionary
+      dictionary: data.dictionary,
     });
     setProjectName(data.projectName);
   };
 
   // Minimize or maximize the SideBars
   const handleMinimized = () => {
-    setMinimized(!minimized)
-  }
+    setMinimized(!minimized);
+  };
 
-  // Add a new node 
-  const handleAddNode = (parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo) => {
+  // Add a new node
+  const handleAddNode = (
+    parentNodeId,
+    newNodeName,
+    predicateInfo,
+    outcomeInfo,
+    actionInfo
+  ) => {
     if (!parentNodeId) {
       toast.success(`New tree created with root ${newNodeName}`);
     } else {
-      toast.success(`Nó ${newNodeName}, criado com sucesso!`); 
+      toast.success(`Nó ${newNodeName}, criado com sucesso!`);
     }
 
     const newNodeId = tree.nodesArray.length + 1;
@@ -97,21 +115,49 @@ function TreePage() {
       id: newNodeId,
       name: newNodeName,
       connections: [],
-      outcomes: outcomeInfo.key == '' ? ['No outcome'] : [{key: outcomeInfo.key, operator: outcomeInfo.operator, value: outcomeInfo.value}],
+      outcomes:
+        outcomeInfo.key == ""
+          ? ["No outcome"]
+          : [
+              {
+                key: outcomeInfo.key,
+                operator: outcomeInfo.operator,
+                value: outcomeInfo.value,
+              },
+            ],
     };
-    console.log(newNode)
+    console.log(newNode);
 
     // Criar a nova conexão para o nó pai
     const newConnection = {
       name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
       targetId: newNodeId,
       gate: {
-        predicates: predicateInfo.key == '' ? ['No predicate'] : [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}], 
-        actions: actionInfo.key == '' ? ['No action'] : [{key: actionInfo.key, operator: actionInfo.operator, value: actionInfo.value}], 
+        predicates:
+          predicateInfo.key == ""
+            ? ["No predicate"]
+            : [
+                {
+                  key: predicateInfo.key,
+                  condition: predicateInfo.condition,
+                  value: predicateInfo.value,
+                  logicalOperator: predicateInfo.logicalOperator,
+                },
+              ],
+        actions:
+          actionInfo.key == ""
+            ? ["No action"]
+            : [
+                {
+                  key: actionInfo.key,
+                  operator: actionInfo.operator,
+                  value: actionInfo.value,
+                },
+              ],
       },
     };
 
-    console.log(newConnection)
+    console.log(newConnection);
 
     const updatedNodesArray = tree.nodesArray.map((node) => {
       if (node.id === parseInt(parentNodeId)) {
@@ -128,16 +174,35 @@ function TreePage() {
     const newEdge = {
       from: parseInt(parentNodeId),
       to: newNodeId,
-      predicate: predicateInfo.key == '' ? ['No predicate']: [{key: predicateInfo.key, condition: predicateInfo.condition, value: predicateInfo.value, logicalOperator: predicateInfo.logicalOperator}],
-      actions: actionInfo.key == '' ? ['No action'] : [{key: actionInfo.key, operator: actionInfo.operator, value: actionInfo.value}], 
+      predicate:
+        predicateInfo.key == ""
+          ? ["No predicate"]
+          : [
+              {
+                key: predicateInfo.key,
+                condition: predicateInfo.condition,
+                value: predicateInfo.value,
+                logicalOperator: predicateInfo.logicalOperator,
+              },
+            ],
+      actions:
+        actionInfo.key == ""
+          ? ["No action"]
+          : [
+              {
+                key: actionInfo.key,
+                operator: actionInfo.operator,
+                value: actionInfo.value,
+              },
+            ],
     };
 
-    console.log(newEdge)
+    console.log(newEdge);
 
     const newDictionaryElem = {
       key: newNodeName,
-      type: "string"
-    }
+      type: "string",
+    };
 
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
     const updatedDictionary = [...tree.dictionary, newDictionaryElem];
@@ -145,83 +210,229 @@ function TreePage() {
     setTree({
       nodesArray: updatedNodesArray,
       edgesArray: updatedEdgesArray,
-      dictionary: updatedDictionary
+      dictionary: updatedDictionary,
     });
-
 
     // update json with new node
     const updatedData = {
-      nodes: updatedNodesArray.map(node => ({
+      nodes: updatedNodesArray.map((node) => ({
         ...node,
-        name: node.name 
+        name: node.name,
       })),
       edges: updatedEdgesArray,
       dictionary: updatedDictionary,
-      projectName: projectName
+      projectName: projectName,
     };
 
-    window.treeAPI.saveTree(treeId, updatedData); 
-    setUpdate(true)
+    window.treeAPI.saveTree(treeId, updatedData);
+    setUpdate(true);
   };
+
+  //Delete a node
+  const handleDeleteNode = (nodeId) => {
+    const nodeToDelete = tree.nodesArray.find((node) => node.id === nodeId);
+    if (!nodeToDelete) return;
+
+    console.log("No a ser deletado: ", nodeToDelete);
+
+    // Encontrar o nó pai (que está conectado ao nó a ser deletado)
+    const parentEdge = tree.edgesArray.find((edge) => edge.to === nodeId);
+    const parentNodeId = parentEdge ? parentEdge.from : null;
+
+    console.log("No pai: ", parentEdge, parentNodeId);
+
+    // Encontrar os filhos do nó a ser deletado
+    const childrenEdges = tree.edgesArray.filter(
+      (edge) => edge.from === nodeId
+    );
+
+    const childrenNodes = childrenEdges.map((edge) =>
+      tree.nodesArray.find((node) => node.id === edge.to)
+    );
+
+
+    let newNodeId = null;
+
+    if (childrenNodes.length > 0) {
+      // Se houver filhos, escolher o primeiro filho como substituto
+      const firstChild = childrenNodes[0];
+      newNodeId = firstChild.id;
+      console.log("Primeiro filho: ", firstChild);
+
+      // Atualizar as conexões do pai para apontar para o primeiro filho
+      if (newNodeId) {
+        tree.edgesArray.map((edge) => {
+          if(edge.to === nodeId) {
+            edge.to = newNodeId
+          }
+        });   
+      }
+      console.log(tree.edgesArray);
+      console.log(tree.nodesArray)
+
+      tree.nodesArray.map((node) => {
+        if(node.id == parentNodeId) {
+          console.log(node)
+          node.connections.map((connection) => {
+            console.log(connection.targetId, nodeToDelete)
+            if(connection.targetId == nodeToDelete.id) {
+              connection.targetId = newNodeId
+              connection.name = node.id + '-' + newNodeId
+              console.log(connection)
+            }
+          })
+        }
+      })
+      console.log(tree.nodesArray)
+
+      // Atualizar os filhos restantes para serem filhos do primeiro filho
+      childrenEdges.forEach((edge) => {
+        if (edge.to !== newNodeId) {
+          edge.from = newNodeId;
+        }
+      });
+      console.log("depois childrens: ", childrenEdges)
+    }
+    console.log(tree.edgesArray)
+    // Remover o nó da árvore
+    tree.nodesArray = tree.nodesArray.filter((node) => node.id !== nodeId);
+    tree.edgesArray = tree.edgesArray.filter(
+      (edge) => edge.from !== nodeId && edge.to !== nodeId
+    );
+    console.log(tree.nodesArray)
+    console.log(tree.edgesArray)
+    setTree({
+      ...tree,
+      nodesArray: [...tree.nodesArray],
+      edgesArray: [...tree.edgesArray],
+    });
+    console.log(tree)
+    toast.success(`Nó ${nodeToDelete.name} deletado com sucesso!`);
+
+    // Atualizar o JSON salvo no Electron
+    const updatedData = {
+      nodes: tree.nodesArray,
+      edges: tree.edgesArray,
+      dictionary: tree.dictionary,
+      projectName: projectName,
+    };
+
+    window.treeAPI.saveTree(treeId, updatedData);
+    setUpdate(true);
+  };
+
   return (
     <div className="relative w-full h-screen bg-background-black-100">
-      <Dock currentPage={'treePage'} treeId={treeId} treeName={projectName} onHomeClick={() => setShowModal(true)}/>
+      <Dock
+        currentPage={"treePage"}
+        treeId={treeId}
+        treeName={projectName}
+        onHomeClick={() => setShowModal(true)}
+      />
 
       {showModal && (
-        <GoToHomeModal 
-          onConfirm={handleConfirmGoHome} 
-          onCancel={() => setShowModal(false)} 
+        <GoToHomeModal
+          onConfirm={handleConfirmGoHome}
+          onCancel={() => setShowModal(false)}
         />
       )}
 
       <ToastContainer />
       {/* Tree View */}
       <div className="w-full h-full flex justify-center items-center ">
-        <TreeView nodesArray={tree.nodesArray} edgesArray={tree.edgesArray} onNodeClick={handleNodeClick} onEdgeClick={handleEdgeClick} onBackgroundClick={handleBakcgroundClick}/>
+        <TreeView
+          nodesArray={tree.nodesArray}
+          edgesArray={tree.edgesArray}
+          onNodeClick={handleNodeClick}
+          onEdgeClick={handleEdgeClick}
+          onBackgroundClick={handleBakcgroundClick}
+        />
       </div>
 
       {/* Left Side Bar */}
-      <div className={`absolute top-0 left-0 w-1/6 h-full z-10 ${minimized ? 'visible' : 'hidden'}`}>
-        <TreeSidebarLeft treeId={treeId} onImport={handleImport} nodes={tree.nodesArray} selectedConnections={selectedConnections} changedTree={update}/>
+      <div
+        className={`absolute top-0 left-0 w-1/6 h-full z-10 ${
+          minimized ? "visible" : "hidden"
+        }`}
+      >
+        <TreeSidebarLeft
+          treeId={treeId}
+          onImport={handleImport}
+          nodes={tree.nodesArray}
+          selectedConnections={selectedConnections}
+          changedTree={update}
+        />
       </div>
 
       {/* Tree Project Name */}
-      <div className={`flex flex-col absolute top-0 ${minimized ? 'left-[17%]' : 'left-0'}`}>
+      <div
+        className={`flex flex-col absolute top-0 ${
+          minimized ? "left-[17%]" : "left-0"
+        }`}
+      >
         <div className="flex flex-row p-4 text-white items-center">
-          <img src={treeImage} alt="" className='w-8 h-8 object-cover invert' />
-          <p className='ml-2 font-semibold'>{projectName}</p>
+          <img src={treeImage} alt="" className="w-8 h-8 object-cover invert" />
+          <p className="ml-2 font-semibold">{projectName}</p>
         </div>
 
         <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
-          <p className='ml-2 font-semibold'>Current Node: </p>
-          <p className='ml-2 font-semibold text-background-green-400'>{selectedNode.name}</p>
+          <p className="ml-2 font-semibold">Current Node: </p>
+          <p className="ml-2 font-semibold text-background-green-400">
+            {selectedNode.name}
+          </p>
         </div>
 
         <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
-          <p className='ml-2 font-semibold'>Current connections: </p>
-          <p className='ml-2 font-semibold text-background-green-400'>{selectedConnections.length}</p>
+          <p className="ml-2 font-semibold">Current connections: </p>
+          <p className="ml-2 font-semibold text-background-green-400">
+            {selectedConnections.length}
+          </p>
         </div>
       </div>
-      
+
       {/* Node Selected */}
-      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? 'left-[17%]' : 'left-5'}`}>
-        <NodeActions nodes={tree.nodesArray} onAddNode={handleAddNode} />
+      <div
+        className={`absolute bottom-0 p-2 text-white items-center ${
+          minimized ? "left-[17%]" : "left-5"
+        }`}
+      >
+        <NodeActions
+          nodes={tree.nodesArray}
+          onAddNode={handleAddNode}
+          onDeleteNode={handleDeleteNode}
+          nodeSelected={selectedNode}
+        />
       </div>
 
-      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? 'right-[30%]' : 'right-5'}`}>
-        <button 
-        className='bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200'
-        onClick={handleMinimized}>
-          {
-            minimized ?
-              <img src={minimizeImage} alt="" /> : 
-              <img src={maximizeImage} alt="" /> 
-          }
+      <div
+        className={`absolute bottom-0 p-2 text-white items-center ${
+          minimized ? "right-[30%]" : "right-5"
+        }`}
+      >
+        <button
+          className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200"
+          onClick={handleMinimized}
+        >
+          {minimized ? (
+            <img src={minimizeImage} alt="" />
+          ) : (
+            <img src={maximizeImage} alt="" />
+          )}
         </button>
       </div>
 
-      <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? 'visible' : 'hidden'}`}>
-        <TreeSideBarRight selectedOutcome={selectedOutcome} selectedEdge={selectedPredicates} nodes={tree.nodesArray} treeId={treeId} treeName={projectName}/>
+      <div
+        className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${
+          minimized ? "visible" : "hidden"
+        }`}
+      >
+        <TreeSideBarRight
+          selectedOutcome={selectedOutcome}
+          selectedEdge={selectedPredicates}
+          nodes={tree.nodesArray}
+          treeId={treeId}
+          treeName={projectName}
+        />
       </div>
     </div>
   );

@@ -70,7 +70,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
         });
       });
     });
-
+    console.log(edgesArray)
     return { nodesArray, edgesArray, projectName, dictionary };
   }
 

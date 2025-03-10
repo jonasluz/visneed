@@ -37,7 +37,7 @@ function ConfirmDeleteModal({ isOpen, onClose, onDelete}) {
           <button 
           className='bg-background-green-400 hover:brightness-50 duration-150 ease-in-out p-3 px-8 rounded-lg text-lg font-semibold font-rubik-semibold border border-black'
           onClick={() => { handleConfirmDelete(false) }}>
-            Back
+            Go Back
           </button>
         </div>
       </div>
