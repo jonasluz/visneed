@@ -125,6 +125,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           const nodeId = params.nodes[0];
           const nodeData = nodes.get(nodeId); 
           console.log("No clicado:",nodeData)
+          console.log("Id do no clicado: " + nodeId)
           onNodeClick(nodeId);
 
         } if (params.edges.length > 0) {

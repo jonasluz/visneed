@@ -9,10 +9,10 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
   useEffect(() => {
     async function loadStoredJson() {
       const response = await window.treeAPI.loadTree(treeId);
-      console.log("Get response:",response)
+      // console.log("Get response:",response)
       if (response) {
         const transformedData = transformTreeData(response);
-        console.log("Tranform response to visualization:",transformedData)
+        // console.log("Tranform response to visualization:",transformedData)
         onImport(transformedData);
       }
     }
@@ -61,7 +61,6 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
     data.nodes.forEach((node) => {
       // console.log(node)
       node.connections.forEach((conn) => {
-        // console.log(conn.gate)
         edgesArray.push({
           from: node.id,
           to: conn.targetId,

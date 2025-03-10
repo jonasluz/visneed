@@ -43,8 +43,12 @@ function TreePage() {
 
   // When clicked on a node
   const handleNodeClick = (nodeId) => {
-    setSelectedNode(tree.nodesArray[nodeId - 1]);
-    setSelectedOutcome(tree.nodesArray[nodeId - 1]?.outcomes);
+    tree.nodesArray.map((node) => {
+      if(node.id === nodeId) {
+        setSelectedNode(node);
+        setSelectedOutcome(node?.outcomes)
+      } 
+    })
 
     const connectedNodes = tree.edgesArray
       .filter((edge) => edge.from === nodeId || edge.to === nodeId)
@@ -233,80 +237,93 @@ function TreePage() {
     const nodeToDelete = tree.nodesArray.find((node) => node.id === nodeId);
     if (!nodeToDelete) return;
 
-    console.log("No a ser deletado: ", nodeToDelete);
+    console.log("node deleted: ", nodeToDelete)
 
     // Encontrar o nó pai (que está conectado ao nó a ser deletado)
     const parentEdge = tree.edgesArray.find((edge) => edge.to === nodeId);
     const parentNodeId = parentEdge ? parentEdge.from : null;
 
-    console.log("No pai: ", parentEdge, parentNodeId);
-
     // Encontrar os filhos do nó a ser deletado
-    const childrenEdges = tree.edgesArray.filter(
-      (edge) => edge.from === nodeId
-    );
+    let childrenEdges = [];
+    let childrenNodes = [];
+    tree.edgesArray.map((edge) => {
+      if(edge.from === nodeId) {
+        childrenEdges.push(edge)
+      }
+    });
 
-    const childrenNodes = childrenEdges.map((edge) =>
-      tree.nodesArray.find((node) => node.id === edge.to)
-    );
+    childrenEdges.map((edge) => {
+      tree.nodesArray.map((node) => {
+        if(node.id === edge.to) {
+          childrenNodes.push(node)
+        }
+      })
+    });
+    
+    let substitute = null;
 
-
-    let newNodeId = null;
-
-    if (childrenNodes.length > 0) {
+    if(childrenNodes.length > 0) {
       // Se houver filhos, escolher o primeiro filho como substituto
       const firstChild = childrenNodes[0];
-      newNodeId = firstChild.id;
-      console.log("Primeiro filho: ", firstChild);
+      substitute = firstChild.id;
 
-      // Atualizar as conexões do pai para apontar para o primeiro filho
-      if (newNodeId) {
+      //  Muda o no pai para apontar para o no substituto
+      if (substitute) {
         tree.edgesArray.map((edge) => {
           if(edge.to === nodeId) {
-            edge.to = newNodeId
+            edge.to = substitute
           }
         });   
       }
-      console.log(tree.edgesArray);
-      console.log(tree.nodesArray)
 
+      // Muda as conexoes do no pai para o substituto
       tree.nodesArray.map((node) => {
         if(node.id == parentNodeId) {
-          console.log(node)
           node.connections.map((connection) => {
-            console.log(connection.targetId, nodeToDelete)
             if(connection.targetId == nodeToDelete.id) {
-              connection.targetId = newNodeId
-              connection.name = node.id + '-' + newNodeId
-              console.log(connection)
+              connection.targetId = substitute
+              connection.name = node.id + '-' + substitute
             }
           })
         }
       })
-      console.log(tree.nodesArray)
 
       // Atualizar os filhos restantes para serem filhos do primeiro filho
-      childrenEdges.forEach((edge) => {
-        if (edge.to !== newNodeId) {
-          edge.from = newNodeId;
+      const updatedChildrenEdges = childrenEdges.map((edge) =>
+        edge.to !== substitute ? { ...edge, from: substitute } : edge
+      );
+
+      console.log("depois childrens: ", updatedChildrenEdges)
+      updatedChildrenEdges.forEach((edge) => {
+        let newConnection = {name: substitute + '-' + edge.to, targetId: edge.to, gate: {predicates: edge.predicate}, actions: edge.actions }
+        tree.edgesArray.push(edge)
+        if(edge.from == substitute) {
+          tree.nodesArray.map((node) => {
+            if(node.id == substitute) {
+              node.connections.push(newConnection)
+            }
+          })
         }
-      });
-      console.log("depois childrens: ", childrenEdges)
+      })
     }
-    console.log(tree.edgesArray)
+
     // Remover o nó da árvore
     tree.nodesArray = tree.nodesArray.filter((node) => node.id !== nodeId);
     tree.edgesArray = tree.edgesArray.filter(
       (edge) => edge.from !== nodeId && edge.to !== nodeId
     );
+
     console.log(tree.nodesArray)
     console.log(tree.edgesArray)
+
     setTree({
       ...tree,
       nodesArray: [...tree.nodesArray],
       edgesArray: [...tree.edgesArray],
     });
+
     console.log(tree)
+
     toast.success(`Nó ${nodeToDelete.name} deletado com sucesso!`);
 
     // Atualizar o JSON salvo no Electron
@@ -316,6 +333,8 @@ function TreePage() {
       dictionary: tree.dictionary,
       projectName: projectName,
     };
+
+    console.log("Removendo o no: " + nodeId + " e substituindo por: " + substitute + " que sera filho de: " + parentNodeId + ". filhos do no antigo que eram: " + childrenNodes + " serao filhos agora do novo no.")
 
     window.treeAPI.saveTree(treeId, updatedData);
     setUpdate(true);

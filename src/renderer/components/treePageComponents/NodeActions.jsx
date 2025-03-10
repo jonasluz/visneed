@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddNodeModal from './Modals/AddNodeModal';
 import addIcon from "../../../assets/add-symbol.png";
 import deleteIcon from "../../../assets/delete.png"
@@ -6,6 +6,18 @@ import DeleteNodeModal from './Modals/DeleteNodeModal';
 function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const [isNodeSelected, setIsNodeSelected] = useState(false)
+
+  useEffect(() => {
+    if(Object.keys(nodeSelected).length !== 0) {
+      setIsNodeSelected(false);
+    } else {
+      setIsNodeSelected(true);
+    }
+    console.log(nodeSelected)
+
+  }, [nodeSelected])
 
   const handleAddNode = (parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo) => {
     onAddNode(parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo);
@@ -18,7 +30,7 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
   return (
     <div className='flex flex-col'>
       <button 
-        className='bg-background-green-400 mb-2 w-9 h-9 p-3 hover:-translate-y-2 hover:w-10 hover:h-10 rounded-lg hover:brightness-50 ease-in-out duration-200'
+        className='bg-background-green-400 mb-2 w-9 h-9 p-3 rounded-lg hover:brightness-50 ease-in-out duration-200'
         onClick={() => setIsAddModalOpen(true)}
       >
         <img src={addIcon} alt="" className="object-cover w-full h-full" />
@@ -26,8 +38,9 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
 
       {/*Delete node action*/}
       <button 
-        className='bg-background-green-400 w-9 h-9 p-3 hover:-translate-y-2 hover:w-10 hover:h-10 rounded-lg hover:brightness-50 ease-in-out duration-200'
+        className='bg-background-green-400 w-9 h-9 p-3 rounded-lg hover:brightness-50 ease-in-out duration-200 disabled:brightness-50 disabled:hover:translate-y-0 disabled:hover:w-9 disabled:hover:h-9'
         onClick={() => setIsDeleteModalOpen(true)}
+        disabled={isNodeSelected}
       >
         <img src={deleteIcon} alt="" className="object-cover w-full h-full" />
       </button>
@@ -44,6 +57,7 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
         onClose={() => setIsDeleteModalOpen(false)}
         selectedNode={nodeSelected}
         onConfirm={handleDeleteNode}
+        nodeSelected={nodeSelected}
       />
       
     </div>
