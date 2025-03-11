@@ -66,6 +66,7 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
         selectedNode={nodeSelected}
         onConfirm={handleDeleteNode}
         nodeSelected={nodeSelected}
+        nodes={nodes}
       />
       
     </div>
