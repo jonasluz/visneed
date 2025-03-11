@@ -39,7 +39,7 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
     <>
       <div className="h-[10%] flex justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">
         <button className="w-full h-full" onClick={handleExport}>
-          <p className="text-4xl text-white font-semibold">Export Data</p>
+          <p className="text-3xl text-white font-semibold">Export Data</p>
         </button>
       </div>
       <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">
