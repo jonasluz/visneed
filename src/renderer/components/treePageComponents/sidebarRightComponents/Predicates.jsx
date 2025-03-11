@@ -1,8 +1,7 @@
 import React from 'react'
 
 function Predicates({ edges, nodes }) {
-    console.log(edges)
-    console.log(nodes)
+
     let predicates = []
     let predConnection = []
 
@@ -12,7 +11,6 @@ function Predicates({ edges, nodes }) {
           predConnection.push([edge.from, edge.to])
         })
     }
-    console.log(predConnection)
 
     if(Object.keys(predicates).length === 0) {
         return (
@@ -36,7 +34,7 @@ function Predicates({ edges, nodes }) {
         <div className="h-full overflow-y-auto overflow-x-auto w-full">
             <table className='items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg'>
                 <thead className='uppercase'>
-                    <tr className='bg-background-green-300'>
+                    <tr className='bg-background-green-300 text-center'>
                         <th scope='col' className='px-4 py-2'>Edge</th>
                         <th scope='col' className='px-4 py-2'>Key</th>
                         <th scope='col' className='px-4 py-2'>Condition</th>
@@ -60,7 +58,7 @@ function Predicates({ edges, nodes }) {
                         }
 
                         return (
-                            <tr key={index} className='font-bold'>
+                            <tr key={index} className='font-bold text-center'>
                                 <td className='px-4 py-4'>
                                     {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                 </td>

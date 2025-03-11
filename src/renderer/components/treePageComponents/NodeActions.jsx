@@ -30,18 +30,20 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
   }
 
   return (
-    <div className='flex flex-col'>
-      <button
-        className='bg-background-green-400 mb-2 w-9 h-9 p-3 rounded-lg hover:brightness-50 ease-in-out duration-200 disabled:brightness-50 disabled:hover:translate-y-0 disabled:hover:w-9 disabled:hover:h-9'>
-        <img src={editIcon} alt="" className="object-cover w-full h-full" />
-      </button>
-      
+    <div className='flex flex-col'>      
       {/*Add node action*/}
       <button 
         className='bg-background-green-400 mb-2 w-9 h-9 p-3 rounded-lg hover:brightness-50 ease-in-out duration-200'
         onClick={() => setIsAddModalOpen(true)}
       >
         <img src={addIcon} alt="" className="object-cover w-full h-full" />
+      </button>
+
+      {/* Edit node action */}
+      <button
+        className='bg-background-green-400 mb-2 w-9 h-9 p-3 rounded-lg hover:brightness-50 ease-in-out duration-200 disabled:brightness-50 disabled:hover:translate-y-0 disabled:hover:w-9 disabled:hover:h-9'
+        disabled={isNodeSelected}>
+        <img src={editIcon} alt="" className="object-cover w-full h-full" />
       </button>
 
       {/*Delete node action*/}

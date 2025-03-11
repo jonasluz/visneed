@@ -446,11 +446,7 @@ function TreePage() {
         </button>
       </div>
 
-      <div
-        className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${
-          minimized ? "visible" : "hidden"
-        }`}
-      >
+      <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? "visible" : "hidden"}`}>
         <TreeSideBarRight
           selectedOutcome={selectedOutcome}
           selectedEdge={selectedPredicates}

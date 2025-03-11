@@ -1,6 +1,7 @@
 import React from "react";
 
 function Actions({ edges, nodes }) {
+
   let actions = []
   let actionsConnection = []
 
@@ -10,6 +11,8 @@ function Actions({ edges, nodes }) {
       actionsConnection.push([edge.from, edge.to])
     })
   }
+  console.log(nodes)
+  console.log(actionsConnection)
 
   // tratar valor inicial das actions == {}
   if (Object.keys(actions).length === 0) {
@@ -55,7 +58,7 @@ function Actions({ edges, nodes }) {
               return (
                 <tr key={index} className="font-bold">
                   <td className="px-4 py-4">
-                    {nodes[actionsConnection[index][0]]?.name} -&gt; {nodes[actionsConnection[index][1]]?.name}
+                  {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                   </td>
                   <td colSpan="4" className="px-4 py-2 text-left">
                     No actions for this connection
@@ -66,7 +69,7 @@ function Actions({ edges, nodes }) {
             return (
               <tr key={index} className="font-bold">
                 <td className="px-4 py-4">
-                  {nodes[actionsConnection[index][0]]?.name} -&gt; {nodes[actionsConnection[index][1]]?.name}
+                {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                 </td>
 
                 <td className="px-4 py-4">{action.key}</td>
@@ -78,12 +81,6 @@ function Actions({ edges, nodes }) {
         </tbody>
       </table>
     </div>
-
-    // <div className="h-full overflow-y-auto w-full">
-    //   {edge.map((action) => {
-    //     console.log(action.actions)
-    //   })}
-    // </div>
   );
 }
 

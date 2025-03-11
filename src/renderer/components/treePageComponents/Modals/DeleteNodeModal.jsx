@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
   if (!isOpen) return null;
   console.log(selectedNode);
   console.log(nodes)
 
+  const [onlyChild, setOnlyChild] = useState(false)
   const [choosenChildren, setChoosenChildren] = useState("")
   const [isSubstitute, setIsSubstitute] = useState(false)
+  console.log(selectedNode.connections.length)
+  useEffect(() => {
+    if(selectedNode.connections.length > 1) {
+      setOnlyChild(false)
+    } else {
+      setOnlyChild(true)
+    }
+  }, [selectedNode])
 
   const handleConfirm = () => {
     onConfirm(selectedNode.id);
@@ -15,7 +24,7 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="flex flex-col bg-background-green-100 w-[40%] h-[60%] p-6 rounded-lg justify-center items-center">
+      <div className="flex flex-col bg-background-green-100 w-[40%] h-[60%] p-8 rounded-lg justify-center items-center">
         <div className="flex flex-col w-[85%] h-[90%]">
           <div className="flex flex-row justify-center p-2">
             <p className="text-2xl font-rubik-semibold">You are about to deleted the node&nbsp;</p>
@@ -30,10 +39,12 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
             <div className="p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:shadow-lg duration-150 ease-in hover:-translate-y-1 cursor-pointer">
               Create a new tree
             </div>
-            <div className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:shadow-lg duration-150 ease-in hover:-translate-y-1 cursor-pointer ${isSubstitute ? "shadow-lg shadow-background-green-400 -translate-y-1" : ""}`}
-            onClick={() => {setIsSubstitute(!isSubstitute)}}>
+            
+            <button className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:shadow-lg duration-150 ease-in hover:-translate-y-1 cursor-pointer ${isSubstitute ? "shadow-lg shadow-background-green-400 -translate-y-1" : ""} disabled:shadow-none disabled:translate-y-0 disabled:brightness-50 disabled:cursor-default`}
+            onClick={() => {setIsSubstitute(!isSubstitute)}}
+            disabled={onlyChild}>
               Substitute the deleated node
-            </div>
+            </button>
           </div>
 
           <div className={`flex flex-row p-6 justify-center ${isSubstitute ? "block" : "hidden"}`}>

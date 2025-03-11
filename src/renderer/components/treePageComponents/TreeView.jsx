@@ -5,7 +5,7 @@ import "vis-network/styles/vis-network.css";
 
 const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgroundClick }) => {
   const visContainerRef = useRef(null);
-  
+
   useEffect(() => {
     if (!visContainerRef.current) return;
     if (!nodesArray) return

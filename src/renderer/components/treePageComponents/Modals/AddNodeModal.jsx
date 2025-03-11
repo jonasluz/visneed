@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import closeIcon from "../../../../assets/close.png";
+
 function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
+  console.log(nodes)
   const [parentNodeId, setParentNodeId] = useState();
   const [newNodeName, setNewNodeName] = useState('');
   const [predicateInfo, setPredicateInfo] = useState({
@@ -30,17 +33,25 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
     } else {
       onConfirm(parentNodeId, newNodeName, predicateInfo, outcomeInfo, actionInfo);
       onClose();
+      setParentNodeId();
+      setNewNodeName("");
+      setPredicateInfo({ key: '', value: '', condition: '=', logicalOperator: '' });
+      setOutcomeInfo({ key: '', operator: '=', value: '' })
+      setActionInfo({ key: '', operator: '=', value: '' })
     }
-    
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-background-green-100 w-[60%] h-[75%] p-6 rounded-lg overflow-y-auto scrollbar-none">
+      <div className="relative bg-background-green-100 w-fit h-fit p-12 rounded-lg overflow-y-auto scrollbar-none">
+      <button className='absolute w-8 h-8 top-5 right-5 cursor-pointer' onClick={onClose}>
+        <img src={closeIcon} alt="" className='w-full h-full object-contain' />
+      </button>
+        
         {/* Title */}
         <h2 className="text-xl font-bold mb-4">Add a new Node</h2>
-        <div className='flex flex-row justify-between'>
-          <div className="mb-4 w-[40%]">
+        <div className='flex flex-row'>
+          <div className="mb-4 basis-1/3 px-4">
             {/* Parent node input */}
             <label className="block text-sm font-medium mb-2">Parent Node:</label>
             <select
@@ -57,32 +68,34 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
           </div>
           
           {/* Node name input */}
-          <div className="mb-6 w-[55%]">
+          <div className="mb-6 basis-1/3 px-4">
             <label className="block text-sm font-medium mb-2">Node name:</label>
             <input
               placeholder='Ex: Node 1'
               type="text"
               className="w-full p-2 border rounded text-black"
               value={newNodeName}
-              onChange={(e) => setNewNodeName(e.target.value)}/>
+              onChange={(e) => setNewNodeName(e.target.value)}
+              spellCheck={false}
+              />
           </div>
         </div>
         
         {/* Outcome input */}
-        <div className="mb-4 w-full">
-          <label className='block text-lg font-semibold mb-2'>Outcomes:</label>
-          <div className="flex flex-row justify-between px-4">
-            <div className='w-[45%]'>
+        <div className={`mb-4 w-full `}>
+          <label className='block text-lg font-semibold mb-2 px-4'>Outcomes:</label>
+          <div className="flex flex-row px-4">
+            <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
                 placeholder='Ex: hp improve'
                 type="text"
                 className="w-full p-2 border rounded text-black"
                 value={outcomeInfo.key}
-                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, key: e.target.value })}
-              />
+                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, key: e.target.value })}/>
+              <label className='text-sm text-red-700'>Blank outcome = "No outcome"</label>
             </div>
-            <div className='w-[8%]'>
+            <div className='basis-1/10 px-4'>
               <label className="block text-sm font-medium mb-2">Operator</label>
               <select
               className="w-full p-2 border rounded text-black"
@@ -98,35 +111,34 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <option value="-">-</option>
               </select>
             </div>
-            <div className='w-[40%]'>
+            <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Value</label>
-                <input
-                  placeholder='Ex: 5'
-                  type="text"
-                  className="w-full p-2 border rounded text-black"
-                  value={outcomeInfo.value}
-                  onChange={(e) => setOutcomeInfo({ ...outcomeInfo, value: e.target.value })}/>
+              <input
+                placeholder='Ex: 5'
+                type="text"
+                className="w-full p-2 border rounded text-black"
+                value={outcomeInfo.value}
+                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, value: e.target.value })}/>
             </div>
           </div>
-          <label className='text-sm text-red-700 px-4'>Blank outcome = "No outcome"</label>
-
         </div>
         
         {/* Predicate input */}
-        <div className="mb-4 w-full">
-          <label className='block text-lg font-semibold mb-2'>Predicate:</label>
-          <div className="flex flex-row justify-between px-4">
-            <div className='w-[40%]'>
+        <div className={`mb-4 w-full ${nodes.length < 1 ? "hidden" : "block"}`}>
+          <label className='block text-lg font-semibold mb-2 px-4'>Predicate:</label>
+          <div className="flex flex-row px-4">
+            <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
                 placeholder='Ex: Option'
                 type="text"
-                className="w-full p-2 border rounded text-black"
+                className="w-full p-2 border rounded text-black px-4"
                 value={predicateInfo.key}
                 onChange={(e) => setPredicateInfo({ ...predicateInfo, key: e.target.value })}
               />
+              <label className='text-sm text-red-700'>Blank predicate = "No predicate"</label>
             </div>
-            <div className='w-[8%]'>
+            <div className='basis-1/10 px-4'>
               <label className="block text-sm font-medium mb-2">Condition</label>
               <select
               className="w-full p-2 border rounded text-black"
@@ -140,7 +152,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <option value=">=">&gt;=</option>
               </select>
             </div>
-            <div className='w-[35%]'>
+            <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Value</label>
                 <input
                   placeholder='Ex: 1'
@@ -149,7 +161,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                   value={predicateInfo.value}
                   onChange={(e) => setPredicateInfo({ ...predicateInfo, value: e.target.value })}/>
             </div>
-            <div className='w-[11%]'>
+            <div className='basis-2/10 px-4'>
               <label className="block text-sm font-medium mb-2">Log. OP</label>
               <select
               className="w-full p-2 border rounded text-black"
@@ -160,24 +172,23 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               </select>
             </div>
           </div>
-          <label className='text-sm text-red-700 px-4'>Blank predicate = "No predicate"</label>
         </div>
 
         {/* Action input */}
-        <div className="mb-4 w-full">
-          <label className='block text-lg font-semibold mb-2'>Actions:</label>
-          <div className="flex flex-row justify-between px-4">
-            <div className='w-[45%]'>
+        <div className={`mb-4 w-full ${nodes.length < 1 ? "hidden" : "block"}`}>
+          <label className='block text-lg font-semibold mb-2 px-4'>Actions:</label>
+          <div className="flex flex-row px-4">
+            <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
                 placeholder='Ex: freedom'
                 type="text"
                 className="w-full p-2 border rounded text-black"
                 value={actionInfo.key}
-                onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}
-              />
+                onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}/>
+              <label className='text-sm text-red-700'>Blank action = "No actions"</label>
             </div>
-            <div className='w-[8%]'>
+            <div className='basis-1/10 px-4'>
               <label className="block text-sm font-medium mb-2">Operator</label>
               <select
               className="w-full p-2 border rounded text-black"
@@ -193,7 +204,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <option value="-">-</option>
               </select>
             </div>
-            <div className='w-[40%]'>
+            <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Value</label>
                 <input
                   placeholder='Ex: True'
@@ -203,21 +214,17 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                   onChange={(e) => setActionInfo({ ...actionInfo, value: e.target.value })}/>
             </div>
           </div>
-          <label className='text-sm text-red-700 px-4'>Blank action = "No actions"</label>
-
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex mt-8">
           <button
-            className="bg-red-800 hover:brightness-50 ease-in-out duration-100 text-white px-4 py-2 rounded mr-2"
-            onClick={onClose}
-          >
+            className="bg-background-red-300 hover:brightness-50 ease-in-out duration-100 text-white text-sm p-4 px-8 rounded font-semibold font-rubik-semibold border border-black"
+            onClick={() => {onClose(); toast.error("Action canceled!")}}>
             Cancel
           </button>
           <button
-            className="bg-background-green-400 hover:brightness-50 ease-in-out duration-100 text-white px-4 py-2 rounded"
-            onClick={handleConfirm}
-          >
+            className="bg-background-green-400 hover:brightness-50 ease-in-out duration-100 text-white text-sm p-4 px-8 mx-4 rounded font-semibold font-rubik-semibold border border-black"
+            onClick={handleConfirm}>
             Create
           </button>
         </div>
