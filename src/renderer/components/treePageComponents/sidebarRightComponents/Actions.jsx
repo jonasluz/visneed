@@ -11,8 +11,7 @@ function Actions({ edges, nodes }) {
       actionsConnection.push([edge.from, edge.to])
     })
   }
-  console.log(nodes)
-  console.log(actionsConnection)
+
 
   // tratar valor inicial das actions == {}
   if (Object.keys(actions).length === 0) {
@@ -38,25 +37,17 @@ function Actions({ edges, nodes }) {
       <table className="items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg">
         <thead className="uppercase">
           <tr className="bg-background-green-300">
-            <th scope="col" className="px-4 py-2">
-              Edge
-            </th>
-            <th scope="col" className="px-4 py-2">
-              Key
-            </th>
-            <th scope="col" className="px-4 py-2">
-              Operator
-            </th>
-            <th scope="col" className="px-4 py-2">
-              Value
-            </th>
+            <th scope="col" className="px-4 py-2">Edge</th>
+            <th scope="col" className="px-4 py-2">Key</th>
+            <th scope="col" className="px-4 py-2">Operator</th>
+            <th scope="col" className="px-4 py-2">Value</th>
           </tr>
         </thead>
         <tbody className="bg-background-green-400 h-2/6">
           {actions.map((action, index) => {
             if (action === "No action") {
               return (
-                <tr key={index} className="font-bold">
+                <tr key={index} className="font-bold text-center">
                   <td className="px-4 py-4">
                   {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                   </td>
@@ -67,7 +58,7 @@ function Actions({ edges, nodes }) {
               );
             }
             return (
-              <tr key={index} className="font-bold">
+              <tr key={index} className="font-bold text-center">
                 <td className="px-4 py-4">
                 {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                 </td>

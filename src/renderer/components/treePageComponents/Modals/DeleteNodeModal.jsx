@@ -5,15 +5,16 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
   console.log(selectedNode);
   console.log(nodes)
 
-  const [onlyChild, setOnlyChild] = useState(false)
+  const [noChild, setNoChild] = useState(true)
   const [choosenChildren, setChoosenChildren] = useState("")
   const [isSubstitute, setIsSubstitute] = useState(false)
   console.log(selectedNode.connections.length)
+
   useEffect(() => {
-    if(selectedNode.connections.length > 1) {
-      setOnlyChild(false)
+    if(selectedNode.connections.length >= 1) {
+      setNoChild(true)
     } else {
-      setOnlyChild(true)
+      setNoChild(false)
     }
   }, [selectedNode])
 
@@ -21,6 +22,8 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
     onConfirm(selectedNode.id);
     onClose();
   };
+
+  
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
@@ -42,7 +45,7 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
             
             <button className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:shadow-lg duration-150 ease-in hover:-translate-y-1 cursor-pointer ${isSubstitute ? "shadow-lg shadow-background-green-400 -translate-y-1" : ""} disabled:shadow-none disabled:translate-y-0 disabled:brightness-50 disabled:cursor-default`}
             onClick={() => {setIsSubstitute(!isSubstitute)}}
-            disabled={onlyChild}>
+            disabled={!noChild}>
               Substitute the deleated node
             </button>
           </div>

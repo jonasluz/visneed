@@ -31,7 +31,7 @@ function Predicates({ edges, nodes }) {
     }
 
     return (
-        <div className="h-full overflow-y-auto overflow-x-auto w-full">
+        <div className="h-full w-full overflow-y-auto overflow-x-auto w-full">
             <table className='items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg'>
                 <thead className='uppercase'>
                     <tr className='bg-background-green-300 text-center'>
@@ -46,7 +46,7 @@ function Predicates({ edges, nodes }) {
                     {predicates.map((predicate, index) => {
                         if (predicate === "No predicate") {
                             return (
-                                <tr key={index} className='font-bold'>
+                                <tr key={index} className='font-bold text-center'>
                                     <td className='px-4 py-4'>
                                         {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                     </td>

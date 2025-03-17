@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import closeIcon from "../../../../assets/close.png";
 
 function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
-  console.log(nodes)
   const [parentNodeId, setParentNodeId] = useState();
   const [newNodeName, setNewNodeName] = useState('');
   const [predicateInfo, setPredicateInfo] = useState({

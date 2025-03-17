@@ -17,7 +17,6 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
     } else {
       setIsNodeSelected(true);
     }
-    console.log(nodeSelected)
 
   }, [nodeSelected])
 

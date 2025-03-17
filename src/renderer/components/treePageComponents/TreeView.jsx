@@ -46,7 +46,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           },
           borderWidthSelected: 4,
           color: {
-            background: getColorByLevel(levels[node.id] || 0),
+            background: getColorByLevel(levels[0] || 0),
             border: "#fff",
             highlight: {
               background: "#CAD2C5",
@@ -79,23 +79,21 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           highlight: "#CAD2C5", 
           hover: "#FFD700",
         },
-        arrows: { to: { enabled: false, type: "circle" } },
+        arrows: { to: { enabled: true, type: "arrow" } },
       } ))
     );
 
     const options = {
       layout: {
-        hierarchical: {
-          direction: "LR",
-          sortMethod: "directed",
-          nodeSpacing: 150,
-          levelSeparation: 500,
-          shakeTowards: 'roots'
-        },
+        hierarchical: false, // Desativa o layout hierárquico
+      },
+      physics: {
+        enabled: true, // Ativa o mecanismo de física para posicionamento automático
+        solver: 'forceAtlas2Based', // Escolhe um algoritmo adequado para grafos densos
       },
       edges: {
         smooth: {
-          type: 'continuous'
+          type: 'continuous',
         },
         color: { color: "#84A98C" },
         width: 2,
@@ -103,9 +101,8 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
       },
       interaction: {
         hover: true,
-        hoverConnectedEdges: true
+        hoverConnectedEdges: true,
       },
-      physics: { enabled: true },
     };
 
     if (visContainerRef.current) {
@@ -190,13 +187,15 @@ function calculateLevels(nodes, edges) {
   levels[rootId] = 0;
 
   function assignLevel(nodeId, level) {
+    console.log(nodeId)
+    console.log(levels)
     levels[nodeId] = level;
     edges
       .filter((edge) => edge.from === nodeId)
       .forEach((edge) => assignLevel(edge.to, level + 1));
   }
 
-  assignLevel(rootId, 0);
+  // assignLevel(rootId, 0);
   return levels;
 }
 

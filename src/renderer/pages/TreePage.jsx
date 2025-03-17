@@ -91,6 +91,7 @@ function TreePage() {
       edgesArray: data.edgesArray,
       dictionary: data.dictionary,
     });
+    
     setProjectName(data.projectName);
   };
 
@@ -113,7 +114,8 @@ function TreePage() {
       toast.success(`Nó ${newNodeName}, criado com sucesso!`);
     }
 
-    const newNodeId = tree.nodesArray.length + 1;
+    const lastNodeOnArray = tree.nodesArray[tree.nodesArray.length - 1];
+    const newNodeId = lastNodeOnArray ? lastNodeOnArray.id  + 1 : 1;
 
     const newNode = {
       id: newNodeId,
@@ -160,8 +162,6 @@ function TreePage() {
               ],
       },
     };
-
-    console.log(newConnection);
 
     const updatedNodesArray = tree.nodesArray.map((node) => {
       if (node.id === parseInt(parentNodeId)) {
@@ -234,12 +234,11 @@ function TreePage() {
 
   //Delete a node
   const handleDeleteNode = (nodeId) => {
+    //Get the node to delete 
     const nodeToDelete = tree.nodesArray.find((node) => node.id === nodeId);
     if (!nodeToDelete) return;
 
-    console.log("node deleted: ", nodeToDelete)
-
-    // Encontrar o nó pai (que está conectado ao nó a ser deletado)
+    // Get the parent of the node to be deleted
     const parentEdge = tree.edgesArray.find((edge) => edge.to === nodeId);
     const parentNodeId = parentEdge ? parentEdge.from : null;
 

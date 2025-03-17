@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Nodes from "./sidebarLeftComponents/Nodes"
 import Connections from "./sidebarLeftComponents/Connections";
 
+import { toast } from "react-toastify";
+
 function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changedTree }) {
   const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
 
           console.log(data)
           await window.treeAPI.saveTree(treeId, data);
+          toast.success("Import was successfully done!")
         } catch (error) {
           alert("Erro ao ler o arquivo JSON.");
           console.log(error);
@@ -74,14 +77,6 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
 
   return (
     <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-70">
-      {/* <div className="flex flex-row w-full h-[6%] items-baseline">
-        <button
-        onClick={() => navigate("/")}
-        className="w-[20%] h-full"
-        >
-          <img src={backIcon} alt="" className=" w-full h-full object-contain p-3" />
-      </button>
-      </div> */}
       <div className="flex flex-row w-full items-center justify-around">
         <p className="text-3xl font-bold text-white py-10">VisNeed</p>
       </div>
