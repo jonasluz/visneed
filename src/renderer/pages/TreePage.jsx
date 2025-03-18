@@ -17,7 +17,7 @@ import GoToHomeModal from "../components/treePageComponents/Modals/GoToHomeModal
 
 function TreePage() {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
+  const [showHomeModal, setShowHomeModal] = useState(false);
 
   const { treeId } = useParams();
   const [tree, setTree] = useState({});
@@ -37,7 +37,7 @@ function TreePage() {
   }, [selectedNode]);
 
   const handleConfirmGoHome = () => {
-    setShowModal(false);
+    setShowHomeModal(false);
     navigate("/");
   };
 
@@ -351,13 +351,13 @@ function TreePage() {
         currentPage={"treePage"}
         treeId={treeId}
         treeName={projectName}
-        onHomeClick={() => setShowModal(true)}
+        onHomeClick={() => setShowHomeModal(true)}
       />
 
-      {showModal && (
+      {showHomeModal && (
         <GoToHomeModal
           onConfirm={handleConfirmGoHome}
-          onCancel={() => setShowModal(false)}
+          onCancel={() => setShowHomeModal(false)}
         />
       )}
 
@@ -375,7 +375,7 @@ function TreePage() {
 
       {/* Left Side Bar */}
       <div
-        className={`absolute top-0 left-0 w-1/6 h-full z-10 ${
+        className={`absolute top-0 left-0 w-[16%] h-full z-10 ${
           minimized ? "visible" : "hidden"
         }`}
       >
@@ -390,16 +390,17 @@ function TreePage() {
 
       {/* Tree Project Name */}
       <div
-        className={`flex flex-col absolute top-0 ${
+        className={`flex flex-col absolute top-0 w-[54%] ${
           minimized ? "left-[17%]" : "left-0"
         }`}
       >
-        <div className="flex flex-row p-4 text-white items-center">
-          <img src={treeImage} alt="" className="w-8 h-8 object-cover invert" />
-          <p className="ml-2 font-semibold">{projectName}</p>
-        </div>
-
-        <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
+        <div className="flex flex-row p-4 text-white items-center justify-between w-full">
+          <div className="flex flex-row items-center">
+            <img src={treeImage} alt="" className="w-8 h-8 object-cover invert" />
+            <p className="ml-2 font-semibold">{projectName}</p>
+          </div>
+          
+          <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
           <p className="ml-2 font-semibold">Current Node: </p>
           <p className="ml-2 font-semibold text-background-green-400">
             {selectedNode.name}
@@ -412,6 +413,9 @@ function TreePage() {
             {selectedConnections.length}
           </p>
         </div>
+        </div>
+
+        
       </div>
 
       {/* Node Selected */}

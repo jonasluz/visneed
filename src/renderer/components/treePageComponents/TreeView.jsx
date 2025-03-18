@@ -46,7 +46,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           },
           borderWidthSelected: 4,
           color: {
-            background: getColorByLevel(levels[0] || 0),
+            background: getColorByLevel(levels[node.id] || 0),
             border: "#fff",
             highlight: {
               background: "#CAD2C5",
@@ -85,7 +85,13 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
 
     const options = {
       layout: {
-        hierarchical: false, // Desativa o layout hierárquico
+        hierarchical: {
+          direction: "LR",
+          sortMethod: "directed",
+          nodeSpacing: 150,
+          levelSeparation: 500,
+          shakeTowards: 'roots'
+        },
       },
       physics: {
         enabled: true, // Ativa o mecanismo de física para posicionamento automático
@@ -185,8 +191,11 @@ function calculateLevels(nodes, edges) {
   const levels = {};
   const rootId = nodes[0]?.id || 1;
   levels[rootId] = 0;
+  const visited = new Set();
 
   function assignLevel(nodeId, level) {
+    if (visited.has(nodeId)) return;
+    visited.add(nodeId); 
     console.log(nodeId)
     console.log(levels)
     levels[nodeId] = level;
@@ -195,7 +204,8 @@ function calculateLevels(nodes, edges) {
       .forEach((edge) => assignLevel(edge.to, level + 1));
   }
 
-  // assignLevel(rootId, 0);
+  assignLevel(rootId, 0);
+  console.log(levels)
   return levels;
 }
 

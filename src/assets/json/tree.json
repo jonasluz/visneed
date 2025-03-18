@@ -35,8 +35,7 @@
         "visualization": "Big",
         "connections": [
           { "name": "2-6", "targetId": 6, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "2-7", "targetId": 7, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "2-1", "targetId": 1, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "3", "logicalOperator": "OR" }] }, "actions": [] }
+          { "name": "2-7", "targetId": 7, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }] }, "actions": [] }
         ]
       },
       {
