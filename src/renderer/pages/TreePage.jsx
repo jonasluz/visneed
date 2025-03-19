@@ -179,9 +179,7 @@ function TreePage() {
       from: parseInt(parentNodeId),
       to: newNodeId,
       predicate:
-        predicateInfo.key == ""
-          ? ["No predicate"]
-          : [
+        predicateInfo.key == "" ? ["No predicate"] : [
               {
                 key: predicateInfo.key,
                 condition: predicateInfo.condition,
@@ -190,9 +188,7 @@ function TreePage() {
               },
             ],
       actions:
-        actionInfo.key == ""
-          ? ["No action"]
-          : [
+        actionInfo.key == "" ? ["No action"] : [
               {
                 key: actionInfo.key,
                 operator: actionInfo.operator,
@@ -203,13 +199,14 @@ function TreePage() {
 
     console.log(newEdge);
 
-    const newDictionaryElem = {
-      key: newNodeName,
-      type: "string",
-    };
-
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
-    const updatedDictionary = [...tree.dictionary, newDictionaryElem];
+    const updatedDictionary = [
+      ...tree.dictionary,
+      { key: newNodeName, type: "string" },
+      ...(outcomeInfo.key ? [{ key: outcomeInfo.key, type: outcomeInfo.type }] : []),
+      ...(predicateInfo.key ? [{ key: predicateInfo.key, type: predicateInfo.type }] : []),
+      ...(actionInfo.key ? [{ key: actionInfo.key, type: actionInfo.type }] : []),
+    ];
 
     setTree({
       nodesArray: updatedNodesArray,
@@ -351,17 +348,18 @@ function TreePage() {
         currentPage={"treePage"}
         treeId={treeId}
         treeName={projectName}
-        onHomeClick={() => setShowHomeModal(true)}
-      />
+        onHomeClick={() => setShowHomeModal(true)} />
 
+      {/* Modal to go back to Home Page */}
       {showHomeModal && (
         <GoToHomeModal
           onConfirm={handleConfirmGoHome}
-          onCancel={() => setShowHomeModal(false)}
-        />
+          onCancel={() => setShowHomeModal(false)}/>
       )}
 
+      {/* Notification component */}
       <ToastContainer />
+
       {/* Tree View */}
       <div className="w-full h-full flex justify-center items-center ">
         <TreeView
@@ -369,31 +367,21 @@ function TreePage() {
           edgesArray={tree.edgesArray}
           onNodeClick={handleNodeClick}
           onEdgeClick={handleEdgeClick}
-          onBackgroundClick={handleBakcgroundClick}
-        />
+          onBackgroundClick={handleBakcgroundClick} />
       </div>
 
       {/* Left Side Bar */}
-      <div
-        className={`absolute top-0 left-0 w-[16%] h-full z-10 ${
-          minimized ? "visible" : "hidden"
-        }`}
-      >
+      <div className={`absolute top-0 left-0 w-[16%] h-full z-10 ${minimized ? "visible" : "hidden"}`}>
         <TreeSidebarLeft
           treeId={treeId}
           onImport={handleImport}
           nodes={tree.nodesArray}
           selectedConnections={selectedConnections}
-          changedTree={update}
-        />
+          changedTree={update} />
       </div>
 
       {/* Tree Project Name */}
-      <div
-        className={`flex flex-col absolute top-0 w-[54%] ${
-          minimized ? "left-[17%]" : "left-0"
-        }`}
-      >
+      <div className={`flex flex-col absolute top-0 w-[54%] ${minimized ? "left-[16%]" : "left-0 w-full"}`}>
         <div className="flex flex-row p-4 text-white items-center justify-between w-full">
           <div className="flex flex-row items-center">
             <img src={treeImage} alt="" className="w-8 h-8 object-cover invert" />
@@ -401,42 +389,27 @@ function TreePage() {
           </div>
           
           <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
-          <p className="ml-2 font-semibold">Current Node: </p>
-          <p className="ml-2 font-semibold text-background-green-400">
-            {selectedNode.name}
-          </p>
-        </div>
+            <p className="ml-2 font-semibold">Current Node: </p>
+            <p className="ml-2 font-semibold text-background-green-400">{selectedNode.name}</p>
+          </div>
 
-        <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
-          <p className="ml-2 font-semibold">Current connections: </p>
-          <p className="ml-2 font-semibold text-background-green-400">
-            {selectedConnections.length}
-          </p>
+          <div className="flex flex-row px-4 py-1 text-sm text-neutral-200">
+            <p className="ml-2 font-semibold">Current connections: </p>
+            <p className="ml-2 font-semibold text-background-green-400">{selectedConnections.length}</p>
+          </div>
         </div>
-        </div>
-
-        
       </div>
 
       {/* Node Selected */}
-      <div
-        className={`absolute bottom-0 p-2 text-white items-center ${
-          minimized ? "left-[17%]" : "left-5"
-        }`}
-      >
+      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? "left-[16%]" : "left-5"}`}>
         <NodeActions
           nodes={tree.nodesArray}
           onAddNode={handleAddNode}
           onDeleteNode={handleDeleteNode}
-          nodeSelected={selectedNode}
-        />
+          nodeSelected={selectedNode} />
       </div>
 
-      <div
-        className={`absolute bottom-0 p-2 text-white items-center ${
-          minimized ? "right-[30%]" : "right-5"
-        }`}
-      >
+      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? "right-[30%]" : "right-5"}`}>
         <button
           className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200"
           onClick={handleMinimized}
@@ -449,14 +422,14 @@ function TreePage() {
         </button>
       </div>
 
+      {/* Left Side Bar */}    
       <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? "visible" : "hidden"}`}>
         <TreeSideBarRight
           selectedOutcome={selectedOutcome}
           selectedEdge={selectedPredicates}
           nodes={tree.nodesArray}
           treeId={treeId}
-          treeName={projectName}
-        />
+          treeName={projectName} />
       </div>
     </div>
   );

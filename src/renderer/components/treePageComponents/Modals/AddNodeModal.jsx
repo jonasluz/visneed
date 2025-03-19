@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import closeIcon from "../../../../assets/close.png";
 
 function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
+  const modalRef = useRef(null);
+
   const [parentNodeId, setParentNodeId] = useState();
   const [newNodeName, setNewNodeName] = useState('');
   const [predicateInfo, setPredicateInfo] = useState({
     key: '',
     value: '',
     condition: '=',
-    logicalOperator: ''
+    logicalOperator: '',
+    type: 'string'
   });
   const [outcomeInfo, setOutcomeInfo] = useState({
     key: '',
     operator: '=',
     value: '',
+    type: 'string'
   })
   const [actionInfo, setActionInfo] = useState({
     key: '',
     operator: '=',
     value: '',
+    type: 'string'
   })
 
   if (!isOpen) return null;
@@ -34,16 +39,23 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
       onClose();
       setParentNodeId();
       setNewNodeName("");
-      setPredicateInfo({ key: '', value: '', condition: '=', logicalOperator: '' });
-      setOutcomeInfo({ key: '', operator: '=', value: '' })
-      setActionInfo({ key: '', operator: '=', value: '' })
+      setPredicateInfo({ key: '', value: '', condition: '=', logicalOperator: '', type: 'string' });
+      setOutcomeInfo({ key: '', operator: '=', value: '', type: 'string' })
+      setActionInfo({ key: '', operator: '=', value: '', type: 'string' })
+    }
+  };
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      toast.error("Action canceled!");
+      onClose();
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="relative bg-background-green-100 w-fit h-fit p-12 rounded-lg overflow-y-auto scrollbar-none">
-      <button className='absolute w-8 h-8 top-5 right-5 cursor-pointer' onClick={onClose}>
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center" onClick={handleClickOutside}>
+      <div ref={modalRef} className="relative bg-background-green-100 w-fit h-fit p-12 rounded-lg text-white overflow-y-auto scrollbar-none" onClick={(e) => e.stopPropagation()}>
+      <button className='absolute w-8 h-8 top-5 right-5 cursor-pointer' onClick={() => {onClose(); toast.error("Action canceled!")}}>
         <img src={closeIcon} alt="" className='w-full h-full object-contain' />
       </button>
         
@@ -110,6 +122,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <option value="-">-</option>
               </select>
             </div>
+
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Value</label>
               <input
@@ -119,6 +132,17 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 value={outcomeInfo.value}
                 onChange={(e) => setOutcomeInfo({ ...outcomeInfo, value: e.target.value })}/>
             </div>
+
+            <div className='basis-1/6 px-4'>
+              <label className="block text-sm font-medium mb-2">Type</label>
+              <select className="w-full p-2 border rounded text-black"
+                value={outcomeInfo.type}
+                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, type: e.target.value })}>
+                <option value="string">string</option>
+                <option value="integer">integer</option>
+                <option value="boolean">boolean</option>
+              </select>
+            </div>
           </div>
         </div>
         
@@ -126,6 +150,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
         <div className={`mb-4 w-full ${nodes.length < 1 ? "hidden" : "block"}`}>
           <label className='block text-lg font-semibold mb-2 px-4'>Predicate:</label>
           <div className="flex flex-row px-4">
+            {/* Key */}
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
@@ -137,6 +162,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               />
               <label className='text-sm text-red-700'>Blank predicate = "No predicate"</label>
             </div>
+            {/* Condition */}
             <div className='basis-1/10 px-4'>
               <label className="block text-sm font-medium mb-2">Condition</label>
               <select
@@ -151,6 +177,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <option value=">=">&gt;=</option>
               </select>
             </div>
+            {/* Value */}
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Value</label>
                 <input
@@ -160,6 +187,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                   value={predicateInfo.value}
                   onChange={(e) => setPredicateInfo({ ...predicateInfo, value: e.target.value })}/>
             </div>
+            {/* Type */}
+            <div className='basis-1/6 px-4'>
+              <label className="block text-sm font-medium mb-2">Type</label>
+              <select className="w-full p-2 border rounded text-black"
+                value={predicateInfo.type}
+                onChange={(e) => setPredicateInfo({ ...predicateInfo, type: e.target.value })}>
+                <option value="string">string</option>
+                <option value="integer">integer</option>
+                <option value="boolean">boolean</option>
+              </select>
+            </div>
+             {/* Log Op */}
             <div className='basis-2/10 px-4'>
               <label className="block text-sm font-medium mb-2">Log. OP</label>
               <select
@@ -177,6 +216,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
         <div className={`mb-4 w-full ${nodes.length < 1 ? "hidden" : "block"}`}>
           <label className='block text-lg font-semibold mb-2 px-4'>Actions:</label>
           <div className="flex flex-row px-4">
+
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
@@ -187,6 +227,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}/>
               <label className='text-sm text-red-700'>Blank action = "No actions"</label>
             </div>
+            
             <div className='basis-1/10 px-4'>
               <label className="block text-sm font-medium mb-2">Operator</label>
               <select
@@ -203,6 +244,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <option value="-">-</option>
               </select>
             </div>
+
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Value</label>
                 <input
@@ -212,15 +254,22 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                   value={actionInfo.value}
                   onChange={(e) => setActionInfo({ ...actionInfo, value: e.target.value })}/>
             </div>
+
+            {/* Type */}
+            <div className='basis-1/6 px-4'>
+              <label className="block text-sm font-medium mb-2">Type</label>
+              <select className="w-full p-2 border rounded text-black"
+                value={actionInfo.type}
+                onChange={(e) => setActionInfo({ ...actionInfo, type: e.target.value })}>
+                <option value="string">string</option>
+                <option value="integer">integer</option>
+                <option value="boolean">boolean</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <div className="flex mt-8">
-          <button
-            className="bg-background-red-300 hover:brightness-50 ease-in-out duration-100 text-white text-sm p-4 px-8 rounded font-semibold font-rubik-semibold border border-black"
-            onClick={() => {onClose(); toast.error("Action canceled!")}}>
-            Cancel
-          </button>
           <button
             className="bg-background-green-400 hover:brightness-50 ease-in-out duration-100 text-white text-sm p-4 px-8 mx-4 rounded font-semibold font-rubik-semibold border border-black"
             onClick={handleConfirm}>

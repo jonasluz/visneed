@@ -196,8 +196,6 @@ function calculateLevels(nodes, edges) {
   function assignLevel(nodeId, level) {
     if (visited.has(nodeId)) return;
     visited.add(nodeId); 
-    console.log(nodeId)
-    console.log(levels)
     levels[nodeId] = level;
     edges
       .filter((edge) => edge.from === nodeId)
@@ -205,7 +203,6 @@ function calculateLevels(nodes, edges) {
   }
 
   assignLevel(rootId, 0);
-  console.log(levels)
   return levels;
 }
 

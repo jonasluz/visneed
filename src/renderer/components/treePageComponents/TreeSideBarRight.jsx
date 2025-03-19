@@ -36,9 +36,9 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
   };
   return (
     <>
-      <div className="h-[10%] flex justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">
-        <button className="w-full h-full" onClick={handleExport}>
-          <p className="text-3xl text-white font-semibold">Export Data</p>
+      <div className="h-[7%] flex items-center justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">
+        <button className="w-full h-full flex items-center justify-center px-4 py-2" onClick={handleExport}>
+          <p className="text-sm lg:text-base xl:text-xl 2xl:text-2xl text-white font-semibold">Export Data</p>
         </button>
       </div>
       <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">
