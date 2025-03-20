@@ -230,7 +230,7 @@ function TreePage() {
   };
 
   //Delete a node
-  const handleDeleteNode = (nodeId) => {
+  const handleDeleteNode = (nodeId, type) => {
     //Get the node to delete 
     const nodeToDelete = tree.nodesArray.find((node) => node.id === nodeId);
     if (!nodeToDelete) return;
@@ -258,7 +258,7 @@ function TreePage() {
     
     let substitute = null;
 
-    if(childrenNodes.length > 0) {
+    if(childrenNodes.length > 0 && type === "substitute") {
       // Se houver filhos, escolher o primeiro filho como substituto
       const firstChild = childrenNodes[0];
       substitute = firstChild.id;
@@ -318,10 +318,13 @@ function TreePage() {
     console.log(tree.nodesArray)
     console.log(tree.edgesArray)
 
+    tree.dictionary = tree.dictionary.filter((item) => item.key !== nodeToDelete.name);
+
     setTree({
       ...tree,
       nodesArray: [...tree.nodesArray],
       edgesArray: [...tree.edgesArray],
+      dictionary: [...tree.dictionary],
     });
 
     console.log(tree)
@@ -422,7 +425,7 @@ function TreePage() {
         </button>
       </div>
 
-      {/* Left Side Bar */}    
+      {/* Right Side Bar */}    
       <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? "visible" : "hidden"}`}>
         <TreeSideBarRight
           selectedOutcome={selectedOutcome}

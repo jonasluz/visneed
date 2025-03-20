@@ -94,8 +94,8 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         },
       },
       physics: {
-        enabled: true, // Ativa o mecanismo de física para posicionamento automático
-        solver: 'forceAtlas2Based', // Escolhe um algoritmo adequado para grafos densos
+        enabled: true, 
+        solver: 'forceAtlas2Based',
       },
       edges: {
         smooth: {
@@ -119,7 +119,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
       );
 
       network.moveTo({
-        scale: 1.2, // Ajuste conforme necessário
+        scale: 1.2,
       });    
       
       // Evento de clique no nó
@@ -127,8 +127,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
           const nodeData = nodes.get(nodeId); 
-          console.log("No clicado:",nodeData)
-          console.log("Id do no clicado: " + nodeId)
+  
           onNodeClick(nodeId);
 
         } if (params.edges.length > 0) {
@@ -188,21 +187,25 @@ function getColorByLevel(level) {
 
 // Função para calcular os níveis dos nós
 function calculateLevels(nodes, edges) {
-  const levels = {};
-  const rootId = nodes[0]?.id || 1;
-  levels[rootId] = 0;
-  const visited = new Set();
+  const levels = {}; 
+  const visited = new Set(); 
 
-  function assignLevel(nodeId, level) {
+  const assignLevel = (nodeId, level) => {
     if (visited.has(nodeId)) return;
-    visited.add(nodeId); 
-    levels[nodeId] = level;
-    edges
-      .filter((edge) => edge.from === nodeId)
-      .forEach((edge) => assignLevel(edge.to, level + 1));
-  }
 
-  assignLevel(rootId, 0);
+    visited.add(nodeId);
+    levels[nodeId] = level;
+
+    const children = edges.filter(edge => edge.from === nodeId).map(edge => edge.to);
+    children.forEach(childId => assignLevel(childId, level + 1));
+  };
+
+  nodes.forEach((node) => {
+    if (!visited.has(node.id)) {
+      assignLevel(node.id, 0);
+    }
+  });
+
   return levels;
 }
 

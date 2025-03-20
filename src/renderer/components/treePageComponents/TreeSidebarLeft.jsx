@@ -75,7 +75,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
   }
 
   return (
-    <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-70">
+    <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-90 backdrop-blur-sm">
       <div className="flex flex-row w-full items-center justify-around">
         <p className="text-3xl font-bold text-white py-10">VisNeed</p>
       </div>
@@ -88,17 +88,13 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
         <Connections connections={selectedConnections} />
       </div>
       <div className="flex flex-col h-[10%] justify-center p-6">
-      <input
-          type="file"
-          accept=".json"
-          onChange={handleFile}
-          style={{ display: "none" }}
-          id="fileInput"
-        />
-        <label
-          htmlFor="fileInput"
-          className="flex bg-background-green-400 p-2 rounded-lg cursor-pointer justify-center"
-        >
+        <input
+        type="file"
+        accept=".json"
+        onChange={handleFile}
+        style={{ display: "none" }}
+        id="fileInput"/>
+        <label htmlFor="fileInput" className="flex bg-background-green-400 p-2 rounded-lg cursor-pointer justify-center">
           <p className="text-lg font-semibold">Import</p>
         </label>
       </div>

@@ -36,22 +36,22 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
   };
   return (
     <>
-      <div className="h-[7%] flex items-center justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 rounded-lg my-4 mx-2">
+      <div className="h-[7%] flex items-center justify-center bg-background-green-200 hover:brightness-150 duration-100 ease-in-out bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2">
         <button className="w-full h-full flex items-center justify-center px-4 py-2" onClick={handleExport}>
           <p className="text-sm lg:text-base xl:text-xl 2xl:text-2xl text-white font-semibold">Export Data</p>
         </button>
       </div>
-      <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 p-5">
+      <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 p-5">
         <p className="text-xl font-bold text-white">Outcomes</p>
         <div className="flex justify-center items-center h-full">
             <Outcomes outcomes={selectedOutcome} />
         </div>
       </div>
-      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 overflow-auto">
+      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto">
         <p className="text-xl font-bold text-white px-5 py-5">Predicate</p>
         <Predicates edges={selectedEdge} nodes={nodes} />
       </div>
-      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 rounded-lg my-4 mx-2 overflow-auto">
+      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto">
         <p className="text-xl font-bold text-white px-5 py-5">Actions</p>
         <Actions edges={selectedEdge} nodes={nodes}/>
       </div>
