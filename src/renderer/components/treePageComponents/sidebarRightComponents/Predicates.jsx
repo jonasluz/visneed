@@ -33,7 +33,7 @@ function Predicates({ edges, nodes }) {
 
     return (
         <div className="h-full w-full overflow-y-auto overflow-x-auto">
-            <table className='items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg'>
+            <table className='w-full items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg'>
                 <thead className='uppercase'>
                     <tr className='bg-background-green-300 text-center'>
                         <th scope='col' className='px-4 py-2'>Edge</th>

@@ -53,12 +53,12 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
           <p className="text-lg text-center p-3 text-white">What you want to do with the leafs?</p>
 
           <div className="flex flex-row w-full h-[40%] justify-around p-6 items-center">
-            <button className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:shadow-lg duration-150 ease-in hover:-translate-y-1 cursor-pointer text-white ${IsNewTree ? "shadow-lg shadow-background-green-400 -translate-y-1" : ""}`}
+            <button className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:-translate-y-2 hover:brightness-75 duration-150 ease-in cursor-pointer text-white ${IsNewTree ? "-translate-y-2" : ""} border border-black`}
             onClick={() => {setIsNewTree(!IsNewTree); setIsSubstitute(false); setType("newTree")}}>
               Create a new tree
             </button>
             
-            <button className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:shadow-lg duration-150 ease-in hover:-translate-y-1 cursor-pointer text-white ${isSubstitute ? "shadow-lg shadow-background-green-400 -translate-y-1" : ""} disabled:shadow-none disabled:translate-y-0 disabled:brightness-50 disabled:cursor-default`}
+            <button className={`p-6 rounded-lg h-[70%] w-[30%] text-center bg-background-green-200 hover:shadow-background-green-400 hover:-translate-y-2 hover:brightness-75 duration-150 ease-in  cursor-pointer text-white ${isSubstitute ? "-translate-y-2" : ""} disabled:shadow-none disabled:translate-y-0 disabled:brightness-50 disabled:cursor-default border border-black`}
             onClick={() => {setIsSubstitute(!isSubstitute); setIsNewTree(false); setType("substitute")}}
             disabled={!noChild}>
               Substitute the deleated node

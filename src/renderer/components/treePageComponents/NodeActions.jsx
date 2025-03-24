@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import AddNodeModal from './Modals/AddNodeModal';
 import addIcon from "../../../assets/add-symbol.png";
 import deleteIcon from "../../../assets/delete.png";
 import editIcon from "../../../assets/edit.png";
+import AddNodeModal from './Modals/AddNodeModal';
 import DeleteNodeModal from './Modals/DeleteNodeModal';
+import EditNodeModal from './Modals/EditNodeModal';
 
 function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const [isNodeSelected, setIsNodeSelected] = useState(false)
 
@@ -41,6 +43,7 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
       {/* Edit node action */}
       <button
         className='bg-background-green-400 mb-2 w-9 h-9 p-3 rounded-lg hover:brightness-50 ease-in-out duration-200 disabled:brightness-50 disabled:hover:translate-y-0 disabled:hover:w-9 disabled:hover:h-9'
+        onClick={() => setIsEditModalOpen(true)}
         disabled={isNodeSelected}>
         <img src={editIcon} alt="" className="object-cover w-full h-full" />
       </button>
@@ -68,6 +71,11 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
         onConfirm={handleDeleteNode}
         nodeSelected={nodeSelected}
         nodes={nodes}
+      />
+
+      <EditNodeModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
       />
       
     </div>
