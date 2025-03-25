@@ -34,7 +34,8 @@ function TreePage() {
   useEffect(() => {
     console.log(selectedNode);
     console.log(tree)
-  }, [selectedNode]);
+    console.log(selectedPredicates)
+  }, [selectedNode, selectedPredicates]);
 
   const handleConfirmGoHome = () => {
     setShowHomeModal(false);
@@ -200,13 +201,23 @@ function TreePage() {
     console.log(newEdge);
 
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
-    const updatedDictionary = [
-      ...tree.dictionary,
-      { key: newNodeName, type: "string" },
-      ...(outcomeInfo.key ? [{ key: outcomeInfo.key, type: outcomeInfo.type }] : []),
-      ...(predicateInfo.key ? [{ key: predicateInfo.key, type: predicateInfo.type }] : []),
-      ...(actionInfo.key ? [{ key: actionInfo.key, type: actionInfo.type }] : []),
-    ];
+    let updatedDictionary = [...tree.dictionary];
+  
+    if (newNodeName) {
+      updatedDictionary.push({ key: newNodeName, type: "string" });
+    }
+    
+    if (outcomeInfo.key) {
+      updatedDictionary.push({ key: outcomeInfo.key, type: outcomeInfo.type });
+    }
+    
+    if (predicateInfo.key) {
+      updatedDictionary.push({ key: predicateInfo.key, type: predicateInfo.type });
+    }
+    
+    if (actionInfo.key) {
+      updatedDictionary.push({ key: actionInfo.key, type: actionInfo.type });
+    }
 
     setTree({
       nodesArray: updatedNodesArray,
@@ -229,7 +240,7 @@ function TreePage() {
     setUpdate(true);
   };
 
-  //Delete a node
+  //Delete node
   const handleDeleteNode = (nodeId, type) => {
     //Get the node to delete 
     const nodeToDelete = tree.nodesArray.find((node) => node.id === nodeId);
@@ -259,7 +270,7 @@ function TreePage() {
     let substitute = null;
 
     if(childrenNodes.length > 0 && type === "substitute") {
-      // Se houver filhos, escolher o primeiro filho como substituto
+      console.log(type)
       const firstChild = childrenNodes[0];
       substitute = firstChild.id;
 
@@ -296,6 +307,7 @@ function TreePage() {
       );
 
       console.log("depois childrens: ", updatedChildrenEdges)
+
       updatedChildrenEdges.forEach((edge) => {
         let newConnection = {name: substitute + '-' + edge.to, targetId: edge.to, gate: {predicates: ["No predicate"]}, actions: ["No action"] }
         tree.edgesArray.push(edge)
@@ -318,7 +330,13 @@ function TreePage() {
     console.log(tree.nodesArray)
     console.log(tree.edgesArray)
 
-    tree.dictionary = tree.dictionary.filter((item) => item.key !== nodeToDelete.name);
+    tree.dictionary = tree.dictionary.filter((item) => {
+      const isNodeName = item.key === nodeToDelete.name;
+      const isNodeOutcome = nodeToDelete.outcomes !== "No outcome" && 
+                          item.key === nodeToDelete.outcomes[0].key;
+      
+      return !isNodeName && !isNodeOutcome;
+    });
 
     setTree({
       ...tree,
@@ -343,6 +361,63 @@ function TreePage() {
 
     window.treeAPI.saveTree(treeId, updatedData);
     setUpdate(true);
+  };
+
+  //Edit node
+  const handleUpdateNode = (updatedNode) => {
+    const finalNode = {
+      ...updatedNode,
+      outcomes: updatedNode.outcomes[0] === "No outcome" || 
+               (updatedNode.outcomes[0]?.key === "" && 
+                updatedNode.outcomes[0]?.operator === "" && 
+                updatedNode.outcomes[0]?.value === "")
+        ? selectedNode.outcomes
+        : updatedNode.outcomes
+    };
+  
+    const originalNode = tree.nodesArray.find(node => node.id === finalNode.id);
+  
+    let updatedDictionary = [...tree.dictionary];
+    
+    if (originalNode.name !== finalNode.name) {
+      updatedDictionary = updatedDictionary.filter(item => item.key !== originalNode.name);
+      if (finalNode.name) {
+        updatedDictionary.push({ key: finalNode.name, type: "string" });
+      }
+    }
+  
+    const originalOutcome = originalNode.outcomes[0] !== "No outcome" ? originalNode.outcomes[0] : null;
+    const newOutcome = finalNode.outcomes[0] !== "No outcome" ? finalNode.outcomes[0] : null;
+  
+    if (originalOutcome?.key !== newOutcome?.key) {
+      if (originalOutcome?.key) {
+        updatedDictionary = updatedDictionary.filter(item => item.key !== originalOutcome.key);
+      }
+      if (newOutcome?.key) {
+        updatedDictionary.push({ key: newOutcome.key, type: "number" });
+      }
+    }
+  
+    const updatedNodesArray = tree.nodesArray.map(node => 
+      node.id === finalNode.id ? finalNode : node
+    );
+  
+    setTree({
+      nodesArray: updatedNodesArray,
+      edgesArray: tree.edgesArray,
+      dictionary: updatedDictionary,
+    });
+  
+    const updatedData = {
+      nodes: updatedNodesArray,
+      edges: tree.edgesArray,
+      dictionary: updatedDictionary,
+      projectName: projectName,
+    };
+  
+    window.treeAPI.saveTree(treeId, updatedData);
+    setUpdate(true);
+    toast.success(`Node ${finalNode.name} updated successfully!`);
   };
 
   return (
@@ -410,6 +485,7 @@ function TreePage() {
           edges={selectedPredicates}
           onAddNode={handleAddNode}
           onDeleteNode={handleDeleteNode}
+          onUpdateNode={handleUpdateNode}
           nodeSelected={selectedNode}
            />
       </div>

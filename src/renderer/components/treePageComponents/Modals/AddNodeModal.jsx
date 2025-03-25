@@ -47,7 +47,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
-      toast.error("Action canceled!");
+      toast.error("Canceled!");
       onClose();
     }
   };

@@ -6,7 +6,7 @@ import AddNodeModal from './Modals/AddNodeModal';
 import DeleteNodeModal from './Modals/DeleteNodeModal';
 import EditNodeModal from './Modals/EditNodeModal';
 
-function NodeActions({ nodes, edges, onAddNode, onDeleteNode, nodeSelected }) {
+function NodeActions({ nodes, edges, onAddNode, onDeleteNode, onUpdateNode, nodeSelected }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -29,6 +29,11 @@ function NodeActions({ nodes, edges, onAddNode, onDeleteNode, nodeSelected }) {
   const handleDeleteNode = (treeId) => {
     onDeleteNode(treeId)
   }
+
+  const handleUpdateNode = (updatedNode) => {
+    onUpdateNode(updatedNode);
+    setIsEditModalOpen(false);
+  };
 
   return (
     <div className='flex flex-col'>      
@@ -79,6 +84,7 @@ function NodeActions({ nodes, edges, onAddNode, onDeleteNode, nodeSelected }) {
         selectedNode={nodeSelected}
         edges={edges}
         nodes={nodes}
+        onUpdateNode={handleUpdateNode}
       />
       
     </div>

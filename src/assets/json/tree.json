@@ -1,126 +1,125 @@
 {
-    "dictionary": [
-      { "key": "quest", "type": "string" },
-      { "key": "follow path", "type": "string" },
-      { "key": "train", "type": "string" },
-      { "key": "infiltrate fortress", "type": "string" },
-      { "key": "sleep", "type": "string" },
-      { "key": "forest", "type": "string" },
-      { "key": "mountain", "type": "string" },
-      { "key": "north wall", "type": "string" },
-      { "key": "mind potion", "type": "string" },
-      { "key": "east tower", "type": "string" },
-      { "key": "trap", "type": "string" },
-      { "key": "find ally", "type": "string" },
-      { "key": "hp improve", "type": "integer" },
-      { "key": "mp improve", "type": "integer" },
-      { "key": "hp reduce", "type": "integer" },
-      { "key": "quest end", "type": "boolean" }
-    ],
-    "nodes": [
-      {
-        "id": 1,
-        "name": "quest",
-        "visualization": "Big",
-        "connections": [
-          { "name": "1-2", "targetId": 2, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "1-3", "targetId": 3, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "1-4", "targetId": 4, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "3", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "1-5", "targetId": 5, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "4", "logicalOperator": "OR" }] }, "actions": [] }
-        ]
-      },
-      {
-        "id": 2,
-        "name": "follow path",
-        "visualization": "Big",
-        "connections": [
-          { "name": "2-6", "targetId": 6, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "2-7", "targetId": 7, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }] }, "actions": [] }
-        ]
-      },
-      {
-        "id": 3,
-        "name": "train",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "hp improve", "operator": "+", "value": "5" }]
-      },
-      {
-        "id": 4,
-        "name": "infiltrate fortress",
-        "visualization": "Small",
-        "connections": [
-          { "name": "4-8", "targetId": 8, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "4-9", "targetId": 9, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "4-10", "targetId": 10, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "3", "logicalOperator": "OR" }] }, "actions": [] }
-        ]
-      },
-      {
-        "id": 5,
-        "name": "sleep",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "hp improve", "operator": "+", "value": "10" }]
-      },
-      {
-        "id": 6,
-        "name": "mountain",
-        "visualization": "Small",
-        "connections": [
-          { "name": "6-11", "targetId": 11, "gate": { "predicates": [], "actions": [] } }
-        ]
-      },
-      {
-        "id": 7,
-        "name": "forest",
-        "visualization": "Small",
-        "connections": [
-          { "name": "7-12", "targetId": 12, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }] }, "actions": [] },
-          { "name": "7-13", "targetId": 13, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }] }, "actions": [] }
-        ]
-      },
-      {
-        "id": 8,
-        "name": "main gate",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": []
-      },
-      {
-        "id": 9,
-        "name": "east tower",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": []
-      },
-      {
-        "id": 10,
-        "name": "north wall",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": []
-      },
-      {
-        "id": 11,
-        "name": "find potion",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "mp improve", "operator": "=", "value": "10" }]
-      },
-      {
-        "id": 12,
-        "name": "trap",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "hp reduce", "operator": "=", "value": "10" }]
-      },
-      {
-        "id": 13,
-        "name": "find ally",
-        "visualization": "Big",
-        "connections": [],
-        "outcomes": [{ "key": "quest end", "operator": "=", "value": "true" }]
-      }
-    ]
-  }
-  
+  "dictionary": [
+    { "key": "quest", "type": "string" },
+    { "key": "follow path", "type": "string" },
+    { "key": "train", "type": "string" },
+    { "key": "infiltrate fortress", "type": "string" },
+    { "key": "sleep", "type": "string" },
+    { "key": "forest", "type": "string" },
+    { "key": "mountain", "type": "string" },
+    { "key": "north wall", "type": "string" },
+    { "key": "mind potion", "type": "string" },
+    { "key": "east tower", "type": "string" },
+    { "key": "trap", "type": "string" },
+    { "key": "find ally", "type": "string" },
+    { "key": "hp improve", "type": "integer" },
+    { "key": "mp improve", "type": "integer" },
+    { "key": "hp reduce", "type": "integer" },
+    { "key": "quest end", "type": "boolean" }
+  ],
+  "nodes": [
+    {
+      "id": 1,
+      "name": "quest",
+      "visualization": "Big",
+      "connections": [
+        { "name": "1-2", "targetId": 2, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "1-3", "targetId": 3, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "1-4", "targetId": 4, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "3", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "1-5", "targetId": 5, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "4", "logicalOperator": "OR" }], "actions": [] } }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "follow path",
+      "visualization": "Big",
+      "connections": [
+        { "name": "2-6", "targetId": 6, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "2-7", "targetId": 7, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }], "actions": [] } }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "train",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": [{ "key": "hp improve", "operator": "+", "value": "5" }]
+    },
+    {
+      "id": 4,
+      "name": "infiltrate fortress",
+      "visualization": "Small",
+      "connections": [
+        { "name": "4-8", "targetId": 8, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "4-9", "targetId": 9, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "4-10", "targetId": 10, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "3", "logicalOperator": "OR" }], "actions": [] } }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "sleep",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": [{ "key": "hp improve", "operator": "+", "value": "10" }]
+    },
+    {
+      "id": 6,
+      "name": "mountain",
+      "visualization": "Small",
+      "connections": [
+        { "name": "6-11", "targetId": 11, "gate": { "predicates": [], "actions": [] } }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "forest",
+      "visualization": "Small",
+      "connections": [
+        { "name": "7-12", "targetId": 12, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "1", "logicalOperator": "OR" }], "actions": [] } },
+        { "name": "7-13", "targetId": 13, "gate": { "predicates": [{ "key": "option", "condition": "=", "value": "2", "logicalOperator": "OR" }], "actions": [] } }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "main gate",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": []
+    },
+    {
+      "id": 9,
+      "name": "east tower",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": []
+    },
+    {
+      "id": 10,
+      "name": "north wall",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": []
+    },
+    {
+      "id": 11,
+      "name": "find potion",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": [{ "key": "mp improve", "operator": "=", "value": "10" }]
+    },
+    {
+      "id": 12,
+      "name": "trap",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": [{ "key": "hp reduce", "operator": "=", "value": "10" }]
+    },
+    {
+      "id": 13,
+      "name": "find ally",
+      "visualization": "Big",
+      "connections": [],
+      "outcomes": [{ "key": "quest end", "operator": "=", "value": "true" }]
+    }
+  ]
+}
