@@ -76,6 +76,7 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
       <EditNodeModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
+        selectedNode={nodeSelected}
       />
       
     </div>
