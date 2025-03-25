@@ -407,9 +407,11 @@ function TreePage() {
       <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? "left-[16%]" : "left-5"}`}>
         <NodeActions
           nodes={tree.nodesArray}
+          edges={selectedPredicates}
           onAddNode={handleAddNode}
           onDeleteNode={handleDeleteNode}
-          nodeSelected={selectedNode} />
+          nodeSelected={selectedNode}
+           />
       </div>
 
       <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? "right-[30%]" : "right-5"}`}>

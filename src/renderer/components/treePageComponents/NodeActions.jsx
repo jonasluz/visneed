@@ -6,7 +6,7 @@ import AddNodeModal from './Modals/AddNodeModal';
 import DeleteNodeModal from './Modals/DeleteNodeModal';
 import EditNodeModal from './Modals/EditNodeModal';
 
-function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
+function NodeActions({ nodes, edges, onAddNode, onDeleteNode, nodeSelected }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -77,6 +77,8 @@ function NodeActions({ nodes, onAddNode, onDeleteNode, nodeSelected }) {
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         selectedNode={nodeSelected}
+        edges={edges}
+        nodes={nodes}
       />
       
     </div>

@@ -12,7 +12,6 @@ function Predicates({ edges, nodes }) {
         })
     }
 
-    console.log(predicates)
     if(Object.keys(predicates).length === 0) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
