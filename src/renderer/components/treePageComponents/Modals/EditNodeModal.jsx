@@ -116,7 +116,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, edges, nodes }) {
                     </td>
                     <td className="px-4 py-4">
                       <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear'>
-                        Edit
+                        Edits
                       </button>
                     </td>
                   </tr>
