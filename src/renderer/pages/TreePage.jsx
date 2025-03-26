@@ -32,9 +32,9 @@ function TreePage() {
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    console.log(selectedNode);
+    // console.log(selectedNode);
     console.log(tree)
-    console.log(selectedPredicates)
+    // console.log(selectedPredicates)
   }, [selectedNode, selectedPredicates]);
 
   const handleConfirmGoHome = () => {
@@ -142,7 +142,7 @@ function TreePage() {
       gate: {
         predicates:
           predicateInfo.key == ""
-            ? ["No predicate"]
+            ? ["No predicates"]
             : [
                 {
                   key: predicateInfo.key,

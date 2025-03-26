@@ -50,24 +50,33 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
   
   function transformTreeData(data) {
     const projectName = data.name 
-
     const dictionary = data.dictionary
-    
+
     const nodesArray = data.nodes.map((node) => ({
       id: node.id,
       name: node.name,
-      connections: node.connections,
+      connections: node.connections.map((conn) => ({
+        name: conn.name,
+        targetId: conn.targetId,
+        gate: {
+          predicates: conn.gate?.predicates?.length > 0 ? conn.gate.predicates : "No predicates",
+          actions: conn.gate?.actions?.length > 0 ? conn.gate.actions : "No action"
+        }
+      })),
       outcomes: Array.isArray(node.outcomes) && node.outcomes.length > 0 ? node.outcomes : "No outcome"
     }));
   
     const edgesArray = [];
+
+    console.log(data)
+
     data.nodes.forEach((node) => {
       node.connections.forEach((conn) => {
         edgesArray.push({
           from: node.id,
           to: conn.targetId,
-          predicate: conn.gate.predicates[0]? conn.gate.predicates[0] : "No predicate",
-          actions: conn.gate?.actions?.[0] || "No action"
+          predicate: conn.gate?.predicates == "No predicates" || conn.gate?.predicates.length < 1 ? "No predicates" : conn.gate.predicates[0],
+          actions: conn.gate?.actions == "No action" || conn.gate?.actions.length < 1 ? "No action" : conn.gate?.actions?.[0]
         });
       });
     });

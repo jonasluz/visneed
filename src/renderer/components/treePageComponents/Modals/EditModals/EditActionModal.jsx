@@ -16,7 +16,7 @@ function EditActionModal ({ isOpen, onClose, action, onSave }) {
   };
 
   useEffect(() => {
-    if(action) {
+    if(action && action != "No action") {
         setActionInfo(action[0]);
     }
   }, [action])
@@ -58,6 +58,7 @@ function EditActionModal ({ isOpen, onClose, action, onSave }) {
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
               value={actionInfo.condition}
               onChange={(e) => setActionInfo({ ...actionInfo, condition: e.target.value })}>
+                  <option value=""></option>
                   <option value="=" className='text-black'>=</option>
                   <option value="!=" className='text-black'>!=</option>
                   <option value="<" className='text-black'>&lt;</option>

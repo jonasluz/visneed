@@ -15,7 +15,7 @@ function EditPredicateModal ({ isOpen, onClose, predicate, onSave }) {
   };
 
   useEffect(() => {
-    if(predicate) {
+    if(predicate && predicate != "No predicates") {
         setPredicateInfo(predicate[0]);
     }
   }, [predicate])
@@ -56,6 +56,7 @@ function EditPredicateModal ({ isOpen, onClose, predicate, onSave }) {
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
               value={predicateInfo.condition}
               onChange={(e) => setPredicateInfo({ ...predicateInfo, condition: e.target.value })}>
+                  <option value=""></option>
                   <option value="=" className='text-black'>=</option>
                   <option value="!=" className='text-black'>!=</option>
                   <option value="<" className='text-black'>&lt;</option>
@@ -80,6 +81,7 @@ function EditPredicateModal ({ isOpen, onClose, predicate, onSave }) {
                 className="w-full p-2 border border-white rounded-md text-white bg-transparent"
                 value={predicateInfo.logicalOperator}
                 onChange={(e) => setPredicateInfo({ ...predicateInfo, logicalOperator: e.target.value })}>
+                    <option value=""></option>
                     <option value="OR" className='text-black'>OR</option>
                     <option value="AND" className='text-black'>AND</option>
                 </select>

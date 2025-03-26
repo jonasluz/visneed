@@ -47,6 +47,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
   }
 
   const openActionModal = (selectedAction) => {
+    console.log(selectedAction)
     setAction(selectedAction);
     setIsActionModal(true);
   }
@@ -66,7 +67,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
       outcomes: finalOutcome,
       connections: connections
     };
-
+    console.log(updatedNode)
     onUpdateNode(updatedNode);
     onClose();
   };
@@ -80,6 +81,9 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
   };
 
   const handleSaveAction = (updateAction) => {
+    console.log(updateAction)
+    console.log(action)
+    console.log(connections)
     setConnections((prevConnections) =>
       prevConnections.map((conn) =>
         conn.gate.actions === action ? { ...conn, gate: { ...conn.gate, actions: updateAction } } : conn
@@ -145,6 +149,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                 className="w-full p-2 border border-white rounded-md text-white bg-transparent accent-transparent"
                 value={outcome.operator}
                 onChange={(e) => setOutcome({ ...outcome, operator: e.target.value })}>
+                  <option value="" className='text-black'></option>
                   <option value="=" className='text-black'>=</option>
                   <option value="!=" className='text-black'>!=</option>
                   <option value="<" className='text-black'>&lt;</option>
@@ -196,7 +201,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                       </button>
                     </td>
                     <td className="px-4 py-4">
-                      <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openActionModal(connection.actions)}}>
+                      <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openActionModal(connection.gate.actions)}}>
                         Edit
                       </button>
                     </td>

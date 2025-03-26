@@ -20,7 +20,7 @@ function Predicates({ edges, nodes }) {
                 </p>
             </div>
         )
-    } else if (predicates[0] === "No predicate" && predicates.length == 1) {
+    } else if (predicates[0] === "No predicates" && predicates.length == 1) {
         return (
             <div className="flex flex-col justify-center items-center w-full h-full">
                 <p className="text-md font-medium text-white text-center">
