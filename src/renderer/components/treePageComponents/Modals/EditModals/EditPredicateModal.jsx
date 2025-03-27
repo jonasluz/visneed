@@ -3,7 +3,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import closeIcon from "../../../../../assets/close.png";
 
-function EditPredicateModal ({ isOpen, onClose, predicate, onSave }) {
+function EditPredicateModal ({ isOpen, onClose, targetId, predicate, onSave }) {
+  console.log(targetId)
   const modalRef = useRef(null);
 
   const [predicateInfo, setPredicateInfo] = useState(predicate || {});

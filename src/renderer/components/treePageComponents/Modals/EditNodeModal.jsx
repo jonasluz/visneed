@@ -13,6 +13,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
   const [nodeName, setNodeName] = useState("");
   const [outcome, setOutcome] = useState({ key: "", operator: "", value: "" });
   const [connections, setConnections] = useState([]);
+  const [targetId, setTargetId] = useState()
   const [predicate, setPredicate] = useState()
   const [action, setAction] = useState()
 
@@ -41,13 +42,17 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
     }
   };
 
-  const openPredicateModal = (selectedPredicate) => {
+  const openPredicateModal = (selectedPredicate, targetNode) => {
+    console.log(selectedNode)
+
+    setTargetId(targetNode)
     setPredicate(selectedPredicate);
     setIsPredicateModal(true);
   }
 
-  const openActionModal = (selectedAction) => {
+  const openActionModal = (selectedAction, targetNode) => {
     console.log(selectedAction)
+    setTargetId(targetNode)
     setAction(selectedAction);
     setIsActionModal(true);
   }
@@ -75,18 +80,15 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
   const handleSavePredicate = (updatedPredicate) => {
     setConnections((prevConnections) =>
       prevConnections.map((conn) =>
-        conn.gate.predicates === predicate ? { ...conn, gate: { ...conn.gate, predicates: updatedPredicate } } : conn
+        conn.gate.predicates === predicate && conn.targetId === targetId ? { ...conn, gate: { ...conn.gate, predicates: updatedPredicate } } : conn
       )
     );
   };
 
   const handleSaveAction = (updateAction) => {
-    console.log(updateAction)
-    console.log(action)
-    console.log(connections)
     setConnections((prevConnections) =>
       prevConnections.map((conn) =>
-        conn.gate.actions === action ? { ...conn, gate: { ...conn.gate, actions: updateAction } } : conn
+        conn.gate.actions === action && conn.targetId === targetId ? { ...conn, gate: { ...conn.gate, actions: updateAction } } : conn
       )
     );
   };
@@ -102,6 +104,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
         <EditPredicateModal 
           isOpen={isPredicateModal}
           onClose={() => {setIsPredicateModal(false)}}
+          targetId={targetId}
           predicate={predicate}
           onSave={handleSavePredicate}
         />
@@ -196,12 +199,12 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                   <tr key={index} className="font-bold text-center">
                     <td className="px-4 py-4">{nodes[connection.targetId - 1]?.name || "Unknown"}</td>
                     <td className="px-4 py-4">
-                      <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openPredicateModal(connection.gate.predicates)}}>
+                      <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openPredicateModal(connection.gate.predicates, connection.targetId)}}>
                         Edit
                       </button>
                     </td>
                     <td className="px-4 py-4">
-                      <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openActionModal(connection.gate.actions)}}>
+                      <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openActionModal(connection.gate.actions, connection.targetId)}}>
                         Edit
                       </button>
                     </td>

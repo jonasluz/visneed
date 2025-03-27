@@ -142,7 +142,7 @@ function TreePage() {
       gate: {
         predicates:
           predicateInfo.key == ""
-            ? ["No predicates"]
+            ? "No predicates"
             : [
                 {
                   key: predicateInfo.key,
@@ -180,7 +180,7 @@ function TreePage() {
       from: parseInt(parentNodeId),
       to: newNodeId,
       predicate:
-        predicateInfo.key == "" ? ["No predicate"] : [
+        predicateInfo.key == "" ? "No predicates" : [
               {
                 key: predicateInfo.key,
                 condition: predicateInfo.condition,
@@ -293,7 +293,7 @@ function TreePage() {
               connection.targetId = substitute
               connection.name = node.id + '-' + substitute
               connection.actions = ["No action"]
-              connection.gate.predicates = ["No predicate"]
+              connection.gate.predicates = "No predicates"
             }
           })
         }
@@ -309,7 +309,7 @@ function TreePage() {
       console.log("depois childrens: ", updatedChildrenEdges)
 
       updatedChildrenEdges.forEach((edge) => {
-        let newConnection = {name: substitute + '-' + edge.to, targetId: edge.to, gate: {predicates: ["No predicate"]}, actions: ["No action"] }
+        let newConnection = {name: substitute + '-' + edge.to, targetId: edge.to, gate: {predicates: "No predicates"}, actions: ["No action"] }
         tree.edgesArray.push(edge)
         if(edge.from == substitute) {
           tree.nodesArray.map((node) => {
