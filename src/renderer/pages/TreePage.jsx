@@ -124,7 +124,7 @@ function TreePage() {
       connections: [],
       outcomes:
         outcomeInfo.key == ""
-          ? ["No outcome"]
+          ? "No outcome"
           : [
               {
                 key: outcomeInfo.key,
