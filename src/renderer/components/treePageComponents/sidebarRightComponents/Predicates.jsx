@@ -59,7 +59,7 @@ function Predicates({ edges, nodes }) {
 
                         return (
                             <tr key={index} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
-                                <td className='px-4 py-4'>
+                                <td className='px-4 py-4 text-wrap'>
                                     {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                 </td>
 

@@ -10,6 +10,7 @@ import Dock from "../components/Dock";
 import treeImage from "../../assets/decision-tree-image.png";
 import minimizeImage from "../../assets/minimize.png";
 import maximizeImage from "../../assets/maximize.png";
+import exportIcon from "../../assets/export.png"
 //notifications
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,12 +31,6 @@ function TreePage() {
 
   const [projectName, setProjectName] = useState("");
   const [update, setUpdate] = useState(false);
-
-  useEffect(() => {
-    // console.log(selectedNode);
-    console.log(tree)
-    // console.log(selectedPredicates)
-  }, [selectedNode, selectedPredicates]);
 
   const handleConfirmGoHome = () => {
     setShowHomeModal(false);
@@ -420,6 +415,34 @@ function TreePage() {
     toast.success(`Node ${finalNode.name} updated successfully!`);
   };
 
+  const handleExport = async () => {
+    try {
+      const exportData = await window.treeAPI.exportTree(treeId);
+
+      if (exportData) {
+        // Converte o objeto para uma string JSON
+        const dataStr = JSON.stringify(exportData, null, 2);
+
+        // Cria um Blob com o conteúdo JSON
+        const dataBlob = new Blob([dataStr], { type: "application/json" });
+
+        // Cria um link para download
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${projectName}.json`; // Nome do arquivo
+        link.click();
+
+        URL.revokeObjectURL(url);
+        toast.success("Tree converted into a JSON with success!");
+      } else {
+        toast.error("Error: Tree not found.");
+      }
+    } catch (error) {
+      console.error("Erro ao exportar a árvore:", error);
+    }
+  };
+
   return (
     <div className="relative w-full h-screen bg-background-black-100">
       <Dock
@@ -459,7 +482,7 @@ function TreePage() {
       </div>
 
       {/* Tree Project Name */}
-      <div className={`flex flex-col absolute top-0 w-[54%] ${minimized ? "left-[16%]" : "left-0 w-full"}`}>
+      <div className={`flex flex-col absolute top-0 w-[55%] ${minimized ? "left-[16%]" : "left-0 w-full"}`}>
         <div className="flex flex-row p-4 text-white items-center justify-between w-full">
           <div className="flex flex-row items-center">
             <img src={treeImage} alt="" className="w-8 h-8 object-cover invert" />
@@ -475,6 +498,10 @@ function TreePage() {
             <p className="ml-2 font-semibold">Current connections: </p>
             <p className="ml-2 font-semibold text-background-green-400">{selectedConnections.length}</p>
           </div>
+
+          <button className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200" onClick={handleExport}>
+            <img src={exportIcon} alt="" />
+          </button>
         </div>
       </div>
 
@@ -490,11 +517,11 @@ function TreePage() {
            />
       </div>
 
-      <div className={`absolute bottom-0 p-2 text-white items-center ${minimized ? "right-[30%]" : "right-5"}`}>
+      {/* Minimize  */}
+      <div className={`flex flex-col absolute bottom-0 p-2 text-white items-center ${minimized ? "right-[29%]" : "right-5"}`}>
         <button
           className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200"
-          onClick={handleMinimized}
-        >
+          onClick={handleMinimized}>
           {minimized ? (
             <img src={minimizeImage} alt="" />
           ) : (
