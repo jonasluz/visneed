@@ -7,6 +7,7 @@ const MyTree = lazy(() => import("../components/homePageComponents/SidebarAction
 import Loader from '../components/Loaders/TreeLoader'
 import NewTree from "../components/homePageComponents/SidebarActions/NewTree";
 import DeleteTree from "../components/homePageComponents/SidebarActions/DeleteTree";
+import Help from "../components/homePageComponents/SidebarActions/Help";
 
 function Home() {
 
@@ -48,7 +49,13 @@ function Home() {
             <Suspense fallback={<Loader className='absolute top-0 left-0 w-full h-full border-4 border-white'/>}>
               <DeleteTree trees={trees}/>
             </Suspense>
-          )
+          );
+      case "help":
+        return (
+          <Suspense fallback={<Loader className='absolute top-0 left-0 w-full h-full border-4 border-white'/>}>
+              <Help />
+          </Suspense>
+        )
       default:
         return null;
     }

@@ -47,7 +47,7 @@ function Actions({ edges, nodes }) {
           {actions.map((action, index) => {
             if (action === "No action") {
               return (
-                <tr key={index} className="font-bold text-left">
+                <tr key={index} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
                   <td className="px-4 py-4">
                   {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                   </td>
@@ -58,13 +58,13 @@ function Actions({ edges, nodes }) {
               );
             }
             return (
-              <tr key={index} className="font-bold text-left">
+              <tr key={index} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
                 <td className="px-4 py-4">
                 {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                 </td>
 
                 <td className="px-4 py-4">{action.key}</td>
-                <td className="px-4 py-4">{action.operator}</td>
+                <td className="px-4 py-4">{action.condition}</td>
                 <td className="px-4 py-4">{action.value}</td>
               </tr>
             );

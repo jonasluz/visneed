@@ -371,7 +371,8 @@ function Dictionary() {
       <Dock currentPage={"dictionary"} treeId={treeId} treeName={treeName} onHomeClick={() => setShowHomeModal(true)}/>
       <div className="flex h-full w-full justify-center items-end bg-background-green-100">
         <div className="flex flex-col w-[60%] h-[80%] justify-between">
-          <div className="flex flex-row w-full h-[12%] justify-between">
+          <div className="flex flex-row w-full h-[10%] justify-between">
+            {/* Search Input */}
             <div className="flex flex-row w-[90%] items-center justify-around rounded-lg bg-background-green-300">
               <img
                 src={searchIcon}
@@ -400,10 +401,9 @@ function Dictionary() {
             </div>
 
             <button
-              className="bg-background-green-400 hover:brightness-50 duration-100 ease-in-out w-[8%] rounded-lg p-6"
-              onClick={handleExport}
-            >
-              <img src={exportIcon} alt="" draggable={false} />
+              className="flex justify-center bg-background-green-400 hover:brightness-50 duration-100 ease-in-out w-[8%] rounded-lg"
+              onClick={handleExport}>
+              <img src={exportIcon} alt="" draggable={false} className="p-6 h-full w-full object-contain"/>
             </button>
           </div>
 

@@ -21,6 +21,9 @@ function Dock({currentPage, treeId, treeName, onHomeClick }) {
           navigate(`/tree-view/${treeId}`); 
         }
         break;
+      case 'cenario':
+        navigate(`/cenario/${treeId}/${treeName}`);
+        break;
     }
   };
 
@@ -46,7 +49,7 @@ function Dock({currentPage, treeId, treeName, onHomeClick }) {
         
         <div
         className='xl:w-10 xl:h-10 2xl:w-14 2xl:h-14 p-3 hover:bg-background-green-400 duration-100 ease-in rounded-lg cursor-pointer'
-        onClick={handleClickDock}>
+        onClick={() => {handleClickDock('cenario')}}>
           <img src={cenarioIcon} alt="" draggable={false}/>
         </div>
         

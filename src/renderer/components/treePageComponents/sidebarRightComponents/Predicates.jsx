@@ -42,11 +42,11 @@ function Predicates({ edges, nodes }) {
                         <th scope='col' className='px-4 py-2'>Log. Op</th>
                     </tr>
                 </thead>
-                <tbody className='bg-background-green-400 h-2/6'>
+                <tbody className='h-2/6'>
                     {predicates.map((predicate, index) => {
                         if (predicate === "No predicate") {
                             return (
-                                <tr key={index} className='font-bold text-left'>
+                                <tr key={index} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
                                     <td className='px-4 py-4'>
                                         {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                     </td>
@@ -58,7 +58,7 @@ function Predicates({ edges, nodes }) {
                         }
 
                         return (
-                            <tr key={index} className='font-bold text-left'>
+                            <tr key={index} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
                                 <td className='px-4 py-4'>
                                     {nodes.map((node) => {if(node.id == predConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == predConnection[index][1]) return node.name})}
                                 </td>

@@ -9,6 +9,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Tree has changed")
     async function loadStoredJson() {
       const response = await window.treeAPI.loadTree(treeId);
       // console.log("Get response:",response)

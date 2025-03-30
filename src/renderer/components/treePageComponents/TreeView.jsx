@@ -64,7 +64,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
-        label: edge.predicate == "No predicates" ? "\n\n" : `${edge.predicate.key} ${edge.predicate.condition} ${edge.predicate.value} \n\n` + (edge.actions == "No action" ? " " : `${edge.actions.key} ${edge.actions.condition} ${edge.actions.value}`), 
+        label: edge.predicate == "No predicates" ? "\n\n" : `${edge.predicate.key ? edge.predicate.key : ""} ${edge.predicate.condition ? edge.predicate.condition : ""} ${edge.predicate.value ? edge.predicate.value : ""} \n\n` + (edge.actions == "No action" ? " " : `${edge.actions.key ? edge.actions.key : ""} ${edge.actions.condition ? edge.actions.condition : "" } ${edge.actions.value ? edge.actions.value : ""}`), 
         font: {
           size: 16, 
           color: "#1E1E1E",
@@ -118,10 +118,6 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         options
       );
 
-      network.moveTo({
-        scale: 1.2,
-      });    
-      
       // Evento de clique no nó
       network.on("click", function (params) {
         if (params.nodes.length > 0) {
