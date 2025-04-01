@@ -48,7 +48,7 @@ function Dock({currentPage, treeId, treeName, onHomeClick }) {
         </div>
         
         <div
-        className='xl:w-10 xl:h-10 2xl:w-14 2xl:h-14 p-3 hover:bg-background-green-400 duration-100 ease-in rounded-lg cursor-pointer'
+        className={`xl:w-10 xl:h-10 2xl:w-14 2xl:h-14 p-3 hover:bg-background-green-400 ${currentPage == 'cenario' ? 'bg-background-green-400' : ''} duration-100 ease-in rounded-lg cursor-pointer`}
         onClick={() => {handleClickDock('cenario')}}>
           <img src={cenarioIcon} alt="" draggable={false}/>
         </div>
