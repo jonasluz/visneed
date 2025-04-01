@@ -96,11 +96,8 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center" onClick={handleClickOutside}>
-      <div ref={modalRef} className="relative flex flex-col justify-center items-center bg-background-green-100 w-fit h-fit p-12 rounded-lg text-white overflow-y-auto scrollbar-none" onClick={(e) => e.stopPropagation()}>
-        <button className='absolute w-8 h-8 top-5 right-5 cursor-pointer' onClick={() => {onClose(); toast.error("Action canceled!")}}>
-          <img src={closeIcon} alt="" className='w-full h-full object-contain' />
-        </button>
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center h-full" onClick={handleClickOutside}>
+      <div ref={modalRef} className="relative flex flex-col overflow-auto items-center bg-background-green-100 w-[60%] h-[85%] px-12 rounded-lg text-white" onClick={(e) => e.stopPropagation()}>
         <EditPredicateModal 
           isOpen={isPredicateModal}
           onClose={() => {setIsPredicateModal(false)}}
@@ -117,8 +114,10 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
         />
 
         {/* Title */}
-        <h1 className='text-3xl font-rubik-bold font-bold mb-3'>Edit</h1>
-        <h2 className='text-xl font-rubik-bold font-bold mb-8'>{nodeName && nodeName}</h2>
+        <div className='flex flex-col items-center w-full font-rubik-bold font-bold bg-background-green-100 sticky top-0'>
+          <h1 className='text-3xl mb-3 mt-8'>Edit</h1>
+          <h2 className='text-xl font-rubik-bold font-bold mb-8'>{nodeName && nodeName}</h2>
+        </div>
         <div className='flex flex-col w-full mb-6'>
           {/* Node name */}
           <div className="flex w-full mb-6 px-4 font-medium items-center">
@@ -178,11 +177,11 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
           </div>
 
           {/* Connections */}
-          <div className='w-full'>
+          <div className='w-full h-[60%] border'>
             <label className='block text-lg font-semibold font-rubik-semibold mb-2 px-4'>Connections:</label>
-            <div className='w-full rounded-lg overflow-hidden text-black'>
-              <table className='w-full text-left'>
-                <thead className='uppercase'>
+            <div className='w-full h-full rounded-lg overflow-y-auto text-black'>
+              <table className='w-full h-full text-left'>
+                <thead className='uppercase sticky top-0'>
                   <tr className='bg-background-green-300 text-center'>
                     <th scope="col" className="px-4 py-2 w-1/3">Target</th>
                     <th scope="col" className="px-4 py-2 w-1/3">Predicate</th>
@@ -215,7 +214,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
             </div>
           </div>
         </div>
-        <button className='p-3 px-10 bg-background-green-500 rounded-lg text-lg hover:brightness-75 duration-75 ease-linear' onClick={handleSave}>
+        <button className='p-3 px-10 mb-8 bg-background-green-500 rounded-lg text-lg hover:brightness-75 duration-75 ease-linear' onClick={handleSave}>
           Save
         </button>
       </div>
