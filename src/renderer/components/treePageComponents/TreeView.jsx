@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DataSet } from "vis-data/esnext";
 import { Network } from "vis-network/esnext";
 import "vis-network/styles/vis-network.css";
 
-const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgroundClick }) => {
+const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgroundClick, setIsTreeLoading }) => {
   const visContainerRef = useRef(null);
 
   useEffect(() => {
+    if (!nodesArray || nodesArray.length === 0 || !visContainerRef.current) {
+      return;
+    }
+
     if (!visContainerRef.current) return;
     if (!nodesArray) return
     
@@ -155,15 +159,24 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         visContainerRef.current.style.cursor = "default";
       });
 
+      network.on("stabilizationIterationsDone", function() {
+        setIsTreeLoading(false);
+      });
+
       network.stabilize();
 
       return () => {
+        network.off("stabilizationIterationsDone");
         network.destroy();
       };
     }
-  }, [nodesArray, edgesArray]);
+  }, [nodesArray, edgesArray, setIsTreeLoading]);
 
-  return <div ref={visContainerRef} className="w-full h-full"></div>;
+  return (
+    <div className="w-full h-full relative">
+      <div ref={visContainerRef} className="w-full h-full"></div>
+    </div>
+  );
 };
 
 function getColorByLevel(level) {

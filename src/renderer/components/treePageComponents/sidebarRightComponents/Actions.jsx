@@ -35,7 +35,7 @@ function Actions({ edges, nodes }) {
   return (
     <div className="h-full w-full overflow-y-auto overflow-x-auto">
       <table className="w-full items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg">
-        <thead className="uppercase">
+        <thead className="uppercase sticky top-0">
           <tr className="bg-background-green-300">
             <th scope="col" className="px-4 py-2">Edge</th>
             <th scope="col" className="px-4 py-2">Key</th>

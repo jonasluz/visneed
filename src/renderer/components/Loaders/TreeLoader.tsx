@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Loader = () => {
   return (
-    <StyledWrapper className="bottom-0">
+    <StyledWrapper className="bottom-0 w-full">
       <div className="container">
         <div className="tree">
           {/* Envolvendo os ramos e o tronco em um único contêiner */}

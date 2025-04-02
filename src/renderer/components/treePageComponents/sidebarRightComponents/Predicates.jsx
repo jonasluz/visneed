@@ -33,7 +33,7 @@ function Predicates({ edges, nodes }) {
     return (
         <div className="h-full w-full overflow-y-auto overflow-x-auto">
             <table className='w-full items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg'>
-                <thead className='uppercase'>
+                <thead className='uppercase sticky top-0'>
                     <tr className='bg-background-green-300 text-left'>
                         <th scope='col' className='px-4 py-2'>Edge</th>
                         <th scope='col' className='px-4 py-2'>Key</th>
@@ -44,7 +44,7 @@ function Predicates({ edges, nodes }) {
                 </thead>
                 <tbody className='h-2/6'>
                     {predicates.map((predicate, index) => {
-                        if (predicate === "No predicate") {
+                        if (predicate === "No predicates") {
                             return (
                                 <tr key={index} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
                                     <td className='px-4 py-4'>

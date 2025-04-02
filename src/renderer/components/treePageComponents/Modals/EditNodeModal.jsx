@@ -118,7 +118,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
           <h1 className='text-3xl mb-3 mt-8'>Edit</h1>
           <h2 className='text-xl font-rubik-bold font-bold mb-8'>{nodeName && nodeName}</h2>
         </div>
-        <div className='flex flex-col w-full mb-6'>
+        <div className='flex flex-col w-full h-full min-h-0'>
           {/* Node name */}
           <div className="flex w-full mb-6 px-4 font-medium items-center">
             <label className="block text-lg font-semibold font-rubik-semibold text-nowrap mr-4">Name:</label>
@@ -177,9 +177,9 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
           </div>
 
           {/* Connections */}
-          <div className='w-full h-[60%] border'>
-            <label className='block text-lg font-semibold font-rubik-semibold mb-2 px-4'>Connections:</label>
-            <div className='w-full h-full rounded-lg overflow-y-auto text-black'>
+          <div className='flex flex-col w-full flex-grow min-h-0 mb-4'>
+            <label className='block text-lg font-semibold font-rubik-semibold mb-4 px-4'>Connections:</label>
+            <div className='w-[95%] flex-grow overflow-auto rounded-lg text-black self-center scrollbar-none'>
               <table className='w-full h-full text-left'>
                 <thead className='uppercase sticky top-0'>
                   <tr className='bg-background-green-300 text-center'>

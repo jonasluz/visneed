@@ -6,6 +6,8 @@ import TreeSideBarRight from "../components/treePageComponents/TreeSideBarRight"
 import TreeView from "../components/treePageComponents/TreeView";
 import NodeActions from "../components/treePageComponents/NodeActions";
 import Dock from "../components/Dock";
+//Loader
+import Loader from "../components/Loaders/TreeLoader";
 //icones
 import treeImage from "../../assets/decision-tree-image.png";
 import minimizeImage from "../../assets/minimize.png";
@@ -23,6 +25,8 @@ function TreePage() {
   const { treeId } = useParams();
   const [tree, setTree] = useState({});
   const [minimized, setMinimized] = useState(true);
+
+  const [isTreeLoading, setIsTreeLoading] = useState(true);
 
   const [selectedNode, setSelectedNode] = useState({});
   const [selectedConnections, setSelectedConnections] = useState({});
@@ -445,6 +449,16 @@ function TreePage() {
 
   return (
     <div className="relative w-full h-screen bg-background-black-100">
+      {/* Apenas loading da árvore */}
+      {isTreeLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="text-white text-2xl font-semibold flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-background-green-400 mb-4"></div>
+            Carregando árvore...
+          </div>
+        </div>
+      )}
+
       <Dock
         currentPage={"treePage"}
         treeId={treeId}
@@ -468,7 +482,8 @@ function TreePage() {
           edgesArray={tree.edgesArray}
           onNodeClick={handleNodeClick}
           onEdgeClick={handleEdgeClick}
-          onBackgroundClick={handleBakcgroundClick} />
+          onBackgroundClick={handleBakcgroundClick}
+          setIsTreeLoading={setIsTreeLoading} />
       </div>
 
       {/* Left Side Bar */}

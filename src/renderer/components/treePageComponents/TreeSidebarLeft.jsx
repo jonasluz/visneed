@@ -6,17 +6,18 @@ import Connections from "./sidebarLeftComponents/Connections";
 import { toast } from "react-toastify";
 
 function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changedTree }) {
-  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Tree has changed")
+    console.log("Tree has changed");
     async function loadStoredJson() {
-      const response = await window.treeAPI.loadTree(treeId);
-      // console.log("Get response:",response)
-      if (response) {
-        const transformedData = transformTreeData(response);
-        // console.log("Tranform response to visualization:",transformedData)
-        onImport(transformedData);
+      try {
+        const response = await window.treeAPI.loadTree(treeId);
+        if (response) {
+          const transformedData = transformTreeData(response);
+          onImport(transformedData);
+        }
+      } catch (error) {
+        console.error("Error loading tree:", error);
       }
     }
     loadStoredJson();
@@ -86,7 +87,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
 
   return (
     <div className="flex flex-col bg-background-green-200 w-full h-full bg-opacity-90 backdrop-blur-sm">
-      <div className="flex flex-row w-full items-center justify-around">
+      <div className="flex flex-row w-full h-[15%] items-center justify-around">
         <p className="text-3xl font-bold text-white py-10">VisNeed</p>
       </div>
       <div className="flex flex-col h-[40%] p-4 border-b">
