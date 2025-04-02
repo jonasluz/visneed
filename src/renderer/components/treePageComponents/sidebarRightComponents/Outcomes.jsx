@@ -1,7 +1,6 @@
 import React from "react";
 
 function Outcomes({ outcomes }) {
-  console.log(outcomes)
 
   if(!outcomes) {
     return (

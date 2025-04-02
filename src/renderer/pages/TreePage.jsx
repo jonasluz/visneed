@@ -72,6 +72,7 @@ function TreePage() {
 
   // When clicked on a edge
   const handleEdgeClick = (edgeData) => {
+    console.log(edgeData)
     setSelectedPredicates(edgeData);
   };
 
@@ -492,8 +493,12 @@ function TreePage() {
           treeId={treeId}
           onImport={handleImport}
           nodes={tree.nodesArray}
+          edges={tree.edgesArray}
           selectedConnections={selectedConnections}
-          changedTree={update} />
+          changedTree={update}
+          onNodeClick={handleNodeClick}
+          onEdgeClick={handleEdgeClick}
+          />
       </div>
 
       {/* Tree Project Name */}

@@ -64,7 +64,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         };
       })
     );
-  console.log(edgesArray)
+
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
@@ -126,7 +126,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
       network.on("click", function (params) {
         if (params.nodes.length > 0) {
           const nodeId = params.nodes[0];
-          const nodeData = nodes.get(nodeId);   
+          // const nodeData = nodes.get(nodeId);   
           onNodeClick(nodeId);
 
         } if (params.edges.length > 0) {

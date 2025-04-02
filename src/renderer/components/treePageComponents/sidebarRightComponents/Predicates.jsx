@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Predicates({ edges, nodes }) {
-
+    console.log(edges)
     let predicates = []
     let predConnection = []
 

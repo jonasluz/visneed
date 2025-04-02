@@ -5,10 +5,9 @@ import Connections from "./sidebarLeftComponents/Connections";
 
 import { toast } from "react-toastify";
 
-function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changedTree }) {
+function TreeSidebarLeft({ treeId, onImport, nodes, edges, selectedConnections, changedTree, onNodeClick, onEdgeClick }) {
 
   useEffect(() => {
-    console.log("Tree has changed");
     async function loadStoredJson() {
       try {
         const response = await window.treeAPI.loadTree(treeId);
@@ -31,14 +30,14 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
         try {
           const content = e.target.result;
           const data = JSON.parse(content);
-          console.log("Dado do json: ", data)
+          // console.log("Dado do json: ", data)
 
           // Transformação do formato
           const transformedData = transformTreeData(data);
-          console.log("Dado do json transformado: ", transformedData)
+          // console.log("Dado do json transformado: ", transformedData)
           onImport(transformedData);
 
-          console.log(data)
+          // console.log(data)
           await window.treeAPI.saveTree(treeId, data);
           toast.success("Import was successfully done!")
         } catch (error) {
@@ -70,7 +69,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
   
     const edgesArray = [];
 
-    console.log(data)
+    // console.log(data)
 
     data.nodes.forEach((node) => {
       node.connections.forEach((conn) => {
@@ -92,7 +91,7 @@ function TreeSidebarLeft({ treeId, onImport, nodes, selectedConnections, changed
       </div>
       <div className="flex flex-col h-[40%] p-4 border-b">
         <h1 className="text-xl font-bold text-white py-2">Nodes</h1>
-        <Nodes nodes={nodes}/>
+        <Nodes nodes={nodes} edges={edges} onNodeClick={onNodeClick} onEdgeClick={onEdgeClick}/>
       </div>
       <div className="flex flex-col h-[35%] p-4 border-b">
         <h1 className="text-xl font-bold text-white py-2">Connections</h1>

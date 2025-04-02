@@ -7,7 +7,6 @@ import EditPredicateModal from './EditModals/EditPredicateModal';
 import EditActionModal from './EditModals/EditActionModal';
 
 function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) {
-  console.log(selectedNode)
   const modalRef = useRef(null);
 
   const [nodeName, setNodeName] = useState("");
@@ -43,15 +42,12 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
   };
 
   const openPredicateModal = (selectedPredicate, targetNode) => {
-    console.log(selectedNode)
-
     setTargetId(targetNode)
     setPredicate(selectedPredicate);
     setIsPredicateModal(true);
   }
 
   const openActionModal = (selectedAction, targetNode) => {
-    console.log(selectedAction)
     setTargetId(targetNode)
     setAction(selectedAction);
     setIsActionModal(true);
@@ -64,15 +60,13 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
     } else {
       finalOutcome = [outcome];
     }
-    console.log(connections)
-    console.log(finalOutcome)
+
     const updatedNode = {
       ...selectedNode,
       name: nodeName,
       outcomes: finalOutcome,
       connections: connections
     };
-    console.log(updatedNode)
     onUpdateNode(updatedNode);
     onClose();
   };
@@ -189,7 +183,6 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                   </tr>
                 </thead>
                 <tbody className="bg-background-green-400 h-2/6">
-                {console.log(connections)}
                 {connections.length === 0 ? (
                   <tr>
                     <td colSpan="3" className="px-4 py-4 text-center">No connections</td>
