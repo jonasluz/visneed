@@ -7,7 +7,7 @@ function Connections({ connections }) {
       {connections.length > 0 ? (
         connections.map((element, index) => {
         return (
-          <p className='text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-md cursor-pointer' key={index}>{element.name}</p>
+          <p className='text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-md cursor-default' key={index}>{element.name}</p>
         )
       })
       ) : (

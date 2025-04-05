@@ -44,7 +44,7 @@ function DeleteNodeModal({ isOpen, onClose, selectedNode, onConfirm, nodes }) {
         </button>
         <div className="flex flex-col w-[85%] h-fit items-center text-white">
           <h1 className='text-3xl font-rubik-bold font-bold mb-3'>Delete</h1>
-          <h2 className='text-xl font-rubik-bold font-bold mb-8'>{selectedNode.name && selectedNode.name}</h2>
+          <h2 className='text-xl font-rubik-bold font-bold mb-8'>"{selectedNode.name && selectedNode.name}"</h2>
           <p className="text-lg text-center p-3 text-white">What you want to do with the leafs?</p>
 
           <div className="flex flex-row w-full justify-around p-6 items-center">

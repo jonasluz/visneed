@@ -12,22 +12,24 @@ function Cenario() {
   const { treeId, treeName } = useParams();
 
   const [data, setData] = useState();
+  const [dictionary, setDictionary] = useState([]);
+
   const [update, setUpdate] = useState(false);
 
   const [showHomeModal, setShowHomeModal] = useState(false);
 
   useEffect(() => {
-    async function loadStoredJson() {
-      const response = await window.treeAPI.loadTree(treeId);
-      console.log("Get response:", response);
-
-      if (response) {
-        setData(transformTreeData(response))
-        console.log(transformTreeData(response))
+      async function loadStoredJson() {
+        const response = await window.treeAPI.loadTree(treeId);
+        console.log("Get response:", response);
+        if (response) {
+          setData(transformTreeData(response))
+          console.log(transformTreeData(response))
+          setDictionary(response.dictionary);
+        }
       }
-    }
-    loadStoredJson();
-  }, [update]);
+      loadStoredJson();
+    }, [update]);
 
   const handleConfirmGoHome = () => {
     setShowHomeModal(false);

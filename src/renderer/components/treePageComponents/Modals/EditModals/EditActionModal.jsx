@@ -46,7 +46,7 @@ function EditActionModal ({ isOpen, onClose, action, onSave }) {
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
                   type="text"
-                  className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                  className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                   value={actionInfo.key}
                   onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}
                   spellCheck={false}/>
@@ -72,7 +72,7 @@ function EditActionModal ({ isOpen, onClose, action, onSave }) {
                 <label className="block text-sm font-medium mb-2">Value</label>
                 <input
                 type="text"
-                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={actionInfo.value}
                 onChange={(e) => setActionInfo({ ...actionInfo, value: e.target.value })}/>
               </div>

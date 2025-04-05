@@ -103,7 +103,8 @@ function TreeSidebarLeft({ treeId, onImport, nodes, edges, selectedConnections, 
         accept=".json"
         onChange={handleFile}
         style={{ display: "none" }}
-        id="fileInput"/>
+        id="fileInput"
+        className="outline-none"/>
         <label htmlFor="fileInput" className="flex bg-background-green-400 p-2 rounded-lg cursor-pointer justify-center">
           <p className="text-lg font-semibold">Import</p>
         </label>

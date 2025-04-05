@@ -110,7 +110,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
         {/* Title */}
         <div className='flex flex-col items-center w-full font-rubik-bold font-bold bg-background-green-100 sticky top-0'>
           <h1 className='text-3xl mb-3 mt-8'>Edit</h1>
-          <h2 className='text-xl font-rubik-bold font-bold mb-8'>{nodeName && nodeName}</h2>
+          <h2 className='text-xl font-rubik-bold font-bold mb-8'>"{nodeName && nodeName}"</h2>
         </div>
         <div className='flex flex-col w-full h-full min-h-0'>
           {/* Node name */}
@@ -118,7 +118,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
             <label className="block text-lg font-semibold font-rubik-semibold text-nowrap mr-4">Name:</label>
             <input
               type="text"
-              className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+              className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
               value={nodeName}
               onChange={(e) => setNodeName(e.target.value)}
               spellCheck={false}
@@ -133,7 +133,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                 <label className="block text-sm font-medium mb-2">Key</label>
                 <input
                   type="text"
-                  className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                  className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                   value={outcome.key}
                   onChange={(e) => setOutcome({ ...outcome, key: e.target.value })}
                   spellCheck={false}
@@ -161,7 +161,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                 <label className="block text-sm font-medium mb-2">Value</label>
                 <input
                   type="text"
-                  className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                  className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                   value={outcome.value}
                   onChange={(e) => setOutcome({ ...outcome, value: e.target.value })}
                   spellCheck={false}
@@ -173,13 +173,13 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
           {/* Connections */}
           <div className='flex flex-col w-full flex-grow min-h-0 mb-4'>
             <label className='block text-lg font-semibold font-rubik-semibold mb-4 px-4'>Connections:</label>
-            <div className='w-[95%] flex-grow overflow-auto rounded-lg text-black self-center scrollbar-none'>
-              <table className='w-full h-full text-left'>
+            <div className='w-full flex flex-grow justify-center overflow-auto text-black self-center scrollbar-none'>
+              <table className='w-[75%] h-full text-left'>
                 <thead className='uppercase sticky top-0'>
-                  <tr className='bg-background-green-300 text-center'>
-                    <th scope="col" className="px-4 py-2 w-1/3">Target</th>
-                    <th scope="col" className="px-4 py-2 w-1/3">Predicate</th>
-                    <th scope="col" className="px-4 py-2 w-1/3">Action</th>
+                  <tr className='bg-background-green-300 text-center w-fit'>
+                    <th scope="col" className="px-4 py-2 w-[30%]">Target</th>
+                    <th scope="col" className="px-4 py-2 w-[15%]">Predicate</th>
+                    <th scope="col" className="px-4 py-2 w-[15%]">Action</th>
                   </tr>
                 </thead>
                 <tbody className="bg-background-green-400 h-2/6">

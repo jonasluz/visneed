@@ -53,14 +53,12 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center" onClick={handleClickOutside}>
+    <div className="flex justify-center items-center fixed inset-0 z-50 bg-black bg-opacity-50 " onClick={handleClickOutside}>
       <div ref={modalRef} className="relative bg-background-green-100 w-fit h-fit p-12 rounded-lg text-white overflow-y-auto scrollbar-none" onClick={(e) => e.stopPropagation()}>
-      <button className='absolute w-8 h-8 top-5 right-5 cursor-pointer' onClick={() => {onClose(); toast.error("Action canceled!")}}>
-        <img src={closeIcon} alt="" className='w-full h-full object-contain' />
-      </button>
-        
         {/* Title */}
-        <h2 className="text-xl font-bold mb-4">Add a new Node</h2>
+        <div className='flex justify-center'>
+          <h2 className="text-3xl font-rubik-bold font-bold mb-8">Add a new Node</h2>
+        </div>
         <div className='flex flex-row'>
           <div className="mb-4 basis-1/3 px-4 font-medium">
             {/* Parent node input */}
@@ -82,7 +80,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             <input
               placeholder='Ex: Node 1'
               type="text"
-              className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+              className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
               value={newNodeName}
               onChange={(e) => setNewNodeName(e.target.value)}
               spellCheck={false}
@@ -99,7 +97,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               <input
                 placeholder='Ex: hp improve'
                 type="text"
-                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={outcomeInfo.key}
                 onChange={(e) => setOutcomeInfo({ ...outcomeInfo, key: e.target.value })}/>
               <label className='text-sm text-red-700'>Blank outcome = "No outcome"</label>
@@ -110,6 +108,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               className="w-full p-2 border border-white rounded-md text-white bg-transparent accent-transparent"
               value={outcomeInfo.operator}
               onChange={(e) => setOutcomeInfo({ ...outcomeInfo, operator: e.target.value })}>
+                <option value=""></option>
                 <option value="=" className='text-black'>=</option>
                 <option value="!=" className='text-black'>!=</option>
                 <option value="<" className='text-black'>&lt;</option>
@@ -126,7 +125,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               <input
                 placeholder='Ex: 5'
                 type="text"
-                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={outcomeInfo.value}
                 onChange={(e) => setOutcomeInfo({ ...outcomeInfo, value: e.target.value })}/>
             </div>
@@ -154,7 +153,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               <input
                 placeholder='Ex: Option'
                 type="text"
-                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={predicateInfo.key}
                 onChange={(e) => setPredicateInfo({ ...predicateInfo, key: e.target.value })}
               />
@@ -167,6 +166,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
               value={predicateInfo.condition}
               onChange={(e) => setPredicateInfo({ ...predicateInfo, condition: e.target.value })}>
+                <option value=""></option>
                 <option value="=" className='text-black'>=</option>
                 <option value="!=" className='text-black'>!=</option>
                 <option value="<" className='text-black'>&lt;</option>
@@ -181,7 +181,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <input
                   placeholder='Ex: 1'
                   type="text"
-                  className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                  className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                   value={predicateInfo.value}
                   onChange={(e) => setPredicateInfo({ ...predicateInfo, value: e.target.value })}/>
             </div>
@@ -203,6 +203,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
               value={predicateInfo.logicalOperator}
               onChange={(e) => setPredicateInfo({ ...predicateInfo, logicalOperator: e.target.value })}>
+                <option value=""></option>
                 <option value="OR" className='text-black'>OR</option>
                 <option value="AND" className='text-black'>AND</option>
               </select>
@@ -220,7 +221,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               <input
                 placeholder='Ex: freedom'
                 type="text"
-                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={actionInfo.key}
                 onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}/>
               <label className='text-sm text-red-700'>Blank action = "No actions"</label>
@@ -232,6 +233,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
               value={actionInfo.operator}
               onChange={(e) => setActionInfo({ ...actionInfo, operator: e.target.value })}>
+                <option value=""></option>
                 <option value="=" className='text-black'>=</option>
                 <option value="!=" className='text-black'>!=</option>
                 <option value="<" className='text-black'>&lt;</option>
@@ -248,7 +250,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
                 <input
                   placeholder='Ex: True'
                   type="text"
-                  className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                  className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                   value={actionInfo.value}
                   onChange={(e) => setActionInfo({ ...actionInfo, value: e.target.value })}/>
             </div>

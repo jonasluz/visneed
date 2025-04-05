@@ -7,7 +7,10 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
   const visContainerRef = useRef(null);
 
   useEffect(() => {
+    console.log(nodesArray)
+    console.log(visContainerRef.current)
     if (!nodesArray || nodesArray.length === 0 || !visContainerRef.current) {
+      setIsTreeLoading(false)
       return;
     }
 
@@ -68,7 +71,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
     const edges = new DataSet(
       edgesArray.map((edge) => ({
         ...edge,
-        label: edge.predicate == "No predicates" ? "\n\n" : `${edge.predicate.key ? edge.predicate.key : ""} ${edge.predicate.condition ? edge.predicate.condition : ""} ${edge.predicate.value ? edge.predicate.value : ""} \n\n` + (edge.actions == "No action" ? " " : `${edge.actions.key ? edge.actions.key : ""} ${edge.actions.condition ? edge.actions.condition : "" } ${edge.actions.value ? edge.actions.value : ""}`), 
+        label: edge.predicate == "No predicates" ? "\n\n" : `${edge.predicate.key ? edge.predicate.key : ""} ${edge.predicate.condition ? edge.predicate.condition : ""} ${edge.predicate.value ? edge.predicate.value : ""} ${edge.predicate.logicalOperator ? edge.predicate.logicalOperator : ""} \n\n` + (edge.actions == "No action" ? " " : `${edge.actions.key ? edge.actions.key : ""} ${edge.actions.condition ? edge.actions.condition : "" } ${edge.actions.value ? edge.actions.value : ""}`), 
         font: {
           size: 16, 
           color: "#1E1E1E",

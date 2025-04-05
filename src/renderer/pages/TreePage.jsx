@@ -6,8 +6,6 @@ import TreeSideBarRight from "../components/treePageComponents/TreeSideBarRight"
 import TreeView from "../components/treePageComponents/TreeView";
 import NodeActions from "../components/treePageComponents/NodeActions";
 import Dock from "../components/Dock";
-//Loader
-import Loader from "../components/Loaders/TreeLoader";
 //icones
 import treeImage from "../../assets/decision-tree-image.png";
 import minimizeImage from "../../assets/minimize.png";
@@ -203,19 +201,28 @@ function TreePage() {
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
     let updatedDictionary = [...tree.dictionary];
   
-    if (newNodeName) {
+    if (newNodeName && !updatedDictionary.some(item => item.key === newNodeName)) {
       updatedDictionary.push({ key: newNodeName, type: "string" });
     }
     
-    if (outcomeInfo.key) {
+    if (
+      outcomeInfo.key &&
+      !updatedDictionary.some(item => item.key === outcomeInfo.key)
+    ) {
       updatedDictionary.push({ key: outcomeInfo.key, type: outcomeInfo.type });
     }
     
-    if (predicateInfo.key) {
+    if (
+      predicateInfo.key &&
+      !updatedDictionary.some(item => item.key === predicateInfo.key)
+    ) {
       updatedDictionary.push({ key: predicateInfo.key, type: predicateInfo.type });
     }
     
-    if (actionInfo.key) {
+    if (
+      actionInfo.key &&
+      !updatedDictionary.some(item => item.key === actionInfo.key)
+    ) {
       updatedDictionary.push({ key: actionInfo.key, type: actionInfo.type });
     }
 
@@ -449,7 +456,7 @@ function TreePage() {
   };
 
   return (
-    <div className="relative w-full h-screen bg-background-black-100">
+    <div className="relative w-full h-screen bg-background-black-100 outline-none">
       {/* Apenas loading da árvore */}
       {isTreeLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
@@ -519,7 +526,7 @@ function TreePage() {
             <p className="ml-2 font-semibold text-background-green-400">{selectedConnections.length}</p>
           </div>
 
-          <button className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200" onClick={handleExport}>
+          <button className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200 outline-none" onClick={handleExport}>
             <img src={exportIcon} alt="" />
           </button>
         </div>
@@ -540,7 +547,7 @@ function TreePage() {
       {/* Minimize  */}
       <div className={`flex flex-col absolute bottom-0 p-2 text-white items-center ${minimized ? "right-[29%]" : "right-5"}`}>
         <button
-          className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200"
+          className="bg-background-green-400 w-9 h-9 p-2 rounded-lg hover:brightness-50 ease-in-out duration-200 outline-none"
           onClick={handleMinimized}>
           {minimized ? (
             <img src={minimizeImage} alt="" />
@@ -551,7 +558,7 @@ function TreePage() {
       </div>
 
       {/* Right Side Bar */}    
-      <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? "visible" : "hidden"}`}>
+      <div className={`absolute top-0 right-0 w-[30%] h-full z-10 p-4 overflow-y-auto scrollbar-none ${minimized ? "visible" : "hidden"} outline-none`}>
         <TreeSideBarRight
           selectedOutcome={selectedOutcome}
           selectedEdge={selectedPredicates}

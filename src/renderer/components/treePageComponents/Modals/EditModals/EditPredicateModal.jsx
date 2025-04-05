@@ -45,7 +45,7 @@ function EditPredicateModal ({ isOpen, onClose, targetId, predicate, onSave }) {
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
                   type="text"
-                  className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                  className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                   value={predicateInfo.key}
                   onChange={(e) => setPredicateInfo({ ...predicateInfo, key: e.target.value })}
                   spellCheck={false}/>
@@ -71,7 +71,7 @@ function EditPredicateModal ({ isOpen, onClose, targetId, predicate, onSave }) {
                 <label className="block text-sm font-medium mb-2">Value</label>
                 <input
                 type="text"
-                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={predicateInfo.value}
                 onChange={(e) => setPredicateInfo({ ...predicateInfo, value: e.target.value })}/>
               </div>

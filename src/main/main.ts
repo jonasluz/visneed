@@ -1,16 +1,15 @@
 import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
 const path = require("path");
-const { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree, deleteTreeData } = require("../../scripts/treeManager");
+const { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree, deleteTreeData } = require("../../src/scripts/treeManager");
 
 import fs from 'fs';
 
-const DATA_DIR = path.join(__dirname, '../../data');
-const JSON_FILE_PATH = path.join(DATA_DIR, 'user_data.json');
+const DATA_DIR = path.join(app.getPath("userData"), "data");
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
-//Menu.setApplicationMenu(null);
+// Menu.setApplicationMenu(null);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -50,9 +49,22 @@ const createWindow = (): void => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  console.log("Aplicativo esta iniciando...");
+
+  console.log(`Verificando diretório de dados: ${DATA_DIR}`);
+  
   if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR);
+    try {
+      console.log("Criando diretorio de dados...");
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+      console.log("Diretorio criado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao criar diretorio:", error);
+    }
+  } else {
+    console.log("Diretorio de dados ja existe.");
   }
+
   createWindow();
 });
 

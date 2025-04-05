@@ -384,7 +384,7 @@ function Dictionary() {
                 type="text"
                 value={searchKey}
                 placeholder="Search Key"
-                className="text-xl font-bold text-black bg-transparent w-[80%] h-full p-4"
+                className="text-xl font-bold text-black bg-transparent w-[80%] h-full p-4 outline-none"
                 onChange={(e) => {
                   setSearchKey(e.target.value);
                 }}
