@@ -69,14 +69,14 @@ function TreeSidebarLeft({ treeId, onImport, nodes, edges, selectedConnections, 
   
     const edgesArray = [];
 
-    // console.log(data)
+    console.log(data)
 
     data.nodes.forEach((node) => {
       node.connections.forEach((conn) => {
         edgesArray.push({
           from: node.id,
           to: conn.targetId,
-          predicate: conn.gate?.predicates == "No predicates" || conn.gate?.predicates.length < 1 ? "No predicates" : conn.gate.predicates[0],
+          predicate: conn.gate?.predicates == "No predicates" || conn.gate?.predicates.length < 1 ? ["No predicates"] : conn.gate.predicates,
           actions: conn.gate?.actions == "No action" || conn.gate?.actions.length < 1 ? "No action" : conn.gate?.actions?.[0]
         });
       });

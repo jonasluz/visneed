@@ -427,6 +427,41 @@ function TreePage() {
     toast.success(`Node ${finalNode.name} updated successfully!`);
   };
 
+  const handleUpdateEdge = (updatedEdge) => {
+    console.log(updatedEdge[0])
+    const updatedEdgesArray = tree.edgesArray.map(edge => {
+      if (edge.from === updatedEdge[0].from && edge.to === updatedEdge[0].to) {
+        console.log(edge)
+        console.log(updatedEdge)
+        console.log("entrou")
+
+        return updatedEdge[0]
+      }
+      console.log(edge)
+      return edge
+    });
+
+    console.log(updatedEdgesArray)
+  
+    setTree({
+      ...tree,
+      edgesArray: updatedEdgesArray
+    });
+  
+    const updatedData = {
+      nodes: tree.nodesArray,
+      edges: updatedEdgesArray,
+      dictionary: tree.dictionary,
+      projectName: projectName,
+    };
+
+    console.log(updatedData)
+  
+    window.treeAPI.saveTree(treeId, updatedData);
+    setUpdate(true);
+  };
+  
+
   const handleExport = async () => {
     try {
       const exportData = await window.treeAPI.exportTree(treeId);
@@ -564,7 +599,9 @@ function TreePage() {
           selectedEdge={selectedPredicates}
           nodes={tree.nodesArray}
           treeId={treeId}
-          treeName={projectName} />
+          treeName={projectName} 
+          onUpdateEdge={handleUpdateEdge}
+          />
       </div>
     </div>
   );

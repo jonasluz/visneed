@@ -7,8 +7,6 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
   const visContainerRef = useRef(null);
 
   useEffect(() => {
-    console.log(nodesArray)
-    console.log(visContainerRef.current)
     if (!nodesArray || nodesArray.length === 0 || !visContainerRef.current) {
       setIsTreeLoading(false)
       return;
@@ -67,27 +65,32 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         };
       })
     );
-
+    console.log(edgesArray)
     const edges = new DataSet(
-      edgesArray.map((edge) => ({
-        ...edge,
-        label: edge.predicate == "No predicates" ? "\n\n" : `${edge.predicate.key ? edge.predicate.key : ""} ${edge.predicate.condition ? edge.predicate.condition : ""} ${edge.predicate.value ? edge.predicate.value : ""} ${edge.predicate.logicalOperator ? edge.predicate.logicalOperator : ""} \n\n` + (edge.actions == "No action" ? " " : `${edge.actions.key ? edge.actions.key : ""} ${edge.actions.condition ? edge.actions.condition : "" } ${edge.actions.value ? edge.actions.value : ""}`), 
-        font: {
-          size: 16, 
-          color: "#1E1E1E",
-          face: "Arial",
-          align: 'middle',
-          strokeWidth: 2, 
-          strokeColor: "#fff", 
-        },
-        width: 2,
-        color: {
-          color: "#84A98C",
-          highlight: "#CAD2C5", 
-          hover: "#FFD700",
-        },
-        arrows: { to: { enabled: true, type: "arrow" } },
-      } ))
+      edgesArray.map((edge) => {
+        const predicateLabel = Array.isArray(edge.predicate) ? edge.predicate.map((predicate) => predicate === "No predicates"  ? "" : `${predicate.key || ""} ${predicate.condition || ""} ${predicate.value || ""} ${predicate.logicalOperator || ""}`).join("\n\n") : edge.predicate || ""; 
+
+        const actionLabel = edge.actions === "No action" || !edge.actions ? "" : Array.isArray(edge.actions) ? edge.actions.map(action => `${action.key || ""} ${action.operator || ""} ${action.value || ""}`).join("\n\n") : `${edge.actions.key || ""} ${edge.actions.operator || ""} ${edge.actions.value || ""}`;
+        
+        return {
+          ...edge,
+          label: `${predicateLabel}\n\n${actionLabel}`,
+          font: {
+            size: 20, 
+            color: "#f6f5f3",
+            face: "Open Sans",
+            strokeWidth: 0,
+            align: 'middle',
+          },
+          width: 2,
+          color: {
+            color: "#84A98C",
+            highlight: "#CAD2C5", 
+            hover: "#FFD700",
+          },
+          arrows: { to: { enabled: true, type: "arrow" } },
+        };
+      })
     );
 
     const options = {

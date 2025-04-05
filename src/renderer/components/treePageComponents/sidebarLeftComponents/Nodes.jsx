@@ -4,8 +4,6 @@ function Nodes({ nodes, edges, onNodeClick, onEdgeClick}) {
 
   const [selectedNode, setSelectedNode] = useState()
   const [selectedEdges, setSelectedEdges] = useState()
-  console.log(edges)
-  console.log(nodes)
 
   useEffect(() => {
     onEdgeClick(selectedEdges)
@@ -24,7 +22,6 @@ function Nodes({ nodes, edges, onNodeClick, onEdgeClick}) {
         return (
           <p className={`text-white py-3 px-5 my-2 hover:bg-background-green-400 rounded-md cursor-default ${selectedNode == node.id && "bg-background-green-400"}`} key={node.id} onClick={() => {onNodeClick(node.id); handleClick(node.connections); setSelectedNode(node.id)}}>
             {node.name}
-            {console.log(node.connections)}
           </p>
         )
       })
