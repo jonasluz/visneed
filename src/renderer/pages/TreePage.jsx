@@ -428,37 +428,57 @@ function TreePage() {
   };
 
   const handleUpdateEdge = (updatedEdge) => {
-    console.log(updatedEdge[0])
-    const updatedEdgesArray = tree.edgesArray.map(edge => {
-      if (edge.from === updatedEdge[0].from && edge.to === updatedEdge[0].to) {
-        console.log(edge)
-        console.log(updatedEdge)
-        console.log("entrou")
-
-        return updatedEdge[0]
+    const edgeUpdate = updatedEdge[0];
+    const { from, to, predicate, actions } = edgeUpdate;
+  
+    // Atualiza a edge no edgesArray
+    const updatedEdgesArray = tree.edgesArray.map((edge) => {
+      if (edge.from === from && edge.to === to) {
+        return edgeUpdate;
       }
-      console.log(edge)
-      return edge
+      return edge;
     });
-
-    console.log(updatedEdgesArray)
+  
+    // Atualiza o predicates no nodesArray, no node `from`, na connection com targetId === to
+    const updatedNodesArray = tree.nodesArray.map((node) => {
+      if (node.id === from) {
+        const updatedConnections = node.connections.map((conn) => {
+          if (conn.targetId === to) {
+            return {
+              ...conn,
+              gate: {
+                ...conn.gate,
+                predicates: predicate || "No predicates",
+              },
+              actions: actions || ["No action"],
+            };
+          }
+          return conn;
+        });
+        return {
+          ...node,
+          connections: updatedConnections,
+        };
+      }
+      return node;
+    });
   
     setTree({
       ...tree,
-      edgesArray: updatedEdgesArray
+      nodesArray: updatedNodesArray,
+      edgesArray: updatedEdgesArray,
     });
   
     const updatedData = {
-      nodes: tree.nodesArray,
+      nodes: updatedNodesArray,
       edges: updatedEdgesArray,
       dictionary: tree.dictionary,
       projectName: projectName,
     };
-
-    console.log(updatedData)
   
     window.treeAPI.saveTree(treeId, updatedData);
     setUpdate(true);
+    toast.success("Conexão atualizada com sucesso!");
   };
   
 

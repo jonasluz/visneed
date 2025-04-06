@@ -65,22 +65,24 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
         };
       })
     );
-    console.log(edgesArray)
+    
     const edges = new DataSet(
       edgesArray.map((edge) => {
-        const predicateLabel = Array.isArray(edge.predicate) ? edge.predicate.map((predicate) => predicate === "No predicates"  ? "" : `${predicate.key || ""} ${predicate.condition || ""} ${predicate.value || ""} ${predicate.logicalOperator || ""}`).join("\n\n") : edge.predicate || ""; 
 
-        const actionLabel = edge.actions === "No action" || !edge.actions ? "" : Array.isArray(edge.actions) ? edge.actions.map(action => `${action.key || ""} ${action.operator || ""} ${action.value || ""}`).join("\n\n") : `${edge.actions.key || ""} ${edge.actions.operator || ""} ${edge.actions.value || ""}`;
+        const predicateLabel = Array.isArray(edge.predicate) ? edge.predicate.map((predicate) => predicate === "No predicates" ? "" : `${predicate.key || ""} ${predicate.condition || ""} ${predicate.value || ""} ${predicate.logicalOperator || ""}`).join("\n") : edge.predicate || ""; 
+
+        const actionLabel = edge.actions === "No action" || !edge.actions ? "" : Array.isArray(edge.actions) ? edge.actions.map(action => `${action.key || ""} ${action.operator || ""} ${action.value || ""}`).join("\n") : `${edge.actions.key || ""} ${edge.actions.operator || ""} ${edge.actions.value || ""}`;
         
         return {
           ...edge,
-          label: `${predicateLabel}\n\n${actionLabel}`,
+          label: `${predicateLabel}\n \n${actionLabel}`,
           font: {
-            size: 20, 
+            size: 15, 
             color: "#f6f5f3",
             face: "Open Sans",
             strokeWidth: 0,
-            align: 'middle',
+            align: 'center',
+            vadjust: -10 
           },
           width: 2,
           color: {
@@ -89,6 +91,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
             hover: "#FFD700",
           },
           arrows: { to: { enabled: true, type: "arrow" } },
+          labelAlignment: 'center',
         };
       })
     );
