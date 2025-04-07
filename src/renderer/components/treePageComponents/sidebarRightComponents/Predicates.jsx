@@ -11,6 +11,7 @@ function Predicates({ edges, nodes }) {
     edges.map((edge, index) => {
       predicates[index] = edge.predicate.map((predicates) => predicates);
       predConnection[index] = [edge.from, edge.to];
+      console.log(predConnection)
     });
   }
   console.log(predicates);
@@ -48,39 +49,63 @@ function Predicates({ edges, nodes }) {
           </tr>
         </thead>
         <tbody className="h-2/6">
-          {predicates.map((predicate, predIndex) =>
-            predicate.map((element, index) => {
-              if (element === "No predicates") {
-                return (
-                  <tr
-                    key={`${predIndex}-${index}`}
-                    className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
-                    <td className="px-4 py-4">
-                      {nodes.find((node) => node.id == predConnection[predIndex][0])?.name}{" "}-&gt;{" "}
-                      {nodes.find((node) => node.id == predConnection[predIndex][1])?.name}
-                    </td>
-                    <td colSpan="4" className="px-4 py-2 text-left">
-                      No predicate for this connection
-                    </td>
-                  </tr>
-                );
-              }
+        {predicates.map((predicate, predIndex) =>
+  predicate.map((element, index) => {
+    const showConnection =
+      index === 0; // Só mostra na primeira linha do grupo
 
-              return (
-                <tr key={`${predIndex}-${index}`} className={`font-bold text-left ${index % 2 == 0 ? "bg-background-green-400" : "bg-background-green-500"}`}>
-                  {}
-                  <td className="px-4 py-4">
-                    {nodes.find((node) => node.id == predConnection[index][0])?.name}{" "}-&gt;{" "}
-                    {nodes.find((node) => node.id == predConnection[index][1])?.name}
-                  </td>
-                  <td className="px-4 py-4">{element.key}</td>
-                  <td className="px-4 py-4">{element.condition}</td>
-                  <td className="px-4 py-4">{element.value}</td>
-                  <td className="px-4 py-4">{element.logicalOperator}</td>
-                </tr>
-              );
-            })
-          )}
+    if (element === "No predicates") {
+      return (
+        <tr
+          key={`${predIndex}-${index}`}
+          className={`font-bold text-left ${
+            index % 2 === 0
+              ? "bg-background-green-400"
+              : "bg-background-green-500"
+          }`}
+        >
+          <td className="px-4 py-4">
+            {nodes.find((node) => node.id == predConnection[predIndex][0])
+              ?.name}{" "}
+            -&gt;{" "}
+            {nodes.find((node) => node.id == predConnection[predIndex][1])
+              ?.name}
+          </td>
+          <td colSpan="4" className="px-4 py-2 text-left">
+            No predicate for this connection
+          </td>
+        </tr>
+      );
+    }
+
+    return (
+      <tr
+        key={`${predIndex}-${index}`}
+        className={`font-bold text-left ${
+          index % 2 === 0
+            ? "bg-background-green-400"
+            : "bg-background-green-500"
+        }`}
+      >
+        <td className="px-4 py-4">
+          {showConnection
+            ? `${nodes.find(
+                (node) => node.id == predConnection[predIndex][0]
+              )?.name} -> ${
+                nodes.find(
+                  (node) => node.id == predConnection[predIndex][1]
+                )?.name
+              }`
+            : ""}
+        </td>
+        <td className="px-4 py-4">{element.key}</td>
+        <td className="px-4 py-4">{element.condition}</td>
+        <td className="px-4 py-4">{element.value}</td>
+        <td className="px-4 py-4">{element.logicalOperator}</td>
+      </tr>
+    );
+  })
+)}
         </tbody>
       </table>
     </div>
