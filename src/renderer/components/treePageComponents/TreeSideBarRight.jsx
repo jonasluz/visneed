@@ -41,7 +41,7 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
       <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto">
         <div className="flex flex-row w-full h-[15%] px-5 py-5 justify-between items-center border">
           <label className="text-xl font-bold text-white">Predicate</label>
-          <button className="h-full" onClick={() => {setIsNewPredicateModal(true)}}>
+          <button className={`h-full ${selectedEdge ? 'block' : 'hidden'}`} onClick={() => {setIsNewPredicateModal(true)}}>
             <img src={addIcon} alt="" className="object-contain w-full h-full"/>
           </button>
         </div>
