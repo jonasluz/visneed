@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Dock from "../components/Dock";
 import { useNavigate, useParams } from "react-router-dom";
 
+import searchIcon from "../../assets/search.png";
+
 //Notifications
 import { ToastContainer, toast } from "react-toastify";
 
@@ -13,6 +15,7 @@ function Cenario() {
 
   const [data, setData] = useState();
   const [dictionary, setDictionary] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
 
   const [update, setUpdate] = useState(false);
 
@@ -78,15 +81,50 @@ function Cenario() {
           treeName={treeName}
           onHomeClick={() => setShowHomeModal(true)} />
 
-      <div className="relative h-full w-full bg-background-green-100">
-        
-        Cenario
+<div className="flex h-full w-full justify-center items-end bg-background-green-100">
+        <div className="flex flex-col w-[60%] h-[80%] justify-between">
+          <div className="flex flex-row w-full h-[10%] justify-between">
+            {/* Search Input */}
+            <div className="flex flex-row w-full items-center justify-around rounded-lg bg-background-green-300">
+              <img
+                src={searchIcon}
+                alt=""
+                className="w-8 h-8 object-cover ml-4"
+                draggable={false}
+              />
+              <input
+                type="text"
+                value={searchKey}
+                placeholder="Search Cenario"
+                className="text-xl font-bold text-black bg-transparent w-full h-full p-4 outline-none"
+                onChange={(e) => {
+                  setSearchKey(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+          <button className="self-start bg-background-green-400 p-5 my-5 rounded-lg font-rubik-semibold font-semibold text-lg">
+            Create new cenario
+          </button>
+
+          <div className="flex flex-row h-[80%]">
+            <div className="w-full overflow-y-auto scrollbar-none rounded-t-lg border border-background-white-100 border-opacity-50">
+              <table className="w-full relative">
+                <thead className="uppercase rounded-t-lg bg-background-green-200 sticky top-0 z-20 w-full">
+                  <tr className="w-full">
+                    <th className="py-2 w-[45%] h-full">Key</th>
+                    <th className="py-2 w-[45%] h-full">Value</th>
+                  </tr>
+                </thead>
+                <tbody className="text-center w-full">
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </>
-
-   
-
-    
   );
 }
 

@@ -42,7 +42,7 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
         <div className="flex flex-row w-full h-[15%] px-5 py-3 justify-between items-center">
           <label className="text-xl font-bold text-white">Predicate</label>
           <button className={`h-full ${selectedEdge && selectedEdge.length === 1 ? 'block' : 'hidden'}`} onClick={() => {setIsNewPredicateModal(true)}}>
-            <img src={addIcon} alt="" className="object-contain w-full h-full"/>
+            <img src={addIcon} alt="" className="invert object-contain w-full h-full"/>
           </button>
         </div>
         <Predicates edges={selectedEdge} nodes={nodes} />

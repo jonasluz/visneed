@@ -19,8 +19,10 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
 
     const nodes = new DataSet(
       nodesArray.map((node) => {
-        const outcomeText = Array.isArray(node.outcomes) ? node.outcomes.map((outcome) => `${outcome.key} ${outcome.operator} ${outcome.value}`).join("\n") : node.outcomes
-    
+        const outcomeText = Array.isArray(node.outcomes) ? node.outcomes.map((outcome) => `${outcome.key} ${outcome.operator} ${outcome.value}`).join("\n") : node.outcomes;
+
+        const hasOutcome = node.outcomes && Array.isArray(node.outcomes);
+
         return {
           ...node,
           label: node.name, 
@@ -52,7 +54,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
           borderWidthSelected: 4,
           color: {
             background: getColorByLevel(levels[node.id] || 0),
-            border: "#fff",
+            border: hasOutcome ? "#FFA500" : "#fff",
             highlight: {
               background: "#CAD2C5",
               border: "#84A98C",
@@ -62,6 +64,7 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
               border: "#FFA500", 
             }
           },
+          borderWidth: hasOutcome ? 3 : 1,
         };
       })
     );
@@ -193,11 +196,11 @@ function getColorByLevel(level) {
     "#FF6F61",
     "#6B5B95",
     "#88B04B",
-    "#F7CAC9",
     "#92A8D1",
     "#955251",
     "#B565A7",
     "#009B77",
+    "#F7CAC9",
   ];
   return colors[level % colors.length];
 }
