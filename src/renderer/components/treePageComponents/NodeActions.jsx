@@ -13,8 +13,6 @@ function NodeActions({ nodes, edges, onAddNode, onDeleteNode, onUpdateNode, node
 
   const [isNodeSelected, setIsNodeSelected] = useState(false)
 
-  console.log(edges)
-
   useEffect(() => {
     if(Object.keys(nodeSelected).length !== 0) {
       setIsNodeSelected(false);

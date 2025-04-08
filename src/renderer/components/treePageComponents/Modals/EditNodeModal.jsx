@@ -191,6 +191,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                   <tr key={index} className="font-bold text-center">
                     <td className="px-4 py-4">{nodes[connection.targetId - 1]?.name || "Unknown"}</td>
                     <td className="px-4 py-4">
+                    {console.log(connection.gate)}
                       <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openPredicateModal(connection.gate.predicates, connection.targetId)}}>
                         Edit
                       </button>
