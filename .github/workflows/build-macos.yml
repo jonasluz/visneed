@@ -1,0 +1,30 @@
+# .github/workflows/build-macos.yml
+name: Build Electron App for macOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Build Electron Forge
+        run: npm run make
+
+      - name: Upload do arquivo .dmg
+        uses: actions/upload-artifact@v3
+        with:
+          name: VisNeed-mac-build
+          path: out/make/**/*.dmg
