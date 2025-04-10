@@ -24,7 +24,7 @@ jobs:
         run: npm run make
 
       - name: Upload do arquivo .dmg
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: VisNeed-mac-build
           path: out/make/**/*.dmg
