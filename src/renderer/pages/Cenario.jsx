@@ -8,6 +8,7 @@ import searchIcon from "../../assets/search.png";
 import { ToastContainer, toast } from "react-toastify";
 
 import GoToHomeModal from "../components/treePageComponents/Modals/GoToHomeModal";
+import NewCenariModal from "../components/cenarioPageComponents/Modals/NewCenarioModal";
 
 function Cenario() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Cenario() {
   const [update, setUpdate] = useState(false);
 
   const [showHomeModal, setShowHomeModal] = useState(false);
+  const [addCenarioModal, setAddCenarioModal] = useState(false)
 
   useEffect(() => {
       async function loadStoredJson() {
@@ -27,11 +29,11 @@ function Cenario() {
         console.log("Get response:", response);
         if (response) {
           setData(transformTreeData(response))
-          console.log(transformTreeData(response))
           setDictionary(response.dictionary);
         }
       }
       loadStoredJson();
+
     }, [update]);
 
   const handleConfirmGoHome = () => {
@@ -79,48 +81,23 @@ function Cenario() {
       <Dock currentPage={"cenario"}
           treeId={treeId}
           treeName={treeName}
-          onHomeClick={() => setShowHomeModal(true)} />
-      Ainda desenvolvendo
+          onHomeClick={() => setShowHomeModal(true)}
+      />
+      {console.log(dictionary)}
+
+      <NewCenariModal
+        isOpen={addCenarioModal}
+        onClose={() => {setAddCenarioModal(false)}}
+        dictionary={dictionary}
+      />
       <div className="flex h-full w-full justify-center items-end bg-background-green-100">
-        <div className="flex flex-col w-[60%] h-[80%] justify-between">
-          <div className="flex flex-row w-full h-[10%] justify-between">
-            {/* Search Input */}
-            <div className="flex flex-row w-full items-center justify-around rounded-lg bg-background-green-300">
-              <img
-                src={searchIcon}
-                alt=""
-                className="w-8 h-8 object-cover ml-4"
-                draggable={false}
-              />
-              <input
-                type="text"
-                value={searchKey}
-                placeholder="Search Cenario"
-                className="text-xl font-bold text-black bg-transparent w-full h-full p-4 outline-none"
-                onChange={(e) => {
-                  setSearchKey(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-          <button className="self-start bg-background-green-400 p-5 my-5 rounded-lg font-rubik-semibold font-semibold text-lg">
+        <div className="flex flex-col w-[80%] h-[90%] justify-between">
+          <button className="self-start bg-background-green-400 p-5 rounded-lg font-rubik-semibold font-semibold text-lg" onClick={() => {setAddCenarioModal(true)}}>
             Create new cenario
           </button>
 
-          <div className="flex flex-row h-[80%]">
-            <div className="w-full overflow-y-auto scrollbar-none rounded-t-lg border border-background-white-100 border-opacity-50">
-              <table className="w-full relative">
-                <thead className="uppercase rounded-t-lg bg-background-green-200 sticky top-0 z-20 w-full">
-                  <tr className="w-full">
-                    <th className="py-2 w-[45%] h-full">Key</th>
-                    <th className="py-2 w-[45%] h-full">Value</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center w-full">
-                  
-                </tbody>
-              </table>
-            </div>
+          <div className="flex flex-row h-[90%] border">
+
           </div>
         </div>
       </div>
