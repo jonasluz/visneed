@@ -1,6 +1,9 @@
 import { app, BrowserWindow, screen, Menu, ipcMain } from 'electron';
 const path = require("path");
+
 const { createNewTree, saveTreeData, loadTreeData, getSavedTrees, exportTree, deleteTreeData } = require("../../src/scripts/treeManager");
+
+const { createNewCenario, saveCenarioData, loadCenarioData, getSavedCenarios, deleteCenarioData } = require("../../src/scripts/cenarioManager");
 
 import fs from 'fs';
 
@@ -51,7 +54,7 @@ const createWindow = (): void => {
 app.on('ready', () => {
   console.log("Aplicativo esta iniciando...");
 
-  console.log(`Verificando diretório de dados: ${DATA_DIR}`);
+  console.log(`Verificando diretorio de dados: ${DATA_DIR}`);
   
   if (!fs.existsSync(DATA_DIR)) {
     try {
@@ -83,6 +86,8 @@ app.on('activate', () => {
   }
 });
 
+//TREE API
+
 // Criar uma nova árvore quando solicitado
 ipcMain.handle("create-tree", async (_, treeName) => {
   return createNewTree(treeName);
@@ -108,4 +113,25 @@ ipcMain.handle("export-tree", async (_, treeId) => {
 
 ipcMain.handle("delete-tree", async(_, treeId) => {
   return deleteTreeData(treeId);
+})
+
+//CENARIO API 
+ipcMain.handle("create-cenario", async(_, cenarioName, treeId) => {
+  return createNewCenario(cenarioName, treeId)
+});
+
+ipcMain.handle("save-cenario", async (_, cenarioId, data) => {
+  saveCenarioData(cenarioId, data);
+});
+
+ipcMain.handle("load-cenario", async (_event, cenarioId) => {
+  return loadCenarioData(cenarioId);
+});
+
+ipcMain.handle("list-cenario", async (_) => {
+  return getSavedCenarios();
+});
+
+ipcMain.handle("delete-cenario", async(_, cenarioId) => {
+  return deleteCenarioData(cenarioId);
 })

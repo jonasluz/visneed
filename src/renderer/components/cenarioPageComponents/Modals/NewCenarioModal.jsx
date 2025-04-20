@@ -1,20 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import closeIcon from "../../../../assets/close.png";
-
-function NewCenariModal({ isOpen, onClose, dictionary }) {
+function NewCenariModal({ isOpen, onClose, onUpdate, treeId }) {
   const modalRef = useRef(null);
 
   const [cenarioName, setCenarioName] = useState("")
 
   if (!isOpen) return null;
 
-  const handleConfirm = () => {
-    if(!newNodeName) {
-      toast.error("Node name is empty")
+  const handleConfirm = async () => {
+    if(cenarioName == "") {
+      toast.error("Name is empty")
     } else {
+      console.log(treeId)
+      await window.cenarioAPI.createNewCenario(cenarioName, treeId);
+      onUpdate();
       onClose();
     }
   };
@@ -46,7 +47,7 @@ function NewCenariModal({ isOpen, onClose, dictionary }) {
               />
         </div>
         
-        <div className="flex mt-8">
+        <div className="flex justify-center mt-8">
           <button
             className="bg-background-green-400 hover:brightness-50 ease-in-out duration-100 text-white text-sm p-4 px-8 mx-4 rounded font-semibold font-rubik-semibold border border-black"
             onClick={handleConfirm}>

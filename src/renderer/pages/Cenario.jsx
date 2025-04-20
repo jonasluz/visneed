@@ -1,71 +1,175 @@
 import React, { useEffect, useState } from "react";
 import Dock from "../components/Dock";
 import { useNavigate, useParams } from "react-router-dom";
+import { Collapse } from "react-collapse";
 
-import searchIcon from "../../assets/search.png";
+import addIcon from "../../assets/add-symbol.png";
 
-//Notifications
+// Notifications
 import { ToastContainer, toast } from "react-toastify";
 
+// Modals
 import GoToHomeModal from "../components/treePageComponents/Modals/GoToHomeModal";
 import NewCenariModal from "../components/cenarioPageComponents/Modals/NewCenarioModal";
+import NewElementModal from "../components/cenarioPageComponents/Modals/NewElementModal";
 
 function Cenario() {
   const navigate = useNavigate();
   const { treeId, treeName } = useParams();
 
-  const [data, setData] = useState();
   const [dictionary, setDictionary] = useState([]);
-  const [searchKey, setSearchKey] = useState("");
-
+  const [cenarios, setCenarios] = useState([]);
   const [update, setUpdate] = useState(false);
 
   const [showHomeModal, setShowHomeModal] = useState(false);
-  const [addCenarioModal, setAddCenarioModal] = useState(false)
+  const [addCenarioModal, setAddCenarioModal] = useState(false);
+  const [addNewElemModal, setNewElemModal] = useState(false);
+
+  const [expandedItems, setExpandedItems] = useState({});
+  const [cenarioElements, setCenarioElements] = useState({});
+  const [currentCenarioId, setCurrentCenarioId] = useState(null);
+  const [currentParentId, setCurrentParentId] = useState(null);
 
   useEffect(() => {
-      async function loadStoredJson() {
-        const response = await window.treeAPI.loadTree(treeId);
-        console.log("Get response:", response);
-        if (response) {
-          setData(transformTreeData(response))
-          setDictionary(response.dictionary);
+    async function loadStoredJson() {
+      const response = await window.treeAPI.loadTree(treeId);
+      const cenariosResponse = await window.cenarioAPI.getSavedCenarios();
+
+      const cenariosFiltrados = cenariosResponse.filter(
+        (c) => String(c.treeId) === String(treeId)
+      );
+
+      setCenarios(cenariosFiltrados);
+
+      // Carrega os elementos de cada cenário
+      const elementsMap = {};
+      for (const cenario of cenariosFiltrados) {
+        if (cenario.cenario && cenario.cenario.elements) {
+          elementsMap[cenario.id] = cenario.cenario.elements;
         }
       }
-      loadStoredJson();
+      setCenarioElements(elementsMap);
 
-    }, [update]);
+      if (response) {
+        setDictionary(response.dictionary);
+      }
+    }
+    loadStoredJson();
+  }, [update]);
+
+  const handleUpdate = () => {
+    setUpdate(!update);
+  };
 
   const handleConfirmGoHome = () => {
     setShowHomeModal(false);
     navigate("/");
   };
 
-  function transformTreeData(data) {
-    const projectName = data.name 
+  const toggleExpand = (id) => {
+    setExpandedItems((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
-    const dictionary = data.dictionary
-    
-    const nodesArray = data.nodes.map((node) => ({
-      id: node.id,
-      name: node.name,
-      connections: node.connections,
-      outcomes: Array.isArray(node.outcomes) && node.outcomes.length > 0 ? node.outcomes : "No outcome"
-    }));
-  
-    const edgesArray = [];
-    data.nodes.forEach((node) => {
-      node.connections.forEach((conn) => {
-        edgesArray.push({
-          from: node.id,
-          to: conn.targetId,
-          predicate: conn.gate.predicates[0]? conn.gate.predicates[0] : "No predicate",
-          actions: conn.gate?.actions?.[0] || "No action"
-        });
+  const handleAddElement = (cenarioId, parentId = null) => {
+    setCurrentCenarioId(cenarioId);
+    setCurrentParentId(parentId);
+    setNewElemModal(true);
+  };
+
+  const saveCenarioElements = async (cenarioId, elements) => {
+    try {
+      await window.cenarioAPI.saveCenario(cenarioId, { 
+        cenario: { elements } 
       });
-    });
-    return { nodesArray, edgesArray, projectName, dictionary };
-  }
+      toast.success("Elementos salvos com sucesso!");
+    } catch (error) {
+      toast.error("Falha ao salvar elementos");
+      console.error("Erro ao salvar elementos:", error);
+    }
+  };
+
+  const handleSaveElement = async (elementData) => {
+    if (!currentCenarioId) return;
+  
+    const newElement = {
+      id: Date.now(),
+      key: elementData.key,
+      value: elementData.value,
+      children: []
+    };
+  
+    // Primeiro atualizamos o estado local
+    const updatedElements = { ...cenarioElements };
+  
+    if (!currentParentId) {
+      // Adiciona no nível superior
+      updatedElements[currentCenarioId] = [
+        ...(updatedElements[currentCenarioId] || []),
+        newElement
+      ];
+    } else {
+      // Adiciona como filho
+      const addChildToParent = (elements) => {
+        return elements.map(element => {
+          if (element.id === currentParentId) {
+            return {
+              ...element,
+              children: [...element.children, newElement]
+            };
+          }
+          if (element.children && element.children.length > 0) {
+            return {
+              ...element,
+              children: addChildToParent(element.children)
+            };
+          }
+          return element;
+        });
+      };
+  
+      updatedElements[currentCenarioId] = addChildToParent(
+        updatedElements[currentCenarioId] || []
+      );
+    }
+  
+    // Atualiza o estado
+    setCenarioElements(updatedElements);
+  
+    // Salva TODOS os elementos do cenário, incluindo os aninhados
+    await saveCenarioElements(currentCenarioId, updatedElements[currentCenarioId] || []);
+  
+    setNewElemModal(false);
+    setCurrentCenarioId(null);
+    setCurrentParentId(null);
+  };
+
+  const renderElements = (elements, cenarioId, depth = 0) => {
+    return elements.map((element) => (
+      <div key={element.id} className={`ml-${depth * 4} mb-2 p-2 border-l-2 border-background-green-400 pl-4`}>
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="font-medium">
+              {element.key}: <span className="text-gray-600">{String(element.value)}</span>
+            </p>
+          </div>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddElement(cenarioId, element.id);
+            }}
+            className="ml-2 p-1 rounded hover:bg-background-green-200"
+          >
+            <img src={addIcon} alt="Add" className="w-4 h-4" />
+          </button>
+        </div>
+        {element.children && element.children.length > 0 && (
+          <div className="mt-2">
+            {renderElements(element.children, cenarioId, depth + 1)}
+          </div>
+        )}
+      </div>
+    ));
+  };
 
   return (
     <>
@@ -78,26 +182,90 @@ function Cenario() {
 
       <ToastContainer />
 
-      <Dock currentPage={"cenario"}
-          treeId={treeId}
-          treeName={treeName}
-          onHomeClick={() => setShowHomeModal(true)}
+      <Dock
+        currentPage={"cenario"}
+        treeId={treeId}
+        treeName={treeName}
+        onHomeClick={() => setShowHomeModal(true)}
       />
-      {console.log(dictionary)}
 
       <NewCenariModal
         isOpen={addCenarioModal}
-        onClose={() => {setAddCenarioModal(false)}}
+        onClose={() => setAddCenarioModal(false)}
         dictionary={dictionary}
+        onUpdate={handleUpdate}
+        treeId={treeId}
       />
+
+      <NewElementModal
+        isOpen={addNewElemModal}
+        onClose={() => {
+          setNewElemModal(false);
+          setCurrentCenarioId(null);
+          setCurrentParentId(null);
+        }}
+        dictionary={dictionary}
+        onSave={handleSaveElement}
+      />
+
       <div className="flex h-full w-full justify-center items-end bg-background-green-100">
         <div className="flex flex-col w-[80%] h-[90%] justify-between">
-          <button className="self-start bg-background-green-400 p-5 rounded-lg font-rubik-semibold font-semibold text-lg" onClick={() => {setAddCenarioModal(true)}}>
+          <button
+            className="self-start bg-background-green-400 p-5 rounded-lg font-rubik-semibold font-semibold text-lg"
+            onClick={() => setAddCenarioModal(true)}
+          >
             Create new cenario
           </button>
 
-          <div className="flex flex-row h-[90%] border">
+          <div className="flex flex-col h-[90%] p-4 w-full overflow-auto">
+            {cenarios.length > 0 &&
+              cenarios.map((cenario) => {
+                const isExpanded = expandedItems[cenario.id] || false;
+                const elements = cenarioElements[cenario.id] || [];
 
+                return (
+                  <div key={cenario.id} className="flex flex-col w-full mb-4">
+                    <div className="flex flex-row justify-between items-center w-full p-6 bg-background-green-500 rounded-lg">
+                      <div
+                        className="flex flex-col cursor-pointer w-full"
+                        onClick={() => toggleExpand(cenario.id)}
+                      >
+                        <div className="flex flex-row gap-2 items-center">
+                          <h1 className="font-rubik-semibold font-semibold text-lg">
+                            {cenario.name}
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddElement(cenario.id);
+                          }}
+                        >
+                          <img
+                            src={addIcon}
+                            alt="Adicionar"
+                            className="w-5 h-5 object-contain"
+                          />
+                        </button>
+                      </div>
+                    </div>
+
+                    <Collapse isOpened={isExpanded}>
+                      <div className="ml-10 mt-2 p-4 bg-background-green-300 rounded-lg">
+                        {elements.length === 0 ? (
+                          <p className="text-sm italic text-gray-700">
+                            Nenhum elemento adicionado ainda.
+                          </p>
+                        ) : (
+                          renderElements(elements, cenario.id)
+                        )}
+                      </div>
+                    </Collapse>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>
