@@ -2,10 +2,10 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import closeIcon from "../../../../assets/close.png";
-
-function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
+function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
   const modalRef = useRef(null);
+
+  console.log(dictionary)
 
   const [parentNodeId, setParentNodeId] = useState();
   const [newNodeName, setNewNodeName] = useState('');
@@ -52,6 +52,10 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
     }
   };
 
+  const isKeyInDictionary = (key) => {
+    return dictionary.some(item => item.key === key);
+  };
+
   return (
     <div className="flex justify-center items-center fixed inset-0 z-50 bg-black bg-opacity-50 " onClick={handleClickOutside}>
       <div ref={modalRef} className="relative bg-background-green-100 w-fit h-fit p-12 rounded-lg text-white overflow-y-auto scrollbar-none" onClick={(e) => e.stopPropagation()}>
@@ -95,11 +99,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
+                list="outcome-keys"
                 placeholder='Ex: hp improve'
                 type="text"
                 className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={outcomeInfo.key}
-                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, key: e.target.value })}/>
+                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, key: e.target.value })}
+              />
+              <datalist id="outcome-keys">
+                {dictionary.map((item, index) => (
+                  <option key={index} value={item.key} />
+                ))}
+              </datalist>
               <label className='text-sm text-red-700'>Blank outcome = "No outcome"</label>
             </div>
             <div className='basis-1/10 px-4'>
@@ -132,13 +143,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
 
             <div className='basis-1/7 px-4'>
               <label className="block text-sm font-medium mb-2">Type</label>
-              <select className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+              <select 
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
                 value={outcomeInfo.type}
-                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, type: e.target.value })}>
+                onChange={(e) => setOutcomeInfo({ ...outcomeInfo, type: e.target.value })}
+                disabled={isKeyInDictionary(outcomeInfo.key)}>
                 <option value="string" className='text-black'>string</option>
                 <option value="integer" className='text-black'>integer</option>
                 <option value="boolean" className='text-black'>boolean</option>
               </select>
+              {isKeyInDictionary(outcomeInfo.key) && (
+                <p className="text-xs text-gray-400 mt-1">Type is locked because this key already exists</p>
+              )}
             </div>
           </div>
         </div>
@@ -151,12 +167,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
+                list="predicate-keys"
                 placeholder='Ex: Option'
                 type="text"
                 className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={predicateInfo.key}
                 onChange={(e) => setPredicateInfo({ ...predicateInfo, key: e.target.value })}
               />
+              <datalist id="predicate-keys">
+                {dictionary.map((item, index) => (
+                  <option key={index} value={item.key} />
+                ))}
+              </datalist>
               <label className='text-sm text-red-700'>Blank predicate = "No predicate"</label>
             </div>
             {/* Condition */}
@@ -188,13 +210,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             {/* Type */}
             <div className='basis-1/7 px-4'>
               <label className="block text-sm font-medium mb-2">Type</label>
-              <select className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+              <select 
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
                 value={predicateInfo.type}
-                onChange={(e) => setPredicateInfo({ ...predicateInfo, type: e.target.value })}>
+                onChange={(e) => setPredicateInfo({ ...predicateInfo, type: e.target.value })}
+                disabled={isKeyInDictionary(predicateInfo.key)}>
                 <option value="string" className='text-black'>string</option>
                 <option value="integer" className='text-black'>integer</option>
                 <option value="boolean" className='text-black'>boolean</option>
               </select>
+              {isKeyInDictionary(predicateInfo.key) && (
+                <p className="text-xs text-gray-400 mt-1">Type is locked because this key already exists</p>
+              )}
             </div>
              {/* Log Op */}
             <div className='basis-2/10 px-4'>
@@ -258,13 +285,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes }) {
             {/* Type */}
             <div className='basis-1/7 px-4'>
               <label className="block text-sm font-medium mb-2">Type</label>
-              <select className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+              <select 
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
                 value={actionInfo.type}
-                onChange={(e) => setActionInfo({ ...actionInfo, type: e.target.value })}>
+                onChange={(e) => setActionInfo({ ...actionInfo, type: e.target.value })}
+                disabled={isKeyInDictionary(actionInfo.key)}>
                 <option value="string" className='text-black'>string</option>
                 <option value="integer" className='text-black'>integer</option>
                 <option value="boolean" className='text-black'>boolean</option>
               </select>
+              {isKeyInDictionary(actionInfo.key) && (
+                <p className="text-xs text-gray-400 mt-1">Type is locked because this key already exists</p>
+              )}
             </div>
           </div>
         </div>

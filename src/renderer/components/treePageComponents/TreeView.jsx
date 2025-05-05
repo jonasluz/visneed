@@ -72,20 +72,20 @@ const TreeView = ({ nodesArray, edgesArray, onNodeClick, onEdgeClick, onBackgrou
     const edges = new DataSet(
       edgesArray.map((edge) => {
 
-        const predicateLabel = Array.isArray(edge.predicate) ? edge.predicate.map((predicate) => predicate === "No predicates" ? "" : `${predicate.key || ""} ${predicate.condition || ""} ${predicate.value || ""} ${predicate.logicalOperator || ""}`).join("\n") : edge.predicate || ""; 
+        const predicateLabel = Array.isArray(edge.predicate) ? edge.predicate.map((predicate) => predicate === "No predicates" ? "No predicates" : `${predicate.key || ""} ${predicate.condition || ""} ${predicate.value || ""} ${predicate.logicalOperator || ""}`).join("\n") : edge.predicate || ""; 
 
-        const actionLabel = edge.actions === "No action" || !edge.actions ? "" : Array.isArray(edge.actions) ? edge.actions.map(action => `${action.key || ""} ${action.operator || ""} ${action.value || ""}`).join("\n") : `${edge.actions.key || ""} ${edge.actions.operator || ""} ${edge.actions.value || ""}`;
+        const actionLabel = edge.actions === "No action" || !edge.actions ? "No action" : Array.isArray(edge.actions) ? edge.actions.map(action => `${action.key || ""} ${action.operator || ""} ${action.value || ""}`).join("\n") : `${edge.actions.key || ""} ${edge.actions.operator || ""} ${edge.actions.value || ""}`;
         
         return {
           ...edge,
-          label: `${predicateLabel}\n \n${actionLabel}`,
+          label: `🔴 ${predicateLabel}\n\n\n 🔵 ${actionLabel}`,
+          title: `🔴: Predicates \n\n 🔵: Actions`,
           font: {
             size: 15, 
             color: "#f6f5f3",
             face: "Open Sans",
             strokeWidth: 0,
-            align: 'center',
-            vadjust: -10 
+            align: 'center', 
           },
           width: 2,
           color: {

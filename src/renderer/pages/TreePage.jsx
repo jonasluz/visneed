@@ -596,6 +596,7 @@ function TreePage() {
           onDeleteNode={handleDeleteNode}
           onUpdateNode={handleUpdateNode}
           nodeSelected={selectedNode}
+          dictionary={tree.dictionary}
            />
       </div>
 

@@ -10,8 +10,9 @@ import exportIcon from "../../assets/export.png";
 import deleteIcon from "../../assets/delete.png";
 import searchIcon from "../../assets/search.png";
 import addIcon from "../../assets/add-symbol.png";
+
+import AddOnDictionary from "../components/dictionayPageComponents/Modals/AddOnDictionary"
 import GoToHomeModal from "../components/treePageComponents/Modals/GoToHomeModal";
-import AddNodeModal from "../components/treePageComponents/Modals/AddNodeModal";
 import DeleteNodeModal from "../components/treePageComponents/Modals/DeleteNodeModal";
 
 function Dictionary() {
@@ -19,6 +20,8 @@ function Dictionary() {
 
   const [data, setData] = useState();
   const [update, setUpdate] = useState(false);
+
+  const [stop, setStop] = useState(false)
 
   const { treeId, treeName } = useParams();
   const [dictionary, setDictionary] = useState([]);
@@ -100,129 +103,31 @@ function Dictionary() {
     return { nodesArray, edgesArray, projectName, dictionary };
   }
 
-  const handleAddNode = (
-    parentNodeId,
-    newNodeName,
-    predicateInfo,
-    outcomeInfo,
-    actionInfo
+  const handleAddDictionary = (
+    dictionaryElement
   ) => {
-    if (!parentNodeId) {
-      toast.success(`New tree created with root ${newNodeName}`);
-    } else {
-      toast.success(`Nó ${newNodeName}, criado com sucesso!`);
-    }
-
-    const lastNodeOnArray = data.nodesArray[data.nodesArray.length - 1];
-    const newNodeId = lastNodeOnArray ? lastNodeOnArray.id  + 1 : 1;
-
-    const newNode = {
-      id: newNodeId,
-      name: newNodeName,
-      connections: [],
-      outcomes:
-        outcomeInfo.key == ""
-          ? "No outcome"
-          : [
-              {
-                key: outcomeInfo.key,
-                operator: outcomeInfo.operator,
-                value: outcomeInfo.value,
-              },
-            ],
-    };
-
-    // Criar a nova conexão para o nó pai
-    const newConnection = {
-      name: `${parentNodeId}-${newNodeId}`, // Nome da conexão (ex: "1-2")
-      targetId: newNodeId,
-      gate: {
-        predicates:
-          predicateInfo.key == ""
-            ? ["No predicate"]
-            : [
-                {
-                  key: predicateInfo.key,
-                  condition: predicateInfo.condition,
-                  value: predicateInfo.value,
-                  logicalOperator: predicateInfo.logicalOperator,
-                },
-              ],
-        actions:
-          actionInfo.key == ""
-            ? ["No action"]
-            : [
-                {
-                  key: actionInfo.key,
-                  operator: actionInfo.operator,
-                  value: actionInfo.value,
-                },
-              ],
-      },
-    };
-
-    const updatedNodesArray = data.nodesArray.map((node) => {
-      if (node.id === parseInt(parentNodeId)) {
-        return {
-          ...node,
-          connections: [...node.connections, newConnection], // Adiciona a nova conexão
-        };
-      }
-      return node;
-    });
-
-    updatedNodesArray.push(newNode);
-
-    const newEdge = {
-      from: parseInt(parentNodeId),
-      to: newNodeId,
-      predicate:
-        predicateInfo.key == "" ? ["No predicate"] : [
-              {
-                key: predicateInfo.key,
-                condition: predicateInfo.condition,
-                value: predicateInfo.value,
-                logicalOperator: predicateInfo.logicalOperator,
-              },
-            ],
-      actions:
-        actionInfo.key == "" ? ["No action"] : [
-              {
-                key: actionInfo.key,
-                operator: actionInfo.operator,
-                value: actionInfo.value,
-              },
-            ],
-    };
-
-    const updatedEdgesArray = [...data.edgesArray, newEdge];
+    
     const updatedDictionary = [
       ...data.dictionary,
-      { key: newNodeName, type: "string" },
-      ...(outcomeInfo.key ? [{ key: outcomeInfo.key, type: outcomeInfo.type }] : []),
-      ...(predicateInfo.key ? [{ key: predicateInfo.key, type: predicateInfo.type }] : []),
-      ...(actionInfo.key ? [{ key: actionInfo.key, type: actionInfo.type }] : []),
+      { key: dictionaryElement.key, type: dictionaryElement.type }
     ];
 
     setData({
-      nodesArray: updatedNodesArray,
-      edgesArray: updatedEdgesArray,
+      nodesArray: data.nodesArray,
+      edgesArray: data.edgesArray,
       dictionary: updatedDictionary,
     });
 
     // update json with new node
     const updatedData = {
-      nodes: updatedNodesArray.map((node) => ({
-        ...node,
-        name: node.name,
-      })),
-      edges: updatedEdgesArray,
+      nodes: data.nodesArray,
+      edges: data.edgesArray,
       dictionary: updatedDictionary,
     };
 
     window.treeAPI.saveTree(treeId, updatedData);
     setUpdate(true);
-  };
+  }
 
   const handleDeleteNode = (nodeId, type) => {
       //Get the node to delete 
@@ -337,7 +242,65 @@ function Dictionary() {
   
       window.treeAPI.saveTree(treeId, updatedData);
       setUpdate(true);
-    };
+  };
+
+  const handleDeleteFromDict = (itemToDelete) => {
+    console.log(itemToDelete)
+      data.dictionary = data.dictionary.filter((item) => item.key !== itemToDelete);
+
+      setData({
+        ...data,
+        nodesArray: [...data.nodesArray],
+        edgesArray: [...data.edgesArray],
+        dictionary: [...data.dictionary],
+      });
+    
+      toast.success(`Deletado com sucesso!`);
+  
+      // Atualizar o JSON salvo no Electron
+      const updatedData = {
+        nodes: data.nodesArray,
+        edges: data.edgesArray,
+        dictionary: data.dictionary,
+        projectName: data.projectName,
+      };
+  
+      window.treeAPI.saveTree(treeId, updatedData);
+      setUpdate(true);
+  }
+
+  const handleDeleteType = (item) => {
+    for (const node of data.nodesArray) {
+      if (node.name === item) {
+        setSelectedNode(node);
+        setIsDeleteModalOpen(true);
+        break; 
+      }
+    }
+  
+    let found = false;
+
+    for (const edge of data.nodesArray) {
+      if (found) break;
+
+      if (edge.outcomes !== "No outcome") {
+        for (const outcome of edge.outcomes) {
+          if (outcome.key === item) {
+            handleDeleteFromDict(item);
+            found = true;
+            break;
+          }
+        }
+      }
+    }
+  
+    for (const elem of data.dictionary) {
+      if (elem.key === item) {
+        handleDeleteFromDict(item);
+        break;
+      }
+    }
+  }
 
   return (
     <>
@@ -352,11 +315,11 @@ function Dictionary() {
       )}
       
       {data && (
-        <AddNodeModal
+        <AddOnDictionary
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        onConfirm={handleAddNode}
-        nodes={data.nodesArray}/>
+        onConfirm={handleAddDictionary}
+        />
       )}
 
       {data && (
@@ -431,12 +394,7 @@ function Dictionary() {
                         <td className="py-4 w-[45%]">{item.type}</td>
                         <td className="bg-red-900 hover:brightness-125 w-[10%] z-0" 
                         onClick={() => {
-                          data.nodesArray.map((node) => {
-                            if(node.name === item.key) {
-                              setSelectedNode(node); 
-                              setIsDeleteModalOpen(true)
-                            }
-                          })
+                          handleDeleteType(item.key)
                         }}>
                           <img
                             src={deleteIcon}

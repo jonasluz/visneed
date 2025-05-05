@@ -56,7 +56,7 @@ function MyTree({ trees }) {
       console.error("Erro ao exportar a árvore:", error);
     }
   };
-
+  console.log(trees)
   return (
     <div className="h-full">
       <p className="text-2xl font-semibold text-white font-rubik-semibold self-start p-5 mx-10">
@@ -64,6 +64,7 @@ function MyTree({ trees }) {
       </p>
       <div className="flex flex-col h-[91%] items-center overflow-y-auto scrollbar-none">
         {trees.map((tree, key) => {
+          console.log(tree)
           return (
             <div className="w-[80%] border relative mb-5 bg-background-green-200 rounded-lg shadow-lg" key={key}>
               <button

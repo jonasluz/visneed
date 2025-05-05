@@ -6,7 +6,7 @@ import AddNodeModal from './Modals/AddNodeModal';
 import DeleteNodeModal from './Modals/DeleteNodeModal';
 import EditNodeModal from './Modals/EditNodeModal';
 
-function NodeActions({ nodes, edges, onAddNode, onDeleteNode, onUpdateNode, nodeSelected }) {
+function NodeActions({ nodes, edges, onAddNode, onDeleteNode, onUpdateNode, nodeSelected, dictionary }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -67,6 +67,7 @@ function NodeActions({ nodes, edges, onAddNode, onDeleteNode, onUpdateNode, node
         onClose={() => setIsAddModalOpen(false)}
         onConfirm={handleAddNode}
         nodes={nodes}
+        dictionary={dictionary}
       />
 
       <DeleteNodeModal 
