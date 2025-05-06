@@ -48,6 +48,9 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       toast.error("Canceled!");
+      setPredicateInfo({ key: '', value: '', condition: '=', logicalOperator: '', type: 'string' });
+      setOutcomeInfo({ key: '', operator: '=', value: '', type: 'string' })
+      setActionInfo({ key: '', operator: '=', value: '', type: 'string' })
       onClose();
     }
   };
@@ -246,11 +249,18 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
+                list="action-keys"
                 placeholder='Ex: freedom'
                 type="text"
                 className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={actionInfo.key}
-                onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}/>
+                onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}
+              />
+              <datalist id="action-keys">
+                {dictionary.map((item, index) => (
+                  <option key={index} value={item.key} />
+                ))}
+              </datalist>
               <label className='text-sm text-red-700'>Blank action = "No actions"</label>
             </div>
             
