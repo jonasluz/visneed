@@ -35,6 +35,7 @@ function Predicates({ edges, nodes, onSelectPredicate, selectedIndex }) {
       <table className="w-full items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg">
         <thead className="uppercase sticky top-0">
           <tr className="bg-background-green-300 text-left">
+            <th scope="col" className="px-4 py-2">Order</th>
             <th scope="col" className="px-4 py-2">Edge</th>
             <th scope="col" className="px-4 py-2">Key</th>
             <th scope="col" className="px-4 py-2">Condition</th>
@@ -69,12 +70,13 @@ function Predicates({ edges, nodes, onSelectPredicate, selectedIndex }) {
             }
 
             return (
-              <tr key={`${predIndex}-${index}`} onClick={() => onSelectPredicate(index)} className={`font-bold text-left ${showConnection ? predIndex % 2 === 0 ? "bg-background-green-400" : "bg-background-green-400" : "bg-background-green-400 brightness-90"} hover:brightness-75 cursor-pointer ${isSelected ? 'brightness-75' : ''}`}>
+              <tr key={`${predIndex}-${index}`} onClick={() => onSelectPredicate(index)} className={`font-bold text-left ${showConnection ? predIndex % 2 === 0 ? "bg-background-green-400" : "bg-background-green-400" : "bg-background-green-500"} hover:brightness-75 cursor-pointer ${isSelected ? 'bg-emerald-800' : ''}`}>
+              <td className="px-4 py-4">Predicate {index + 1}</td>
                 <td className="px-4 py-4">
                   {showConnection ? 
                     `${nodes.find((node) => node.id == predConnection[predIndex][0])?.name} -> ${nodes.find((node) => node.id == predConnection[predIndex][1])?.name}`
-                    : 
-                    ""}
+                    : ``
+                    }
                 </td>
                 <td className="px-4 py-4">{element.key}</td>
                 <td className="px-4 py-4">{element.condition}</td>

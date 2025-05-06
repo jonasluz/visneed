@@ -619,8 +619,7 @@ function TreePage() {
           selectedOutcome={selectedOutcome}
           selectedEdge={selectedPredicates}
           nodes={tree.nodesArray}
-          treeId={treeId}
-          treeName={projectName} 
+          dictionary={tree.dictionary}
           onUpdateEdge={handleUpdateEdge}
           />
       </div>

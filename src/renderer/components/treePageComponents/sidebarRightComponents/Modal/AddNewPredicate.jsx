@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import closeIcon from "../../../../../assets/close.png";
-
-function AddNewPredicate ({ isOpen, onClose, onSave, nodes }) {
+function AddNewPredicate ({ isOpen, onClose, onSave, nodes, dictionary }) {
 
   const [predicateInfo, setPredicateInfo] = useState({
       key: '',
@@ -17,6 +16,8 @@ function AddNewPredicate ({ isOpen, onClose, onSave, nodes }) {
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
+      toast.error("Canceled!");
+      setPredicateInfo({ key: '', value: '', condition: '=', logicalOperator: '', type: 'string' });
       onClose();
     }
   };
@@ -38,6 +39,10 @@ function AddNewPredicate ({ isOpen, onClose, onSave, nodes }) {
   };
 
   if (!isOpen) return null;
+  
+  const isKeyInDictionary = (key) => {
+    return dictionary.some(item => item.key === key);
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center" onClick={handleClickOutside}>
@@ -51,12 +56,18 @@ function AddNewPredicate ({ isOpen, onClose, onSave, nodes }) {
             <div className='basis-1/3 px-4'>
               <label className="block text-sm font-medium mb-2">Key</label>
               <input
+                list="predicate-keys"
                 placeholder='Ex: Option'
                 type="text"
                 className="w-full p-2 border border-white rounded-md text-white bg-transparent outline-none"
                 value={predicateInfo.key}
                 onChange={(e) => setPredicateInfo({ ...predicateInfo, key: e.target.value })}
               />
+              <datalist id="predicate-keys">
+                {dictionary.map((item, index) => (
+                  <option key={index} value={item.key} />
+                ))}
+              </datalist>
               <label className='text-sm text-red-700'>Blank predicate = "No predicate"</label>
             </div>
             {/* Condition */}
@@ -88,13 +99,18 @@ function AddNewPredicate ({ isOpen, onClose, onSave, nodes }) {
             {/* Type */}
             <div className='basis-1/7 px-4'>
               <label className="block text-sm font-medium mb-2">Type</label>
-              <select className="w-full p-2 border border-white rounded-md text-white bg-transparent"
+              <select 
+                className="w-full p-2 border border-white rounded-md text-white bg-transparent"
                 value={predicateInfo.type}
-                onChange={(e) => setPredicateInfo({ ...predicateInfo, type: e.target.value })}>
+                onChange={(e) => setPredicateInfo({ ...predicateInfo, type: e.target.value })}
+                disabled={isKeyInDictionary(predicateInfo.key)}>
                 <option value="string" className='text-black'>string</option>
                 <option value="integer" className='text-black'>integer</option>
                 <option value="boolean" className='text-black'>boolean</option>
               </select>
+              {isKeyInDictionary(predicateInfo.key) && (
+                <p className="text-xs text-gray-400 mt-1">Type is locked because this key already exists</p>
+              )}
             </div>
              {/* Log Op */}
             <div className='basis-2/10 px-4'>

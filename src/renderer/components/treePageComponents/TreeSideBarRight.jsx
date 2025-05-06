@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Outcomes from "./sidebarRightComponents/Outcomes";
 import Predicates from "./sidebarRightComponents/Predicates";
 import Actions from "./sidebarRightComponents/Actions";
@@ -9,7 +9,7 @@ import deleteIcon from "../../../assets/delete.png"
 
 import 'react-toastify/dist/ReactToastify.css';
 
-function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeName, onUpdateEdge }) {
+function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, onUpdateEdge, dictionary }) {
   const [isNewPredicateModal, setIsNewPredicateModal] = useState(false)
 
   const [selectedPredicateIndex, setSelectedPredicateIndex] = useState(null);
@@ -37,6 +37,10 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
     }
     onUpdateEdge(updatedEdge);
   };
+
+  useEffect(() => {
+    console.log(selectedPredicateIndex)
+  }, [selectedPredicateIndex])
   
   return (
     <>
@@ -44,7 +48,9 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, treeId, treeNa
         isOpen={isNewPredicateModal}
         onClose={() => setIsNewPredicateModal(false)}
         onSave={handleAddPredicate}
-        nodes={nodes}/>
+        nodes={nodes}
+        dictionary={dictionary}
+        />
 
       <div className="h-[30%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto">
         <div className="flex flex-row w-full h-[20%] px-5 py-5 justify-between items-center">
