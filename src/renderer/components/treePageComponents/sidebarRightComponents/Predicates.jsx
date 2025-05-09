@@ -35,7 +35,6 @@ function Predicates({ edges, nodes, onSelectPredicate, selectedIndex }) {
       <table className="w-full items-center table-auto text-left whitespace-nowrap text-sm h-1/4 rounded-lg">
         <thead className="uppercase sticky top-0">
           <tr className="bg-background-green-300 text-left">
-            <th scope="col" className="px-4 py-2">Order</th>
             <th scope="col" className="px-4 py-2">Edge</th>
             <th scope="col" className="px-4 py-2">Key</th>
             <th scope="col" className="px-4 py-2">Condition</th>
@@ -46,8 +45,14 @@ function Predicates({ edges, nodes, onSelectPredicate, selectedIndex }) {
         <tbody className="h-2/6">
         {predicates.map((predicate, predIndex) =>
           predicate.map((element, index) => {
+            const edgeFrom = nodes.find((node) => node.id == predConnection[predIndex][0])?.name;
+            const edgeTo = nodes.find((node) => node.id == predConnection[predIndex][1])?.name;
+
+            const edge = edges[predIndex]; 
+            const edgeId = `${edge.from}-${edge.to}`; 
+
             const showConnection = index === 0; 
-            const isSelected = selectedIndex === index;
+            const isSelected = selectedIndex?.edgeId === edgeId && selectedIndex?.index === index;
 
             if (element === "No predicates") {
               return (
@@ -60,7 +65,7 @@ function Predicates({ edges, nodes, onSelectPredicate, selectedIndex }) {
                   }`}
                 >
                   <td className="px-4 py-4">
-                    {nodes.find((node) => node.id == predConnection[predIndex][0])?.name}{" "}-&gt;{" "}{nodes.find((node) => node.id == predConnection[predIndex][1])?.name}
+                    {edgeFrom} → {edgeTo}
                   </td>
                   <td colSpan="4" className="px-4 py-2 text-left">
                     No predicate for this connection
@@ -70,14 +75,12 @@ function Predicates({ edges, nodes, onSelectPredicate, selectedIndex }) {
             }
 
             return (
-              <tr key={`${predIndex}-${index}`} onClick={() => onSelectPredicate(index)} className={`font-bold text-left ${showConnection ? predIndex % 2 === 0 ? "bg-background-green-400" : "bg-background-green-400" : "bg-background-green-500"} hover:brightness-75 cursor-pointer ${isSelected ? 'bg-emerald-800' : ''}`}>
-              <td className="px-4 py-4">Predicate {index + 1}</td>
-                <td className="px-4 py-4">
-                  {showConnection ? 
-                    `${nodes.find((node) => node.id == predConnection[predIndex][0])?.name} -> ${nodes.find((node) => node.id == predConnection[predIndex][1])?.name}`
-                    : ``
-                    }
-                </td>
+              <tr key={`${predIndex}-${index}`} onClick={() => onSelectPredicate({ edgeId, index })} className={`font-bold text-left bg-background-green-400 hover:brightness-75 cursor-pointer ${isSelected ? 'bg-emerald-800' : ''}`}>
+                {showConnection && 
+                  <td className="px-4 py-4" rowSpan={predicate.length}>
+                      {edgeFrom} → {edgeTo}
+                  </td>
+                }
                 <td className="px-4 py-4">{element.key}</td>
                 <td className="px-4 py-4">{element.condition}</td>
                 <td className="px-4 py-4">{element.value}</td>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Outcomes from "./sidebarRightComponents/Outcomes";
 import Predicates from "./sidebarRightComponents/Predicates";
 import Actions from "./sidebarRightComponents/Actions";
@@ -13,17 +13,47 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, onUpdateEdge, 
   const [isNewPredicateModal, setIsNewPredicateModal] = useState(false)
 
   const [selectedPredicateIndex, setSelectedPredicateIndex] = useState(null);
+  
+  //useRef
+  const predicateContainerRef = useRef(null);
+  const deleteButtonRef = useRef(null);
+
+  useEffect(() => {
+   function handleClickOutside(event) {
+      if (
+        predicateContainerRef.current &&
+        !predicateContainerRef.current.contains(event.target) &&
+        deleteButtonRef.current &&
+        !deleteButtonRef.current.contains(event.target)
+      ) {
+        setSelectedPredicateIndex(null); 
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleDeletePredicate = () => {
-    if (selectedPredicateIndex === null) return;
-    
+    if (!selectedPredicateIndex) return;
+
     const updatedEdge = [...selectedEdge];
-    updatedEdge[0].predicate = updatedEdge[0].predicate.filter(
-      (_, index) => index !== selectedPredicateIndex
+    const edgeId = selectedPredicateIndex.edgeId;
+
+    const edgeIndex = updatedEdge.findIndex(
+      edge => `${edge.from}-${edge.to}` === edgeId
     );
-    
+
+    if (edgeIndex === -1) return;
+
+    updatedEdge[edgeIndex].predicate = updatedEdge[edgeIndex].predicate.filter(
+      (_, i) => i !== selectedPredicateIndex.index
+    );
+
     onUpdateEdge(updatedEdge);
-    setSelectedPredicateIndex(null); // Resetar o índice após deletar
+    setSelectedPredicateIndex(null);
   };
 
   const handleAddPredicate = (newPredicate) => {
@@ -37,10 +67,6 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, onUpdateEdge, 
     }
     onUpdateEdge(updatedEdge);
   };
-
-  useEffect(() => {
-    console.log(selectedPredicateIndex)
-  }, [selectedPredicateIndex])
   
   return (
     <>
@@ -59,11 +85,19 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, onUpdateEdge, 
         <Outcomes outcomes={selectedOutcome} />
       </div>
 
-      <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto">
+      <div 
+        ref={predicateContainerRef} 
+        className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto"
+      >
         <div className="flex flex-row w-full h-[15%] px-5 py-3 justify-between items-center">
           <label className="text-xl font-bold text-white">Predicate</label>
           <div className="flex w-fit h-full">
-            <button className={`h-full p-2 ${selectedEdge && selectedEdge.length === 1 ? 'block' : 'hidden'} ${selectedPredicateIndex === null ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-75'}`} onClick={handleDeletePredicate} disabled={selectedPredicateIndex === null}>
+            <button 
+              ref={deleteButtonRef}
+              className={`h-full p-2 ${selectedEdge && selectedEdge.length === 1 ? 'block' : 'hidden'} ${selectedPredicateIndex === null ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-75'}`} 
+              onClick={handleDeletePredicate} 
+              disabled={selectedPredicateIndex === null}
+            >
               <img src={deleteIcon} className="invert object-contain w-full h-full mr-4" />
             </button>
             <button className={`h-full p-2 ${selectedEdge && selectedEdge.length === 1 ? 'block' : 'hidden'}`} onClick={() => {setIsNewPredicateModal(true)}}>
@@ -71,8 +105,12 @@ function TreeSideBarRight({ selectedOutcome, selectedEdge, nodes, onUpdateEdge, 
             </button>
           </div>
         </div>
-        <Predicates edges={selectedEdge} nodes={nodes} onSelectPredicate={setSelectedPredicateIndex} selectedIndex={selectedPredicateIndex} />
-        {console.log(selectedEdge)}
+        <Predicates 
+          edges={selectedEdge} 
+          nodes={nodes} 
+          onSelectPredicate={setSelectedPredicateIndex} 
+          selectedIndex={selectedPredicateIndex} 
+        />
       </div>
 
       <div className="h-[45%] flex flex-col bg-background-green-200 bg-opacity-80 backdrop-blur-sm rounded-lg my-4 mx-2 overflow-auto">
