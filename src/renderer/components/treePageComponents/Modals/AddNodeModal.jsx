@@ -69,7 +69,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
         <div className='flex flex-row'>
           <div className="mb-4 basis-1/3 px-4 font-medium">
             {/* Parent node input */}
-            <label className="block text-sm mb-2">Parent Node:</label>
+            <label className="block text-sm mb-2">Parent Node: *</label>
             <select
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
               value={parentNodeId}
@@ -83,7 +83,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
           
           {/* Node name input */}
           <div className="mb-6 basis-1/3 px-4 font-medium">
-            <label className="block text-sm mb-2">Node name:</label>
+            <label className="block text-sm mb-2">Node name: *</label>
             <input
               placeholder='Ex: Node 1'
               type="text"
