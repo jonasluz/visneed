@@ -2,9 +2,8 @@ name: Build Electron App
 
 on:
   push:
-    branches: [ main ]  # Ou 'master' se for o caso
-  release:
-    types: [ created ]
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,23 +13,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Use a versão do Node.js do seu projeto
+          node-version: '20'  # Atualizado para Node 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
           npm install
-          npm install --global windows-build-tools
+          # Não instale windows-build-tools - já está incluído no windows-latest
 
       - name: Build Electron app
         run: npm run make -- --platform=win32 --arch=x64
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4  # Atualizado para v4
+        uses: actions/upload-artifact@v4
         with:
           name: VisNeed-Windows
-          path: |
-            out/make/*.exe
-            out/make/*.zip
+          path: out/make/*.exe
