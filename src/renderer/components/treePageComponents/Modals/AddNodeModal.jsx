@@ -4,9 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
   const modalRef = useRef(null);
-
-  console.log(dictionary)
-
+  
   const [parentNodeId, setParentNodeId] = useState();
   const [newNodeName, setNewNodeName] = useState('');
   const [predicateInfo, setPredicateInfo] = useState({

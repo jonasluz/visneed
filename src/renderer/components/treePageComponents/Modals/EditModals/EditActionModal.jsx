@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import closeIcon from "../../../../../assets/close.png";
 
 function EditActionModal ({ isOpen, onClose, action, onSave }) {
-    console.log(action)
   const modalRef = useRef(null);
 
   const [actionInfo, setActionInfo] = useState(action || {});
@@ -51,13 +50,13 @@ function EditActionModal ({ isOpen, onClose, action, onSave }) {
                   onChange={(e) => setActionInfo({ ...actionInfo, key: e.target.value })}
                   spellCheck={false}/>
               </div>
-              {/* Condition */}
+              {/* Operator */}
               <div className='basis-1/10 px-4'>
-              <label className="block text-sm font-medium mb-2">Condition</label>
+              <label className="block text-sm font-medium mb-2">Operator</label>
               <select
               className="w-full p-2 border border-white rounded-md text-white bg-transparent"
-              value={actionInfo.condition}
-              onChange={(e) => setActionInfo({ ...actionInfo, condition: e.target.value })}>
+              value={actionInfo.operator}
+              onChange={(e) => setActionInfo({ ...actionInfo, operator: e.target.value })}>
                   <option value=""></option>
                   <option value="=" className='text-black'>=</option>
                   <option value="!=" className='text-black'>!=</option>

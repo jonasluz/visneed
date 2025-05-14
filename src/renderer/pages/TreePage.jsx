@@ -45,6 +45,7 @@ function TreePage() {
       if(node.id === nodeId) {
         setSelectedNode(node);
         setSelectedOutcome(node?.outcomes)
+        console.log(node)
       } 
     })
 
@@ -140,7 +141,7 @@ function TreePage() {
       gate: {
         predicates:
           predicateInfo.key == ""
-            ? "No predicates"
+            ? ["No predicates"]
             : [
                 {
                   key: predicateInfo.key,
@@ -175,10 +176,10 @@ function TreePage() {
     updatedNodesArray.push(newNode);
 
     const newEdge = {
-      from: parseInt(parentNodeId),
+      from: parseInt(parentNodeId) || 0,
       to: newNodeId,
       predicate:
-        predicateInfo.key == "" ? "No predicates" : [
+        predicateInfo.key == "" ? ["No predicates"] : [
               {
                 key: predicateInfo.key,
                 condition: predicateInfo.condition,
@@ -187,7 +188,7 @@ function TreePage() {
               },
             ],
       actions:
-        actionInfo.key == "" ? ["No action"] : [
+        actionInfo.key == "" ? "No action" : [
               {
                 key: actionInfo.key,
                 operator: actionInfo.operator,
@@ -196,7 +197,7 @@ function TreePage() {
             ],
     };
 
-    console.log(newEdge);
+    console.log("newEdge: ", newEdge);
 
     const updatedEdgesArray = [...tree.edgesArray, newEdge];
     let updatedDictionary = [...tree.dictionary];

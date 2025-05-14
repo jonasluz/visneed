@@ -29,7 +29,7 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
       } else {
         setOutcome(selectedNode.outcomes[0]);
       }
-      
+      console.log(selectedNode)
       setConnections(selectedNode.connections || []);
     }
   }, [selectedNode]);
@@ -183,13 +183,14 @@ function EditNodeModal ({ isOpen, onClose, selectedNode, nodes, onUpdateNode }) 
                   </tr>
                 </thead>
                 <tbody className="bg-background-green-400 h-2/6">
+                {console.log(connections)}
                 {connections.length === 0 ? (
                   <tr>
                     <td colSpan="3" className="px-4 py-4 text-center">No connections</td>
                   </tr>
                 ) : connections.map((connection, index) => (
                   <tr key={index} className="font-bold text-center">
-                    <td className="px-4 py-4">{nodes[connection.targetId - 1]?.name || "Unknown"}</td>
+                    <td className="px-4 py-4">{nodes.find(node => node.id === connection.targetId)?.name || "Unknown"}</td>
                     <td className="px-4 py-4">
                     {console.log(connection.gate)}
                       <button className='bg-background-green-500 p-3 px-4 rounded-lg hover:brightness-75 duration-75 ease-linear' onClick={() => {openPredicateModal(connection.gate.predicates, connection.targetId)}}>

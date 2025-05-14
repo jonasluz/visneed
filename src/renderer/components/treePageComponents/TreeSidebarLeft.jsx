@@ -69,8 +69,6 @@ function TreeSidebarLeft({ treeId, onImport, nodes, edges, selectedConnections, 
   
     const edgesArray = [];
 
-    console.log(data)
-
     data.nodes.forEach((node) => {
       node.connections.forEach((conn) => {
         edgesArray.push({
