@@ -218,6 +218,11 @@ function Cenario() {
           </button>
 
           <div className="flex flex-col h-[90%] p-4 w-full overflow-auto">
+            {cenarios.length == 0 && 
+              <div className="flex justify-center items-center h-full w-full">
+                <p className="font-semibold text-white text-lg">No cenarios created yet</p>
+              </div>
+            }
             {cenarios.length > 0 &&
               cenarios.map((cenario) => {
                 const isExpanded = expandedItems[cenario.id] || false;

@@ -450,8 +450,8 @@ function TreePage() {
               gate: {
                 ...conn.gate,
                 predicates: predicate || "No predicates",
+                actions: actions || ["No action"],
               },
-              actions: actions || ["No action"],
             };
           }
           return conn;

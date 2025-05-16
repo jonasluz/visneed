@@ -26,7 +26,7 @@ function Actions({ edges, nodes }) {
     return (
       <div className="flex flex-col justify-center items-center w-full h-full">
         <p className="text-md font-medium text-white text-center">
-          No actions for that node
+          No action for that node
         </p>
       </div>
     );
@@ -52,7 +52,7 @@ function Actions({ edges, nodes }) {
                   {nodes.map((node) => {if(node.id == actionsConnection[index][0]) return node.name})} -&gt; {nodes.map((node) => {if(node.id == actionsConnection[index][1]) return node.name})}
                   </td>
                   <td colSpan="4" className="px-4 py-2 text-left">
-                    No actions for this connection
+                    No action for this connection
                   </td>
                 </tr>
               );

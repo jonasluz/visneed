@@ -259,7 +259,7 @@ function AddNodeModal({ isOpen, onClose, onConfirm, nodes, dictionary }) {
                   <option key={index} value={item.key} />
                 ))}
               </datalist>
-              <label className='text-sm text-red-700'>Blank action = "No actions"</label>
+              <label className='text-sm text-red-700'>Blank action = "No action"</label>
             </div>
             
             <div className='basis-1/10 px-4'>
