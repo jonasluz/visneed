@@ -111,7 +111,7 @@ function TreePage() {
     if (!parentNodeId) {
       toast.success(`New tree created with root ${newNodeName}`);
     } else {
-      toast.success(`Nó ${newNodeName}, criado com sucesso!`);
+      toast.success(`Node ${newNodeName}, created with success!`);
     }
 
     const lastNodeOnArray = tree.nodesArray[tree.nodesArray.length - 1];
@@ -355,7 +355,7 @@ function TreePage() {
 
     console.log(tree)
 
-    toast.success(`Nó ${nodeToDelete.name} deletado com sucesso!`);
+    toast.success(`Node ${nodeToDelete.name} deleted with success!`);
 
     // Atualizar o JSON salvo no Electron
     const updatedData = {
@@ -479,7 +479,7 @@ function TreePage() {
   
     window.treeAPI.saveTree(treeId, updatedData);
     setUpdate(true);
-    toast.success("Conexão atualizada com sucesso!");
+    toast.success("Edge updated with success!");
   };
   
 

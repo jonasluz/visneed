@@ -42,7 +42,7 @@ function NewElementModal({ isOpen, onClose, dictionary, onSave }) {
 
   const handleConfirm = () => {
     if (!selectedKey) {
-      toast.error("Por favor selecione uma chave!");
+      toast.error("Select key!");
       return;
     }
   

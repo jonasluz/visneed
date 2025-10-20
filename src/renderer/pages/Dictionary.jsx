@@ -228,7 +228,7 @@ function Dictionary() {
   
       console.log(data)
   
-      toast.success(`Nó ${nodeToDelete.name} deletado com sucesso!`);
+      toast.success(`Node ${nodeToDelete.name} deleted with success!`);
   
       // Atualizar o JSON salvo no Electron
       const updatedData = {
@@ -255,7 +255,7 @@ function Dictionary() {
         dictionary: [...data.dictionary],
       });
     
-      toast.success(`Deletado com sucesso!`);
+      toast.success(`Deleted with success!`);
   
       // Atualizar o JSON salvo no Electron
       const updatedData = {

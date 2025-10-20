@@ -81,10 +81,10 @@ function Cenario() {
       await window.cenarioAPI.saveCenario(cenarioId, { 
         cenario: { elements } 
       });
-      toast.success("Elementos salvos com sucesso!");
+      toast.success("Saved with success!");
     } catch (error) {
-      toast.error("Falha ao salvar elementos");
-      console.error("Erro ao salvar elementos:", error);
+      toast.error("Error");
+      console.error("Erro:", error);
     }
   };
 
@@ -135,7 +135,7 @@ function Cenario() {
     // Atualiza o estado
     setCenarioElements(updatedElements);
   
-    // Salva TODOS os elementos do cenário, incluindo os aninhados
+    // Salva os elementos do cenário, incluindo os aninhados
     await saveCenarioElements(currentCenarioId, updatedElements[currentCenarioId] || []);
   
     setNewElemModal(false);
