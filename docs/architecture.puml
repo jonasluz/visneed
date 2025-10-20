@@ -1,0 +1,44 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam wrapWidth 220
+
+actor User
+
+package "Renderer Process (React)" {
+  component "Home Page\n(src/renderer/pages/Home.jsx)" as Home
+  component "Tree Page\n(src/renderer/pages/TreePage.jsx)" as TreePage
+  component "Dictionary Page\n(src/renderer/pages/Dictionary.jsx)" as Dictionary
+  component "Cenario Page\n(src/renderer/pages/Cenario.jsx)" as Cenario
+  component "Tree Components\n(TreeView, NodeActions, Sidebars)" as TreeComponents
+  component "Scenario Components\n(NewCenarioModal, NewElementModal)" as ScenarioComponents
+}
+
+component "Preload Bridge\n(src/preload.js)" as Preload
+component "Electron Main Process\n(src/main/main.ts)" as Main
+component "Tree Manager\n(src/scripts/treeManager.js)" as TreeManager
+component "Cenario Manager\n(src/scripts/cenarioManager.js)" as CenarioManager
+database "User Data Folder\n(app.getPath('userData'))" as DataDir
+component "Vis Network Library" as VisNetwork
+
+User --> Home : Navigate & select trees
+User --> TreePage : Interact with tree editor
+User --> Dictionary : Manage dictionary entries
+User --> Cenario : Organize scenarios
+
+TreePage --> TreeComponents
+Cenario --> ScenarioComponents
+TreeComponents --> VisNetwork : Render graph via DataSet/Network
+
+Home --> Preload : window.treeAPI.getSavedTrees()
+TreePage --> Preload : window.treeAPI / window.cenarioAPI calls
+Dictionary --> Preload : export, save, delete tree data
+Cenario --> Preload : create/save/delete scenarios
+
+Preload --> Main : ipcRenderer.invoke(...)
+Main --> TreeManager : Delegate tree operations
+Main --> CenarioManager : Delegate scenario operations
+
+TreeManager --> DataDir : read/write tree_*.json
+CenarioManager --> DataDir : read/write cenario_*.json
+
+@enduml

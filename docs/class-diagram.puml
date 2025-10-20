@@ -1,0 +1,123 @@
+@startuml
+hide methods
+hide circle
+
+skinparam classAttributeIconSize 0
+skinparam wrapWidth 220
+
+class TreeDocument {
+  +id : number
+  +name : string
+  +dictionary : DictionaryEntry[*]
+  +nodes : TreeNode[*]
+  +lastModified : string
+}
+
+class DictionaryEntry {
+  +key : string
+  +type : string
+}
+
+class TreeNode {
+  +id : number
+  +name : string
+  +connections : Connection[*]
+  +outcomes : Outcome[*] / "No outcome"
+  +visualization : string
+}
+
+class Connection {
+  +name : string
+  +targetId : number
+  +gate : Gate
+}
+
+class Gate {
+  +predicates : Predicate[*] / "No predicates"
+  +actions : Action[*] / "No action"
+}
+
+class Predicate {
+  +key : string
+  +condition : string
+  +value : string
+  +logicalOperator : string
+}
+
+class Action {
+  +key : string
+  +operator : string
+  +value : string
+}
+
+class Outcome {
+  +key : string
+  +operator : string
+  +value : string
+}
+
+class EdgeView {
+  +from : number
+  +to : number
+  +predicate : Predicate[*] / "No predicates"
+  +actions : Action / "No action"
+}
+
+class TreeViewModel {
+  +nodesArray : TreeNodeView[*]
+  +edgesArray : EdgeView[*]
+  +dictionary : DictionaryEntry[*]
+  +projectName : string
+}
+
+class TreeNodeView {
+  +id : number
+  +name : string
+  +connections : ConnectionView[*]
+  +outcomes : Outcome[*] / "No outcome"
+}
+
+class ConnectionView {
+  +name : string
+  +targetId : number
+  +predicates : Predicate[*] / "No predicates"
+  +actions : Action[*] / "No action"
+}
+
+class CenarioDocument {
+  +id : number
+  +name : string
+  +treeId : number
+  +cenario : ScenarioPayload
+}
+
+class ScenarioPayload {
+  +elements : CenarioElement[*]
+}
+
+class CenarioElement {
+  +id : number
+  +key : string
+  +value : string
+  +children : CenarioElement[*]
+}
+
+TreeDocument "1" o-- "dictionary *" DictionaryEntry
+TreeDocument "1" o-- "nodes *" TreeNode
+TreeNode "1" o-- "connections *" Connection
+Connection "1" o-- Gate
+Gate "1" o-- "predicates *" Predicate
+Gate "1" o-- "actions *" Action
+TreeNode "1" o-- "outcomes *" Outcome
+
+TreeViewModel "1" o-- "nodesArray *" TreeNodeView
+TreeViewModel "1" o-- "edgesArray *" EdgeView
+TreeNodeView "1" o-- "connections *" ConnectionView
+ConnectionView "1" o-- "predicates *" Predicate
+ConnectionView "1" o-- "actions *" Action
+
+CenarioDocument "1" o-- ScenarioPayload
+ScenarioPayload "1" o-- "elements *" CenarioElement
+CenarioElement "1" o-- "children *" CenarioElement
+
+@enduml

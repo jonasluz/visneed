@@ -1,0 +1,45 @@
+@startuml
+skinparam sequenceArrowThickness 1
+skinparam participantPadding 25
+skinparam wrapWidth 220
+
+actor User
+participant "Home Page\n(MyTree)" as Home
+participant "TreeSidebarLeft\n(TreePage)" as Sidebar
+participant "window.treeAPI" as TreeAPI
+participant "Preload Bridge\n(src/preload.js)" as Preload
+participant "Electron Main\n(src/main/main.ts)" as Main
+participant "treeManager\n(src/scripts/treeManager.js)" as TreeManager
+database "treesPath\n(tree_{id}.json)" as TreesPath
+participant "TreePage State" as TreePageState
+
+User -> Home : Select saved tree
+Home -> Sidebar : navigate(\"/tree-view/:treeId\")
+activate Sidebar
+
+Sidebar -> TreeAPI : loadTree(treeId)
+activate TreeAPI
+TreeAPI -> Preload : ipcRenderer.invoke(\"load-tree\", treeId)
+activate Preload
+Preload -> Main : handle(\"load-tree\")\n(treeId)
+activate Main
+Main -> TreeManager : loadTreeData(treeId)
+activate TreeManager
+TreeManager -> TreesPath : read tree_{treeId}.json
+TreesPath --> TreeManager : TreeDocument JSON
+TreeManager --> Main : TreeDocument
+deactivate TreeManager
+Main --> Preload : TreeDocument
+deactivate Main
+Preload --> TreeAPI : resolve Promise(TreeDocument)
+deactivate Preload
+TreeAPI --> Sidebar : TreeDocument
+deactivate TreeAPI
+
+Sidebar -> Sidebar : transformTreeData()
+Sidebar --> TreePageState : onImport(transformed)
+deactivate Sidebar
+
+TreePageState -> TreePageState : render network & panels
+
+@enduml
